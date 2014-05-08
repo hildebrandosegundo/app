@@ -371,7 +371,7 @@
       delimiter = delimiter || this._firstDelimiter
       beautify = ( typeof beautify !== 'undefined' && beautify !== null ) ? beautify : this.options.beautify
       
-      var separator = delimiter + ( beautify && delimiter !== ' ' ? ' ' : '')
+      var separator = delimiter + ( beautify && delimiter !== '' ? '' : '')
       return $.map( this.getTokens(active), function (token) {
         return token.value
       }).join(separator)

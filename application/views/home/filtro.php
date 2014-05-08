@@ -205,35 +205,33 @@
             e.stopPropagation();
 
 
-            var _zona = $('#tokenfield').tokenfield('getTokensList');
+            var _zona = $('#tokenfield-zona').tokenfield('getTokensList', '\',\'');
             console.log(_zona);
 
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/filtro/selectzona",
+                data: {
+                    zona: _zona
+                },
+                success: function (data) {
 
-            $.post('<?php echo URL; ?>/filtro/selectpzona', {zona: _zona}, function (dados) {
-                var json = jQuery.parseJSON(dados);
-                console.log(json.sucesso);
-                console.log(json.values);
-
-                if (json.sucesso) {
-                    for (var i in json.values) {
-                        if(typeof json.values[i] == "object"){
-                            for(var j in json.values[i]){
-                                $(i).val(json.values[i][j]);
-                            }
-                        }else{
-                            $(i).val(json.values[i]);
-                        }
-                    }
-                } else {
+                    data = JSON.parse(data);
+                    console.log(data.sucesso);
+                    console.log(data.values);
 
                 }
-
             });
-
         });
-        $('#tokenfield').tokenfield({
+        $('#tokenfield-zona').tokenfield({
             autocomplete: {
-                source: ['Norte','Sul','Leste','Oeste'],
+                source: ['Norte', 'Sul', 'Leste', 'Oeste'],
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+        });
+        $('#tokenfield-escola').tokenfield({
+            autocomplete: {
                 delay: 100
             },
             showAutocompleteOnFocus: true
@@ -292,7 +290,8 @@
         <div id="wb_FormFiltro" style="position:absolute;top:166px;z-index:21;">
 
             <div class="row">
-                <form class="form-horizontal" method="post" action="" enctype="text/plain" id="Form-horizontal">
+                <form class="form-horizontal" method="post" action="<?php echo URL; ?>/filtro/selectzona>"
+                      enctype="text/plain" id="Form-horizontal">
                     <fieldset>
 
                         <!-- Form Name -->
@@ -303,11 +302,9 @@
                             <label class="col-md-4 control-label" for="buttondropdown2">Zona</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="tokenfield" value="" placeholder="Todos" />
-                                <!--<div class="input-group" id="zona">
+                                <input type="text" class="form-control" id="tokenfield-zona" value="Norte,Sul,Leste,Oeste"
+                                       placeholder="Selecione as zonas desejadas"/>
 
-
-                                </div>-->
                             </div>
                         </div>
 
@@ -316,9 +313,8 @@
                             <label class="col-md-4 control-label" for="textinput1">Escolas</label>
 
                             <div class="col-md-6">
-                                <input id="escolas" style="width:600px;" type="text"/>
-
-                                <div style="clear:both;"></div>
+                                <input type="text" class="form-control" id="tokenfield-escolas" value=""
+                                       placeholder="Selecione as escolas desejadas"/>
                                 <span class="help-block">(digite o código da escola)</span>
                             </div>
                         </div>
@@ -396,7 +392,9 @@
                             <label class="col-md-4 control-label" for="singlebutton1">Selecionar</label>
 
                             <div class="col-md-4">
-                                <button id="singlebutton1" name="singlebutton1" class="btn btn-primary">Ok</button>
+                                <button type="submit" id="singlebutton1" name="singlebutton1" class="btn btn-primary">
+                                    Ok
+                                </button>
                             </div>
                         </div>
                     </fieldset>

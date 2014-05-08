@@ -23,34 +23,18 @@ class FiltroModel
      * Get simple "stats". This is just a simple demo to show
      * how to use more than one model in a controller (see application/controller/songs.php for more)
      */
-    public function selectpzona($zona)
+    public function selectzonamodel($zona)
     {
-        $sql = "SELECT nome FROM escolas WHERE zona LIKE IN ('" . $zona . "')";
+        $sql = "SELECT nome FROM escolas WHERE zona IN ('" . $zona . "')";
         $query = $this->db->prepare($sql);
         //$query = $this->db_sqlsrv->prepare($sql);
         $query->execute();
-        return $query->fetchall(PDO::FETCH_ASSOC);
+        //$retorno = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function cadastrar($crypt_pass, $newmatricula, $newcpf, $newfullname, $newop, $code)
-    {
-        if($newop=='1'){
-            $active = 0;
-        }
-        else{
-            $active = 1;
-        }
-        $sql = "INSERT login(matricula, password, fullname, cpf, active, code, op) VALUES ('" . $newmatricula . "', '" . $crypt_pass . "', '" . $newfullname . "', '" . $newcpf . "', '" . $active . "', '" . $code . "', '" . $newop . "')";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-    }
 
-    public function close()
-    {
-        $this->db = null;
-    }
 
 }
 
 
-?>
