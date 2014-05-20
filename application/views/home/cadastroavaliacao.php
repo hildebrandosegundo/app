@@ -6,13 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SEMEC Avaliação</title>
 <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo URL; ?>/public/css/magicsuggest-1.3.1.css">
-<link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/magicsuggest-1.3.1.js"></script>
+<link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
 <!-- Bootstrap styling for Typeahead -->
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
@@ -127,7 +125,7 @@
         float: left;
         margin: 0;
         padding: 0px 4px 0px 0px;
-        width: 80px;
+        width: 135px;
     }
 
     #wb_CssMenu1 a {
@@ -149,7 +147,7 @@
         font-weight: normal;
         font-style: normal;
         text-decoration: none;
-        width: 70px;
+        width: 125px;
         height: 76px;
         padding: 0px 5px 0px 5px;
         vertical-align: middle;
@@ -196,89 +194,226 @@
         font-size: 13px;
         text-align: left;
     }
+
+    #error {
+        border: 0px #EEEEEE solid;
+        background-color: transparent;
+        color: #FF0000;
+        font-family: Arial;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: middle;
+    }
 </style>
 <script type="text/javascript">
-    $(function ($) {
-        $("#singlebutton1").click(function (e) {
+
+    $(document).ready(function () {
+        $("#diverror").hide();
+        $("#tokenfield-escolas-nomes").tokenfield('disable');
+        var cod_escolas;
+        var nome_escolas;
+        var turmas;
+        //zonas
+        $('#tokenfield-zona').change(function (e) {
 
             e.preventDefault();
             e.stopPropagation();
 
 
-            var _zona = $('#tokenfield-zona').tokenfield('getTokensList', '\',\'');
+            var _zona = $('#tokenfield-zona').tokenfield('getTokensList', ',');
             console.log(_zona);
-
+            $('#tokenfield-escolas').data('bs.tokenfield').$input.val('Carregando...');
+            $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('Carregando...');
             $.ajax({
                 type: "POST",
                 url: "<?php echo URL; ?>/filtro/selectzona",
                 data: {
                     zona: _zona
                 },
+                //dataType: "json",
                 success: function (data) {
 
                     data = JSON.parse(data);
-                    console.log(data.sucesso);
-                    console.log(data.values);
-
+                    //console.log(data.values);
+                    if (data.sucesso) {
+                        $("#error").val('');
+                        $("#diverror").hide();
+                        cod_escolas = data.codigo;
+                        nome_escolas = data.nome;
+                        $('#tokenfield-escolas').data('bs.tokenfield').$input.val('');
+                        $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('');
+                        $('#tokenfield-escolas').data('bs.tokenfield').$input.autocomplete({source: data.codigo});
+                        $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                    }
+                    else {
+                        $("#error").val(data.values);
+                        $("#diverror").show();
+                    }
                 }
             });
         });
+        //escolas por codigo
+        $('#tokenfield-escolas').change(function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var _escolas_cod = $('#tokenfield-escolas').tokenfield('getTokensList', ',');
+            var _nome_escola = nome_escolas;
+            var _cod_escola = cod_escolas;
+            console.log(_escolas_cod);
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/filtro/selecionaescolacod",
+                data: {
+                    escolas_cod: _escolas_cod,
+                    escolas_nome: _nome_escola,
+                    escolas_cod2: _cod_escola
+                },
+                //dataType: "json",
+                success: function (data) {
+
+                    data = JSON.parse(data);
+                    //console.log(data.values);
+                    if (data.sucesso) {
+                        $("#error").val('');
+                        $("#diverror").hide();
+                        $('#tokenfield-escolas-nomes').tokenfield('setTokens', data.values);
+                        $('#tokenfield-serie').data('bs.tokenfield').$input.autocomplete({source: data.ano});
+                        $('#tokenfield-turma').data('bs.tokenfield').$input.autocomplete({source: data.turma});
+                        turmas = data.turma;
+                        console.log(data.ano);
+                        console.log(data.turma);
+                    } else {
+                        $("#error").val(data.values);
+                        $("#diverror").show();
+                    }
+                }
+            });
+        });
+        $('#tokenfield-serie').change(function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var _escolas_serie = $('#tokenfield-serie').tokenfield('getTokensList', ',');
+            var _turmas = turmas;
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/filtro/selecionaserie",
+                data: {
+                    escolas_serie: _escolas_serie,
+                    escolas_turma: _turmas
+
+                },
+                //dataType: "json",
+                success: function (data) {
+
+                    data = JSON.parse(data);
+                    //console.log(data.values);
+                    if (data.sucesso) {
+                        $("#error").val('');
+                        $("#diverror").hide();
+                        $('#tokenfield-turma').tokenfield('setTokens', data.values);
+
+
+                    } else {
+                        $("#tokenfield-serie").val(data.values);
+
+                    }
+                }
+            });
+        });
+        /*$('#singlebutton1').click(function (e) {
+
+         e.preventDefault();
+         e.stopPropagation();
+
+         var _escolas_cod = '44101,44500,44103';//$('#tokenfield-escolas').tokenfield('getTokensList', ',');
+         var _escolas_turma = //$('#tokenfield-escolas').tokenfield('getTokensList', ',');
+         var _escolas_ = cod_escolas;
+         console.log(_escolas_nome);
+         $.ajax({
+         type: "POST",
+         url: "
+        <?php echo URL; ?>/filtro/selecionaescolanome",
+         data: {
+         escolas_nome: _escolas_nome,
+         escolas_nome2:_nome_escola,
+         escolas_cod:_cod_escola
+         },
+         //dataType: "json",
+         success: function (data) {
+
+         data = JSON.parse(data);
+         //console.log(data.values);
+         $('#tokenfield-escolas').tokenfield('setTokens', data.values);
+
+         }
+         });
+
+         });*/
         $('#tokenfield-zona').tokenfield({
             autocomplete: {
-                source: ['Norte', 'Sul', 'Leste', 'Oeste'],
+                source: ['ZONA NORTE', 'ZONA SUL', 'ZONA LESTE', 'ZONA SUDESTE', 'ESCOLAS DIVERSAS', 'ESCOLAS DE EIXO'],
                 delay: 100
             },
             showAutocompleteOnFocus: true
         });
-        $('#tokenfield-escola').tokenfield({
+        $('#tokenfield-escolas').tokenfield({
             autocomplete: {
                 delay: 100
             },
             showAutocompleteOnFocus: true
         });
-        var jsonData = [];
-        var datazona;
-        var cities = 'New York,Los Angeles,Chicago,Houston,Paris,Marseille,Toulouse,Lyon,Bordeaux,Philadelphia,Phoenix,San Antonio,San Diego,Dallas,San Jose,Jacksonville'.split(',');
-        for (var i = 0; i < cities.length; i++) jsonData.push({id: i, name: cities[i], status: i % 2 ? 'Already Visited' : 'Planned for visit', coolness: Math.floor(Math.random() * 10) + 1});
-        var ms3 = $('#escolas').magicSuggest({
-            selectionPosition: 'bottom',
-            renderer: function (city) {
-                return '<div> <div style="font-family: Arial; font-weight: bold">' + city.name + '</div> <div><b>Cooooolness</b>: ' + city.coolness + '</div> </div>';
+        $('#tokenfield-escolas-nomes').tokenfield({
+            autocomplete: {
+                delay: 100
             },
-
-            minChars: 1,
-            selectionStacked: true,
-            data: jsonData
+            showAutocompleteOnFocus: true
         });
-        var ms6 = $('#ms6').magicSuggest({
-            // will fetch data from options
-            //selection
-            //console.log(ms6);
+        $('#tokenfield-serie').tokenfield({
+            limit: 1,
+            autocomplete: {
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+
         });
-
-
-        var ms8 = $('#ms8').magicSuggest({
-            // will fetch data from options
+        $('#tokenfield-turma').tokenfield({
+            autocomplete: {
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
         });
-
+        $('#tokenfield-materia').tokenfield({
+            autocomplete: {
+                source: ['ARTE', 'CIENCIAS', 'EDUCACAO FISICA', 'ENSINO RELIGIOSO', 'GEOGRAFIA', 'GEOGRAFIA',
+                         'HISTORIA', 'INFORMATICA', 'INGLES', 'LINGUA PORTUGUESA', 'MATEMATICA', ''],
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+        });
 
     });
 </script>
 </head>
-</head>
+
 <body>
 
 <div id="Layer2"
      style="position:absolute;text-align:left;left:0px;top:84px;width:100%;min-width:994px;height:82px;z-index:19;"
      title="">
     <div id="wb_LoginName1" style="position:absolute;left:6px;top:33px;width:320px;height:18px;z-index:14;">
-<span id="LoginName1">Bem vindo(a) <?php
-    if (isset($_SESSION['fullname'])) {
-        echo $_SESSION['fullname'];
-    } else {
-        echo 'Not logged in';
-    }
-    ?>!</span></div>
+        <span id="LoginName1">Bem vindo(a) <?php
+            if (isset($_SESSION['fullname'])) {
+                echo $_SESSION['fullname'];
+            } else {
+                echo 'Não esta logado';
+            }?>!
+        </span>
+    </div>
 </div>
 
 <!--<div id="Layer3"
@@ -287,7 +422,7 @@
 </div>-->
 <div id="container">
     <div class="container">
-        <div id="wb_FormFiltro" style="position:absolute;top:166px;z-index:21;">
+        <div id="wb_FormFiltro" style="position:relative;top:166px;z-index:21;">
 
             <div class="row">
                 <form class="form-horizontal" method="post" action="<?php echo URL; ?>/filtro/selectzona>"
@@ -295,14 +430,20 @@
                     <fieldset>
 
                         <!-- Form Name -->
-                        <legend>Seleção</legend>
+                        <legend>Cadastrar avaliação</legend>
+                        <div class="alert alert-danger alert-dismissable" id="diverror">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                    id="alerterror">&times;</button>
 
+                            <input type='text' id='error' name="error" value='' style="width:80em" autocomplete='off'>
+                        </div>
                         <!-- Button Drop Down -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="buttondropdown2">Zona</label>
+                            <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="tokenfield-zona" value="Norte,Sul,Leste,Oeste"
+                                <input type="text" class="form-control input-xxlarge" id="tokenfield-zona"
+                                       value=""
                                        placeholder="Selecione as zonas desejadas"/>
 
                             </div>
@@ -310,10 +451,10 @@
 
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="textinput1">Escolas</label>
+                            <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="tokenfield-escolas" value=""
+                                <input type="text" class="input-xxlarge" id="tokenfield-escolas" value=""
                                        placeholder="Selecione as escolas desejadas"/>
                                 <span class="help-block">(digite o código da escola)</span>
                             </div>
@@ -321,79 +462,53 @@
 
                         <!-- Button Drop Down -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="buttondropdown3"></label>
+                            <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
 
                             <div class="col-md-6">
-                                <div class="input-group">
-                                    <input id="buttondropdown3" name="buttondropdown3" class="form-control"
-                                           placeholder="Todos" type="text">
-
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle"
-                                                data-toggle="dropdown">
-                                            Escolas
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right">
-                                        </ul>
-                                    </div>
-                                </div>
+                                <input type="text" class="input-xxlarge" id="tokenfield-escolas-nomes" value=""
+                                       placeholder="Lista de escolas"/>
                             </div>
                         </div>
                         <!-- Button Drop Down -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="buttondropdown1">Ano/Série</label>
+                            <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
 
                             <div class="col-md-6">
-                                <div class="input-group">
-                                    <select id="ms6" style="width:600px;">
-                                        <option value=1>teste</option>
-                                        <option value=2>teste2</option>
-                                    </select>
-                                </div>
+
+                                <input type="text" class="input-xxlarge" id="tokenfield-serie"
+                                       placeholder="Selecione as séries desejadas"/>
+
                             </div>
                         </div>
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="textinput2">Turmas</label>
+                            <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
 
                             <div class="col-md-6">
-                                <select id="ms8" style="width:600px;">
-                                    <option value=1>teste</option>
-                                    <option value=2>teste2</option>
-                                </select>
+
+                                <input type="text" class="input-xxlarge" id="tokenfield-turma"
+                                       placeholder="Selecione as turmas desejadas"/>
                                 <span class="help-block">(digite o código da turma)</span>
+
                             </div>
                         </div>
 
                         <!-- Button Drop Down -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="buttondropdown4"></label>
+                            <label class="col-md-4 control-label" for="tokenfield-materia">Matéria(s)</label>
 
                             <div class="col-md-6">
-                                <div class="input-group">
-                                    <input id="buttondropdown4" name="buttondropdown4" class="form-control"
-                                           placeholder="Todos" type="text">
-
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle"
-                                                data-toggle="dropdown">
-                                            Turmas
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                                     <input class="input-xxlarge" id="tokenfield-materia"
+                                           placeholder="Selecione a(s) materia(s)" type="text">
+                           </div>
                         </div>
                         <!-- Button -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="singlebutton1">Selecionar</label>
+                            <label class="col-md-4 control-label" for="singlebutton1"></label>
 
                             <div class="col-md-4">
-                                <button type="submit" id="singlebutton1" name="singlebutton1" class="btn btn-primary">
-                                    Ok
+                                <button type="submit" id="singlebutton1" name="singlebutton1" class="btn btn-success">
+                                    Salvar
                                 </button>
                             </div>
                         </div>
@@ -428,9 +543,10 @@
     </div>
     <div id="wb_MasterObjects1" style="position:absolute;left:0px;top:84px;width:665px;height:79px;z-index:23;">
         <div id="wb_CssMenu1"
-             style="position:absolute;left:329px;top:3px;width:336px;height:76px;text-align:center;z-index:18;">
+             style="position:absolute;left:329px;top:3px;width:556px;height:76px;text-align:center;z-index:18;">
             <ul>
-                <li class="firstmain"><a class="active" href="<?php echo URL; ?>/filtro" target="_self">Selecionar</a>
+                <li class="firstmain"><a class="active" href="<?php echo URL; ?>/cadastroavaliacao" target="_self">Cadastrar
+                        avaliação</a>
                 </li>
                 <li><a href="#" target="_self">Button&nbsp;2</a>
                 </li>

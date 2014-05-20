@@ -34,8 +34,8 @@ define('DB_NAME_mysql', 'avaliacao');
 define('DB_USER_mysql', 'root');
 define('DB_PASS_mysql', '');
 //ged
-define('DB_TYPE_oracle', 'oci8');
-define('DB_HOST_oracle', '100.100.10.162/GEDTHE');
+define('DB_TYPE_oracle', 'oci');
+define('DB_HOST_oracle', '//100.100.10.162/GEDTHE');
 define('DB_NAME_oracle', 'THEGED');
 define('DB_USER_oracle', 'selged');
 define('DB_PASS_oracle', 'selged');
