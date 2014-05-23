@@ -204,7 +204,7 @@
                <ul>
                    <li class="firstmain"><a class="active" href="<?php echo URL; ?>/cadastroavaliacao" target="_self">Cadastrar avaliação</a>
                    </li>
-                   <li><a href="#" target="_self">Button&nbsp;2</a>
+                   <li><a href="<?php echo URL; ?>/listaavaliacao" target="_self">Avaliações</a>
                    </li>
                    <li><a href="#" target="_self">Button&nbsp;3</a>
                    </li>

@@ -6,11 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SEMEC Avaliação</title>
 <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
-<link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
 <!-- Bootstrap styling for Typeahead -->
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
@@ -226,7 +226,7 @@
             $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('Carregando...');
             $.ajax({
                 type: "POST",
-                url: "<?php echo URL; ?>/filtro/selectzona",
+                url: "<?php echo URL; ?>/cadastroavaliacao/selectzona",
                 data: {
                     zona: _zona
                 },
@@ -264,7 +264,7 @@
             console.log(_escolas_cod);
             $.ajax({
                 type: "POST",
-                url: "<?php echo URL; ?>/filtro/selecionaescolacod",
+                url: "<?php echo URL; ?>/cadastroavaliacao/selecionaescolacod",
                 data: {
                     escolas_cod: _escolas_cod,
                     escolas_nome: _nome_escola,
@@ -301,7 +301,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "<?php echo URL; ?>/filtro/selecionaserie",
+                url: "<?php echo URL; ?>/cadastroavaliacao/selecionaserie",
                 data: {
                     escolas_serie: _escolas_serie,
                     escolas_turma: _turmas
@@ -422,10 +422,10 @@
 </div>-->
 <div id="container">
     <div class="container">
-        <div id="wb_FormFiltro" style="position:relative;top:166px;z-index:21;">
+        <div id="wb_FormLista" style="position:relative;top:166px;z-index:21;">
 
             <div class="row">
-                <form class="form-horizontal" method="post" action="<?php echo URL; ?>/filtro/selectzona>"
+                <form class="form-horizontal" method="post"
                       enctype="text/plain" id="Form-horizontal">
                     <fieldset>
 
@@ -545,10 +545,9 @@
         <div id="wb_CssMenu1"
              style="position:absolute;left:329px;top:3px;width:556px;height:76px;text-align:center;z-index:18;">
             <ul>
-                <li class="firstmain"><a class="active" href="<?php echo URL; ?>/cadastroavaliacao" target="_self">Cadastrar
-                        avaliação</a>
+                <li class="firstmain"><a class="active" href="<?php echo URL; ?>/cadastroavaliacao" target="_self">Cadastrar avaliação</a>
                 </li>
-                <li><a href="#" target="_self">Button&nbsp;2</a>
+                <li><a href="<?php echo URL; ?>/listaavaliacao" target="_self">Avaliações</a>
                 </li>
                 <li><a href="#" target="_self">Button&nbsp;3</a>
                 </li>
