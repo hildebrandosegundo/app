@@ -12,15 +12,9 @@
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
 <script type="text/javascript"
         src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-<!-- Bootstrap styling for Typeahead -->
-<link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
-<!-- Tokenfield CSS -->
-
 <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
-<link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
 <style type="text/css">
     div#container {
@@ -211,12 +205,21 @@
     }
 </style>
 <script type="text/javascript">
+    var view = null;
+    RemoveTableRow = function (handler) {
+        var tr = $(handler).closest('tr');
+        tr.fadeOut(400, function () {
+            tr.remove();
+        });
+
+        return false;
+    };
     function format(d) {
         // `d` is the original data object for the row
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        return '<table id="tabela" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
             '<tr>' +
             '<td>Zona:</td>' +
-            '<td>teste de zona</td>' +
+            '<td>zona teste</td>' +
             '</tr>' +
             '<tr>' +
             '<td>Numero:</td>' +
@@ -229,48 +232,52 @@
             '</table>';
     }
     $(document).ready(function () {
-
-        var table = $('#example').dataTable({
+        var table = $('#example').DataTable({
             "ajax": "<?php echo URL; ?>/listaavaliacao/lista",
+            "columns": [
 
-            "columnDefs": [
+                { "data": "0" },
+                { "data": "1" },
+                { "data": "2" },
+                { "data": "3" },
                 {
-                    "targets": -1,
+                    "class": 'details-control',
+                    "orderable": false,
                     "data": null,
                     "defaultContent": "<div class='btn-group'>" +
                         "<button class=\'btn btn-success\'>Criar prova" +
                         "</button>" +
                         "<button id='info' class=\'btn btn-info\'>Info" +
                         "</button>" +
-                        "<button class=\'btn btn-danger\'>Deletar" +
+                        "<button onclick='RemoveTableRow(this)' id='deletar' class=\'btn btn-danger\'>Deletar" +
                         "</button>" +
                         "</div>"
                 }
+            ],
+            "order": [
+                [0, 'asc']
             ]
         });
 
-
-       /* $('#example tbody').on('click', 'button', function () {
-            var data = table.row($(this).parents('tr')).data();
-            alert("teste!" + data[0]);
-        });*/
-        $('#example tbody').on('click', 'info', function () {
+        // Add event listener for opening and closing details
+        $('#example tbody').on('click', '#info', function () {
             var tr = $(this).parents('tr');
             var row = table.row(tr);
-
+            view = row;
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
                 tr.removeClass('shown');
+                $('#deletar').prop('disabled',true);
             }
             else {
                 // Open this row
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
+                $('#deletar').prop('disabled',false);
             }
         });
     });
-
 </script>
 </head>
 
