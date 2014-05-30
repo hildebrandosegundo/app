@@ -77,5 +77,15 @@ class CadastroavaliacaoModel
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function cadastraravaliacao1($zona,$cod_escola, $turmas){
+         $sql ="SET AUTOCOMMIT=0;
+                START TRANSACTION;
+                INSERT INTO pessoa(nome_pessoa, senha_pessoa, cpf_pessoa, rg_pessoa)
+                VALUES('teste1', 'senha', '123', '456');
+                INSERT INTO Certificados(nome_certificado, lugar_certificado, idPessoa)
+                values('cert1', 'rj', (select LAST_INSERT_ID()));
+                COMMIT;
+                SET AUTOCOMMIT=1;";
+    }
 }
 

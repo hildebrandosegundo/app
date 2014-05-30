@@ -6,17 +6,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SEMEC Avaliação</title>
 <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
-<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
-<!-- Bootstrap styling for Typeahead -->
-<link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
-<!-- Tokenfield CSS -->
-<link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
+<link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
+<link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
+<link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
 <style type="text/css">
     div#container {
         width: 994px;
@@ -195,7 +198,16 @@
         text-align: left;
     }
 
-    #error {
+    #error1 {
+        border: 0px #EEEEEE solid;
+        background-color: transparent;
+        color: #FF0000;
+        font-family: Arial;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    #error2 {
         border: 0px #EEEEEE solid;
         background-color: transparent;
         color: #FF0000;
@@ -208,11 +220,51 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $("#diverror").hide();
-        $("#tokenfield-escolas-nomes").tokenfield('disable');
+        $("#diverror2").hide();
+        $("#diverror1").hide();
+        $("#wb_FormLista").hide();
+        $("#wb_FormConf").show('slide', {direction: 'left'},500);
+
+
         var cod_escolas;
         var nome_escolas;
         var turmas;
+        $('#buttonsalvar1').click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var _textdescricao = $("#textdescricao").val();
+            var _tokenfield_programa = $("#tokenfield-programa").val();
+            console.log(_tokenfield_programa);
+            var _tokenfield_materia = $("#tokenfield-materia").val();
+            console.log(_tokenfield_materia);
+            var _op = $('input:radio[name=radios]:checked').val();
+            $("#tokenfield-escolas-nomes").tokenfield('disable');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao/cadastraravaliacao",
+                data: {
+                    textdescricao: _textdescricao,
+                    tokenfield_programa: _tokenfield_programa,
+                    tokenfield_materia: _tokenfield_materia,
+                    op: _op
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
+                        $("#error1").val('');
+                        $("#diverror1").hide();
+
+                        $("#wb_FormConf").hide();
+                        $("#wb_FormLista").show('slide', {direction: 'right'}, 500)
+                    }
+                    else {
+                        console.log(data.values);
+                        $("#error1").val(data.values);
+                        $("#diverror1").show();
+                    }
+                }
+            });
+        });
         //zonas
         $('#tokenfield-zona').change(function (e) {
 
@@ -236,8 +288,8 @@
                     data = JSON.parse(data);
                     //console.log(data.values);
                     if (data.sucesso) {
-                        $("#error").val('');
-                        $("#diverror").hide();
+                        $("#error2").val('');
+                        $("#diverror2").hide();
                         cod_escolas = data.codigo;
                         nome_escolas = data.nome;
                         $('#tokenfield-escolas').data('bs.tokenfield').$input.val('');
@@ -246,8 +298,8 @@
                         $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.autocomplete({source: data.nome});
                     }
                     else {
-                        $("#error").val(data.values);
-                        $("#diverror").show();
+                        $("#error2").val(data.values);
+                        $("#diverror2").show();
                     }
                 }
             });
@@ -276,8 +328,8 @@
                     data = JSON.parse(data);
                     //console.log(data.values);
                     if (data.sucesso) {
-                        $("#error").val('');
-                        $("#diverror").hide();
+                        $("#error2").val('');
+                        $("#diverror2").hide();
                         $('#tokenfield-escolas-nomes').tokenfield('setTokens', data.values);
                         $('#tokenfield-serie').data('bs.tokenfield').$input.autocomplete({source: data.ano});
                         $('#tokenfield-turma').data('bs.tokenfield').$input.autocomplete({source: data.turma});
@@ -285,8 +337,8 @@
                         console.log(data.ano);
                         console.log(data.turma);
                     } else {
-                        $("#error").val(data.values);
-                        $("#diverror").show();
+                        $("#error2").val(data.values);
+                        $("#diverror2").show();
                     }
                 }
             });
@@ -313,8 +365,8 @@
                     data = JSON.parse(data);
                     //console.log(data.values);
                     if (data.sucesso) {
-                        $("#error").val('');
-                        $("#diverror").hide();
+                        $("#error2").val('');
+                        $("#diverror2").hide();
                         $('#tokenfield-turma').tokenfield('setTokens', data.values);
 
 
@@ -325,35 +377,7 @@
                 }
             });
         });
-        /*$('#singlebutton1').click(function (e) {
 
-         e.preventDefault();
-         e.stopPropagation();
-
-         var _escolas_cod = '44101,44500,44103';//$('#tokenfield-escolas').tokenfield('getTokensList', ',');
-         var _escolas_turma = //$('#tokenfield-escolas').tokenfield('getTokensList', ',');
-         var _escolas_ = cod_escolas;
-         console.log(_escolas_nome);
-         $.ajax({
-         type: "POST",
-         url: "
-        <?php echo URL; ?>/filtro/selecionaescolanome",
-         data: {
-         escolas_nome: _escolas_nome,
-         escolas_nome2:_nome_escola,
-         escolas_cod:_cod_escola
-         },
-         //dataType: "json",
-         success: function (data) {
-
-         data = JSON.parse(data);
-         //console.log(data.values);
-         $('#tokenfield-escolas').tokenfield('setTokens', data.values);
-
-         }
-         });
-
-         });*/
         $('#tokenfield-zona').tokenfield({
             autocomplete: {
                 source: ['ZONA NORTE', 'ZONA SUL', 'ZONA LESTE', 'ZONA SUDESTE', 'ESCOLAS DIVERSAS', 'ESCOLAS DE EIXO'],
@@ -388,9 +412,18 @@
             showAutocompleteOnFocus: true
         });
         $('#tokenfield-materia').tokenfield({
+            limit: 1,
             autocomplete: {
-                source: ['ARTE', 'CIENCIAS', 'EDUCACAO FISICA', 'ENSINO RELIGIOSO', 'GEOGRAFIA', 'GEOGRAFIA',
-                         'HISTORIA', 'INFORMATICA', 'INGLES', 'LINGUA PORTUGUESA', 'MATEMATICA', ''],
+                source: ['ARTE', 'CIENCIAS', 'EDUCACAO FISICA', 'ENSINO RELIGIOSO', 'GEOGRAFIA',
+                    'HISTORIA', 'INFORMATICA', 'INGLES', 'LINGUA PORTUGUESA', 'MATEMATICA'],
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+        });
+        $('#tokenfield-programa').tokenfield({
+            limit: 1,
+            autocomplete: {
+                source: ['PROVINHA BRASIL', 'SIMULADO','OUTROS'],
                 delay: 100
             },
             showAutocompleteOnFocus: true
@@ -422,7 +455,7 @@
 </div>-->
 <div id="container">
     <div class="container">
-        <div id="wb_FormLista" style="position:relative;top:166px;z-index:21;">
+        <div id="wb_FormLista" style="position:relative;top:176px;z-index:21;">
 
             <div class="row">
                 <form class="form-horizontal" method="post"
@@ -430,12 +463,12 @@
                     <fieldset>
 
                         <!-- Form Name -->
-                        <legend>Cadastrar avaliação</legend>
-                        <div class="alert alert-danger alert-dismissable" id="diverror">
+                        <legend>Filtrar avaliação</legend>
+                        <div class="alert alert-danger alert-dismissable" id="diverror2">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                     id="alerterror">&times;</button>
 
-                            <input type='text' id='error' name="error" value='' style="width:80em" autocomplete='off'>
+                            <input type='text' id='error2' name="error" value='' style="width:80em" autocomplete='off'>
                         </div>
                         <!-- Button Drop Down -->
                         <div class="form-group">
@@ -493,21 +526,12 @@
                             </div>
                         </div>
 
-                        <!-- Button Drop Down -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="tokenfield-materia">Matéria(s)</label>
-
-                            <div class="col-md-6">
-                                     <input class="input-xxlarge" id="tokenfield-materia"
-                                           placeholder="Selecione a(s) materia(s)" type="text">
-                           </div>
-                        </div>
                         <!-- Button -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="singlebutton1"></label>
 
                             <div class="col-md-4">
-                                <button type="submit" id="singlebutton1" name="singlebutton1" class="btn btn-success">
+                                <button type="submit" id="buttonsalvar2" name="singlebutton1" class="btn btn-success glyphicon glyphicon-floppy-save">
                                     Salvar
                                 </button>
                             </div>
@@ -518,7 +542,83 @@
             </div>
 
         </div>
+        <div id="wb_FormConf" style="position:relative;top:176px;z-index:21;">
 
+            <div class="row">
+                <form class="form-horizontal" method="post"
+                      enctype="text/plain" id="Form-horizontal">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Cadastro de avaliação</legend>
+                        <div class="alert alert-danger alert-dismissable" id="diverror1">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                    id="alerterror">&times;</button>
+
+                            <input type='text' id='error1' name="error" value='' style="width:80em" autocomplete='off'>
+                        </div>
+                        <!-- Textarea -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Multiple Radios (inline) -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="radios">Número da avaliação </label>
+                            <div class="col-md-4">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-0" value="1">
+                                    1
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radios" id="radios-1" value="2">
+                                    2
+                                </label>
+                                <label class="radio-inline" for="radios-2">
+                                    <input type="radio" name="radios" id="radios-2" value="3">
+                                    3
+                                </label>
+                                <label class="radio-inline" for="radios-3">
+                                    <input type="radio" name="radios" id="radios-3" value="4">
+                                    4
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
+
+                            <div class="col-md-6">
+
+                                <input type="text" class="input-xxlarge" id="tokenfield-programa"
+                                       placeholder="Selecione o programa da prova"/>
+
+                            </div>
+                        </div>
+                        <!-- Button Drop Down -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
+
+                            <div class="col-md-6">
+                                <input class="input-xxlarge" id="tokenfield-materia"
+                                       placeholder="Selecione a materia" type="text">
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="buttonsalvar"></label>
+                            <div class="col-md-4">
+                                <button type="submit" id="buttonsalvar1" name="buttonsalvar" class="btn btn-primary glyphicon glyphicon-arrow-right">Próximo</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
     </div>
     <div id="Layer1"
          style="position:absolute;overflow:auto;text-align:center;left:0px;top:0px;width:972px;height:68px;z-index:22;"

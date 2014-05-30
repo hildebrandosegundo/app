@@ -23,8 +23,8 @@ class Listaavaliacao {
         $retorno = array();
 
         $lista_avaliacao =  array(
-            array('1 ANO', 1, 'provinha brasil', 'Matemática')
-            , array('4 ANO', 2, 'provinha brasil','portugues' )
+            array(1,'1 ANO', 1, 'provinha brasil', 'Matemática')
+            , array(2,'4 ANO', 2, 'provinha brasil','portugues' )
         );
 
 
@@ -37,6 +37,19 @@ class Listaavaliacao {
 
         echo json_encode($retorno);
     }
+    public function gabaritoprova(){
+        $quantidade_itens = $_GET['quantidade_itens'];
+
+        for ( $x = 1; $x <= $quantidade_itens ; $x++ ){
+
+            $item = $_GET["item$x"];
+            $quantidade = $_GET["quantidade$x"];
+
+//aqui seu código com o uso dos valores capturados
+
+        }
+    }
+
     public function logout()
     {
         $index_page = URL.'/index';

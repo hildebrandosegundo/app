@@ -201,6 +201,106 @@ class Cadastroavaliacao extends Controller
         echo json_encode($retorno);
 
     }
+    public function cadastraravaliacao(){
+        $retorno = array();
+        $array_turmas = array();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            if (empty($_POST['textdescricao'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Descrição da avaliação está vazia!'
+                    )
+                );
+            }else if(empty($_POST['op'])){
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'Selecione o número da avaliação!'
+                    )
+                );
+            }
+            else if(empty($_POST['tokenfield_programa'])){
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Programa está vazia!'
+                    )
+                );
+            }else if(empty($_POST['tokenfield_materia'])){
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Matéria está vazia!'
+                    )
+                );
+
+            }else{
+                $retorno = array_merge(array(
+                        'sucesso' => true,
+                        'values' => 'teste'
+                    )
+                );
+               /* //print_r($this->escolas_nome[1]);
+
+                $tam_lista = count( $_POST['escolas_turma']);
+                $series = array('11'=> '1 ANO', '12'=>'2 ANO','13'=>'3 ANO','14'=>'4 ANO', '15'=>'5 ANO', '16'=>'6 ANO', '17'=>'7 ANO', '18'=>'8 ANO', '19'=>'9 ANO');
+                $key = array_search( $_POST['escolas_serie'],$series);
+                for ($i = 0; $i < $tam_lista; $i++) {
+                    $str = substr( $_POST['escolas_turma'][$i], 0,2);
+                    if($str == $key )
+                        $array_turmas[] =  $_POST['escolas_turma'][$i];
+                    //var_dump($key);
+
+                }
+                //var_dump($array_nome);
+                $retorno = array_merge(array(
+                        'sucesso' => true,
+                        'values' => $array_turmas
+                    )
+                );*/
+            }
+        }
+        echo json_encode($retorno);
+
+    }
+    public function cadastrardetalhes(){
+        $retorno = array();
+        $escolas_cod = array();
+        $escolas_nome = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            if (empty($_POST['zona'])) {
+                $filtro = $filtro_model->selectzonamodel('*');
+                foreach ($filtro as $escola) {
+                    if (empty($escola['TB0008_NOME_UNIDADE'])) {
+                        $escolas_nome[] = $this->utf8_encode_all('Sem nome');
+                    } else {
+                        $escolas_nome[] = $this->utf8_encode_all($escola['TB0008_NOME_UNIDADE']);
+                    }
+                    $escolas_cod[] = $this->utf8_encode_all($escola['TB0008_NUM_UNIDADE']);
+                }
+            } else {
+
+                $filtro = $filtro_model->selectzonamodel($_POST['zona']);
+                // print_r($filtro);
+                foreach ($filtro as $escola) {
+                    if (empty($escola['TB0008_NOME_UNIDADE'])) {
+                        $escolas_nome[] = $this->utf8_encode_all('Sem nome');
+                    } else {
+                        $escolas_nome[] = $this->utf8_encode_all($escola['TB0008_NOME_UNIDADE']);
+                    }
+                    $escolas_cod[] = $this->utf8_encode_all($escola['TB0008_NUM_UNIDADE']);
+                }
+
+
+            }
+            $retorno = array_merge($retorno, array(
+                    'sucesso' => true,
+                    'codigo' => $escolas_cod,
+                    'nome' => $escolas_nome)
+            );
+            echo json_encode($retorno);
+        }
+    }
     public function utf8_encode_all($dat) // -- It returns $dat encoded to UTF8
     {
         if (is_string($dat)) return utf8_encode($dat);

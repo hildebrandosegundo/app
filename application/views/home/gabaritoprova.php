@@ -1,3 +1,10 @@
+
+<!--/**
+ * Created by PhpStorm.
+ * User: Segundo
+ * Date: 29/05/14
+ * Time: 08:27
+ */-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,8 +20,7 @@
 <script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
 
-<script type="text/javascript"
-        src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 <link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
 <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
@@ -201,7 +207,6 @@
         text-align: left;
         vertical-align: middle;
     }
-
     #error2 {
         border: 0px #EEEEEE solid;
         background-color: transparent;
@@ -216,9 +221,9 @@
 var table = null;
 RemoveTableRow = function (handler) {
     var result = confirm("Você deseja deletar esta prova?");
-    if (result == true) {
+    if (result==true) {
         var tr = $(handler).closest('tr');
-        if ($('#tabela') != null) {
+        if($('#tabela')!=null){
             var row = table.row(tr);
             if (row.child.isShown()) {
                 row.child.hide();
@@ -236,9 +241,6 @@ EditTableRow = function (d) {
     $('#modaleditar').modal('show');
     //return false;
 
-};
-GabaritoTableRow = function (d) {
-    $('#modalgabarito').modal('show');
 };
 function format(d) {
     // `d` is the original data object for the row
@@ -266,13 +268,12 @@ $(document).ready(function () {
             { "data": "1" },
             { "data": "2" },
             { "data": "3" },
-            { "data": "4" },
             {
                 "class": 'details-control',
                 "orderable": false,
                 "data": null,
                 "defaultContent": "<div class='btn-group'>" +
-                    "<button id='editar' onclick='GabaritoTableRow(this)' class=\'btn btn-primary\'>Gabarito" +
+                    "<button onclick='EditTableRow(this)' class=\'btn btn-primary\'>Gabarito" +
                     "</button>" +
                     "<button id='info' class=\'btn btn-info\'>Info" +
                     "</button>" +
@@ -282,13 +283,20 @@ $(document).ready(function () {
                 "class": 'details-control',
                 "orderable": false,
                 "data": null,
-                "defaultContent": "<div class='btn-group'>" +
+                "defaultContent": "<div class='btn-group'>"+
                     "<button class=\'btn btn-success\'>Gabaritar" +
                     "</button>" +
-                    "<button id='editar' onclick='EditTableRow(this)' class=\'btn btn-warning\'>Editar" +
-                    "</button>" +
+                    "<div class='btn-group'>"+
+                    "<button id='editar' class=\'btn btn-warning\'>Editar" +
+                    "<span class='caret'></span>"+
+                    "</button>"+
+                    "<ul class='dropdown-menu' role='menu'>"+
+                    "<li><a onclick='EditTableRow(this)'>Editar Prova</a></li>"+
+                    "<li><a href='#'>Editar gabarito</a></li>"+
+                    "</ul>"+
+                    "</div>"+
                     "<button onclick='RemoveTableRow(this)' id='deletar' class=\'btn btn-danger\'>Deletar" +
-                    "</button>" +
+                    "</button>"+
                     "</div>"
             }
         ],
@@ -321,13 +329,13 @@ $(document).ready(function () {
     $("#diverror2").hide();
     $("#diverror1").hide();
     $("#wb_FormLista").hide();
-    $("#wb_FormConf").show('slide', {direction: 'left'}, 500);
+    $("#wb_FormConf").show('slide', {direction: 'left'},500);
 
 
     var cod_escolas;
     var nome_escolas;
     var turmas;
-    $('#buttonsalvar1').click(function (e) {
+    $('#buttonsalvar1').click(function(e){
         e.preventDefault();
         e.stopPropagation();
         var _textdescricao = $("#textdescricao").val();
@@ -521,30 +529,10 @@ $(document).ready(function () {
     $('#tokenfield-programa').tokenfield({
         limit: 1,
         autocomplete: {
-            source: ['PROVINHA BRASIL', 'SIMULADO', 'OUTROS'],
+            source: ['PROVINHA BRASIL', 'SIMULADO','OUTROS'],
             delay: 100
         },
         showAutocompleteOnFocus: true
-    });
-
-    $("#enviar").click(function () {
-        $("#criargabarito").submit();
-    });
-    $("#mais").click(function () {
-
-//recuperando o próximo numero da linha
-        var next = $("#listagabarito tbody").children("tr").length + 1;
-        console.log($("#listagabarito tbody").children("tr").length);
-//inserindo formulário
-        $("#listagabarito tbody").append("<tr>" +
-            "<td><input disabled class='form-control' type='text' name='" + next + "' value='" + next + "'/></td>" +
-            "<td><input class='form-control' type='text' name='" + next + "' /></td>" +
-            "</tr>");
-
-//armazenando a quantidade de linhas ou registros no elemento hidden
-        $("#total").val(next);
-
-        return false;
     });
 
 });
@@ -582,294 +570,197 @@ $(document).ready(function () {
                 <h4 class="modal-title">Editar prova</h4>
             </div>
             <div class="modal-body">
-                <!-- ######################### mesma forma que ocorre no cadastrar prova ########################################################## -->
-               <form id="editarprova" method="post" action="/listaavaliacao/gabaritoprova">
+                <!-- #########################mesma coisa que ocorre no cadastrar prova ########################################################## -->
                 <div class="container">
-                    <div id="wb_FormLista">
+                    <div id="wb_FormLista" >
 
-                        <form class="form-horizontal" method="post"
-                              enctype="text/plain" id="Form-horizontal">
-                            <fieldset>
-                                <!-- Form Name -->
-                                <!--<legend>Filtrar avaliação</legend>-->
-                                <div class="alert alert-danger alert-dismissable" id="diverror2">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                            id="alerterror">&times;</button>
+                        <div class="row">
+                            <form class="form-horizontal" method="post"
+                                  enctype="text/plain" id="Form-horizontal">
+                                <fieldset>
 
-                                    <input type='text' id='error2' name="error" value='' style="width:80em"
-                                           autocomplete='off'>
-                                </div>
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
+                                    <!-- Form Name -->
+                                    <!--<legend>Filtrar avaliação</legend>-->
+                                    <div class="alert alert-danger alert-dismissable" id="diverror2">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                                id="alerterror">&times;</button>
 
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="tokenfield-zona"
-                                               value=""
-                                               placeholder="Selecione as zonas desejadas"/>
+                                        <input type='text' id='error2' name="error" value='' style="width:40em" autocomplete='off'>
                                     </div>
-                                </div>
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
 
-                                <!-- Text input-->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control input-xxlarge" id="tokenfield-zona"
+                                                   value=""
+                                                   placeholder="Selecione as zonas desejadas"/>
 
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="tokenfield-escolas" value=""
-                                               placeholder="Selecione as escolas desejadas"/>
-                                        <span class="help-block">(digite o código da escola)</span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
 
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="tokenfield-escolas-nomes"
-                                               value=""
-                                               placeholder="Lista de escolas"/>
+                                        <div class="col-md-6">
+                                            <input type="text" class="input-xxlarge" id="tokenfield-escolas" value=""
+                                                   placeholder="Selecione as escolas desejadas"/>
+                                            <span class="help-block">(digite o código da escola)</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
 
-                                    <div class="col-md-6">
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
 
-                                        <input type="text" class="form-control" id="tokenfield-serie"
-                                               placeholder="Selecione as séries desejadas"/>
-
+                                        <div class="col-md-6">
+                                            <input type="text" class="input-xxlarge" id="tokenfield-escolas-nomes" value=""
+                                                   placeholder="Lista de escolas"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Text input-->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
 
-                                    <div class="col-md-6">
+                                        <div class="col-md-6">
 
-                                        <input type="text" class="form-control" id="tokenfield-turma"
-                                               placeholder="Selecione as turmas desejadas"/>
-                                        <span class="help-block">(digite o código da turma)</span>
+                                            <input type="text" class="input-xxlarge" id="tokenfield-serie"
+                                                   placeholder="Selecione as séries desejadas"/>
 
+                                        </div>
                                     </div>
-                                </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
 
-                                <!-- Button -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="singlebutton1"></label>
+                                        <div class="col-md-6">
 
-                                    <div class="col-md-4">
-                                        <button type="submit" id="buttonsalvar2" name="singlebutton1"
-                                                class="btn btn-success">
-                                            Salvar
-                                        </button>
+                                            <input type="text" class="input-xxlarge" id="tokenfield-turma"
+                                                   placeholder="Selecione as turmas desejadas"/>
+                                            <span class="help-block">(digite o código da turma)</span>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
-                        </form>
+
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="singlebutton1"></label>
+
+                                        <div class="col-md-4">
+                                            <button type="submit" id="buttonsalvar2" name="singlebutton1" class="btn btn-success">
+                                                Salvar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                        </div>
 
                     </div>
-                    <div id="wb_FormConf">
+                    <div id="wb_FormConf" >
 
+                        <div class="row">
+                            <form class="form-horizontal" method="post"
+                                  enctype="text/plain" id="Form-horizontal">
+                                <fieldset>
 
-                        <form class="form-horizontal" method="post"
-                              enctype="text/plain" id="Form-horizontal">
-                            <fieldset>
+                                    <!-- Form Name -->
+                                    <!-- <legend>Cadastro de avaliação</legend>-->
+                                    <div class="alert alert-danger alert-dismissable" id="diverror1">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                                id="alerterror">&times;</button>
 
-                                <!-- Form Name -->
-                                <!-- <legend>Cadastro de avaliação</legend>-->
-                                <div class="alert alert-danger alert-dismissable" id="diverror1">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                            id="alerterror">&times;</button>
-
-                                    <input type='text' id='error1' name="error" value='' style="width:80em"
-                                           autocomplete='off'>
-                                </div>
-                                <!-- Textarea -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textdescricao">Descrição da
-                                        avaliação</label>
-
-                                    <div class="col-md-6">
-                                        <textarea class="form-control" id="textdescricao"
-                                                  name="textdescricao"></textarea>
+                                        <input type='text' id='error1' name="error" value='' style="width:40em" autocomplete='off'>
                                     </div>
-                                </div>
-
-                                <!-- Multiple Radios (inline) -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="radios">Número da avaliação </label>
-
-                                    <div class="col-md-4">
-                                        <label class="radio-inline" for="radios-0">
-                                            <input type="radio" name="radios" id="radios-0" value="1">
-                                            1
-                                        </label>
-                                        <label class="radio-inline" for="radios-1">
-                                            <input type="radio" name="radios" id="radios-1" value="2">
-                                            2
-                                        </label>
-                                        <label class="radio-inline" for="radios-2">
-                                            <input type="radio" name="radios" id="radios-2" value="3">
-                                            3
-                                        </label>
-                                        <label class="radio-inline" for="radios-3">
-                                            <input type="radio" name="radios" id="radios-3" value="4">
-                                            4
-                                        </label>
+                                    <!-- Textarea -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
 
-                                    <div class="col-md-6">
-
-                                        <input type="text" class="form-control" id="tokenfield-programa"
-                                               placeholder="Selecione o programa da prova"/>
-
+                                    <!-- Multiple Radios (inline) -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="radios">Número da avaliação </label>
+                                        <div class="col-md-4">
+                                            <label class="radio-inline" for="radios-0">
+                                                <input type="radio" name="radios" id="radios-0" value="1">
+                                                1
+                                            </label>
+                                            <label class="radio-inline" for="radios-1">
+                                                <input type="radio" name="radios" id="radios-1" value="2">
+                                                2
+                                            </label>
+                                            <label class="radio-inline" for="radios-2">
+                                                <input type="radio" name="radios" id="radios-2" value="3">
+                                                3
+                                            </label>
+                                            <label class="radio-inline" for="radios-3">
+                                                <input type="radio" name="radios" id="radios-3" value="4">
+                                                4
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
 
-                                    <div class="col-md-6">
-                                        <input class="form-control" id="tokenfield-materia"
-                                               placeholder="Selecione a materia" type="text">
+                                        <div class="col-md-6">
+
+                                            <input type="text" class="input-xxlarge" id="tokenfield-programa"
+                                                   placeholder="Selecione o programa da prova"/>
+
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Button -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="buttonsalvar"></label>
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
 
-                                    <div class="col-md-4">
-                                        <button type="submit" id="buttonsalvar1" name="buttonsalvar"
-                                                class="btn btn-primary">Próximo
-                                        </button>
+                                        <div class="col-md-6">
+                                            <input class="input-xxlarge" id="tokenfield-materia"
+                                                   placeholder="Selecione a materia" type="text">
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
-                        </form>
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="buttonsalvar"></label>
+                                        <div class="col-md-4">
+                                            <button type="submit" id="buttonsalvar1" name="buttonsalvar" class="btn btn-primary">Próximo</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
 
+                        </div>
 
                     </div>
                 </div>
-                </form>
             </div>
             <div class="modal-footer">
 
-                <button class='btn btn-danger' data-dismiss="modal" aria-hidden="true">Cancelar
+                <button class='btn btn-danger'>Cancelar
                 </button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-    <!-- Modal -->
-
-</div>
-<div class="modal" id="modalgabarito">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;</button>
-                <h4 class="modal-title">Criar gabarito</h4>
-            </div>
-            <div class="modal-body">
-                <!-- #########################mesma forma que ocorre no cadastrar prova ########################################################## -->
-                <form id="criargabarito" method="get" action="/listaavaliacao/gabaritoprova">
-                    <table id="listagabarito" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Questão</th>
-                            <th>Alternativa</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="1" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="2" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="3" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="4" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="5" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="6" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="7" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="8" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="9" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="10" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <!–Irá armazenar a quantidade de linhas–>
-                    <input id="total" type="hidden" value="1" name="Alternativa"/>
-                    <!--<a href="#" id="enviar">enviar</a>-->
-                    <button id="mais" class='btn btn-info glyphicon glyphicon-plus-sign'>Add questão
-                    </button>
-
-                </form>
-            </div>
-            <div class="modal-footer">
-
-                <button data-dismiss='modal' aria-hidden='true' class='btn btn-danger'>Cancelar
-                </button>
-                <button id="enviar" class='btn btn-success'>Salvar
+                <button class='btn btn-success'>Salvar
                 </button>
 
+
             </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 <div id="container">
     <div class="container">
+        <!-- ############################################################################################################################## -->
+
+        <!-- ############################################################################################################################## -->
         <div id="wb_FormFiltro" style="position:relative;top:170px;z-index:21;">
             <table id="example" class="display" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Série</th>
-                    <th>Teste</th>
+                    <th>N. Prova</th>
                     <th>Tipo</th>
                     <th>Disciplina</th>
                     <th>Prova</th>
