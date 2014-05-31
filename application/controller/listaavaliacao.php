@@ -23,11 +23,10 @@ class Listaavaliacao {
         $retorno = array();
 
         $lista_avaliacao =  array(
-            array(1,'1 ANO', 1, 'provinha brasil', 'Matemática')
-            , array(2,'4 ANO', 2, 'provinha brasil','portugues' )
+            array(1,'1 ANO', 1, 'PROVINHA BRASIL', 'MATEMATICA')
+            , array(2,'4 ANO', 2, 'PROVINHA BRASIL','PORTUGUES' )
+            , array(3,'6 ANO',1, 'SIMULADO', 'GEOGRAFIA')
         );
-
-
                 $retorno = array_merge($retorno,array(
                        'sucesso' => true,
                   /*      'lista' => $lista_avaliacao*/

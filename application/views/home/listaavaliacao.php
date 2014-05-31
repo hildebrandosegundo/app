@@ -7,7 +7,7 @@
 <title>SEMEC Avaliação</title>
 <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
 <link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
+<link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
@@ -211,9 +211,10 @@
         text-align: left;
         vertical-align: middle;
     }
+
 </style>
 <script type="text/javascript">
-var table = null;
+var table,  listagabarito = null;
 RemoveTableRow = function (handler) {
     var result = confirm("Você deseja deletar esta prova?");
     if (result == true) {
@@ -231,12 +232,25 @@ RemoveTableRow = function (handler) {
     }
     return false;
 };
+RemoveGabaritoRow = function(d){
+    var tr = $(d).closest('tr');
+    tr.fadeOut(400, function () {
+        tr.remove();
+    });
+    return false;
+}
 EditTableRow = function (d) {
     console.log(d);
     $('#modaleditar').modal('show');
-    //return false;
+    return false;
 
 };
+function init(){
+    var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
+    if(autoSuggestion.length > 0){
+        autoSuggestion[0].style.zIndex = 1051;
+    }
+}
 GabaritoTableRow = function (d) {
     $('#modalgabarito').modal('show');
 };
@@ -257,7 +271,18 @@ function format(d) {
         '</tr>' +
         '</table>';
 }
+$(window).load(function() {
+    init();
+});
 $(document).ready(function () {
+
+    listagabarito = $('#listagabarito').dataTable({
+        "dom": 'T<"clear">lfrtip',
+        "pageLength": 50,
+        "order": [
+            [0, 'asc']
+        ]
+    });
     table = $('#example').DataTable({
         "ajax": "<?php echo URL; ?>/listaavaliacao/lista",
         "columns": [
@@ -272,9 +297,13 @@ $(document).ready(function () {
                 "orderable": false,
                 "data": null,
                 "defaultContent": "<div class='btn-group'>" +
+                    "<button id='info' class=\'btn btn-info\'>Info" +
+                    "</button>" +
                     "<button id='editar' onclick='GabaritoTableRow(this)' class=\'btn btn-primary\'>Gabarito" +
                     "</button>" +
-                    "<button id='info' class=\'btn btn-info\'>Info" +
+                    "<button id='editar' onclick='EditTableRow(this)' class=\'btn btn-warning\'>Editar" +
+                    "</button>" +
+                    "<button onclick='RemoveTableRow(this)' id='deletar' class=\'btn btn-danger\'>Deletar" +
                     "</button>" +
                     "</div>"
             },
@@ -284,10 +313,6 @@ $(document).ready(function () {
                 "data": null,
                 "defaultContent": "<div class='btn-group'>" +
                     "<button class=\'btn btn-success\'>Gabaritar" +
-                    "</button>" +
-                    "<button id='editar' onclick='EditTableRow(this)' class=\'btn btn-warning\'>Editar" +
-                    "</button>" +
-                    "<button onclick='RemoveTableRow(this)' id='deletar' class=\'btn btn-danger\'>Deletar" +
                     "</button>" +
                     "</div>"
             }
@@ -441,6 +466,60 @@ $(document).ready(function () {
             }
         });
     });
+    function deAD(str){
+
+        if( /[^a-dA-D]/.test(str) ) {
+            alert('O campo está errado, somente de A a D!');
+            return false;
+        }
+        return true;
+    }
+    function deAE(str){
+
+        if( /[^a-eA-E]/.test(str) ) {
+            alert('O campo está errado, somente de A a E!');
+            return false;
+        }
+        return true;
+    }
+    function de09(str){
+
+        if( /[^0-9]/g.test(str) ) {
+            alert('O campo está errado, somente números');
+            return false;
+        }
+        return true;
+    }
+   /* $('tr #alternativa').keyup(function(){
+
+        if($('#selectquestao').val()=='2'){
+            deAD($('tr #alternativa').val());
+        }
+        if($('#selectquestao').val()=='1'){
+            deAE($('tr #alternativa').val());
+        }
+        if($('#selectquestao').val()=='3'){
+            de09($('tr #alternativa').val());
+        }
+
+    });*/
+
+    /*$('#listagabarito tbody').on('blur', 'tr', function () {
+
+
+        var text = $('td',this).eq(1).text();
+        console.log(text);
+        if($('#selectquestao').val()=='2'){
+            deAD(text);
+        }
+        if($('#selectquestao').val()=='1'){
+            deAE(text);
+        }
+        if($('#selectquestao').val()=='3'){
+            de09(text);
+        }
+
+    });*/
     $('#tokenfield-serie').change(function (e) {
 
         e.preventDefault();
@@ -530,23 +609,34 @@ $(document).ready(function () {
     $("#enviar").click(function () {
         $("#criargabarito").submit();
     });
-    $("#mais").click(function () {
-
+    $("#mais").click(function (e) {
+        e.preventDefault();
+        //e.stopPropagation();
 //recuperando o próximo numero da linha
         var next = $("#listagabarito tbody").children("tr").length + 1;
-        console.log($("#listagabarito tbody").children("tr").length);
+
 //inserindo formulário
-        $("#listagabarito tbody").append("<tr>" +
-            "<td><input disabled class='form-control' type='text' name='" + next + "' value='" + next + "'/></td>" +
-            "<td><input class='form-control' type='text' name='" + next + "' /></td>" +
-            "</tr>");
+        listagabarito.row.add([
+            "<input id='questao' disabled class='form-control' type='text' name='" + next + "' value='" + next + "'/>",
+            "<input class='form-control' type='text' name='" + next + "' />",
+            "<button id='deletagabarito' class='btn btn-danger glyphicon glyphicon-remove-sign'></button>"]).draw();
 
-//armazenando a quantidade de linhas ou registros no elemento hidden
-        $("#total").val(next);
-
-        return false;
     });
+    $('#listagabarito tbody').on( 'click', 'tr #deletagabarito', function (e) {
+        e.preventDefault();
+        //e.stopPropagation();
+        listagabarito
+            .row( $(this).parents('tr') )
+            .remove()
+            .draw();
+    } );
+    /*$('tr #deletagabarito').click( function (e) {
+        e.preventDefault();
+        //e.stopPropagation();
+        listagabarito.row.remove().draw( false );
 
+    } );*/
+return false;
 });
 
 </script>
@@ -573,7 +663,8 @@ $(document).ready(function () {
      class="col-md-12 column" class="row">
 </div>-->
 <!-- Modal -->
-<div class="modal" id="modaleditar">
+
+<div class="modal fade" id="modaleditar">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -582,9 +673,10 @@ $(document).ready(function () {
                 <h4 class="modal-title">Editar prova</h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
                 <!-- ######################### mesma forma que ocorre no cadastrar prova ########################################################## -->
                <form id="editarprova" method="post" action="/listaavaliacao/gabaritoprova">
-                <div class="container">
+
                     <div id="wb_FormLista">
 
                         <form class="form-horizontal" method="post"
@@ -754,8 +846,9 @@ $(document).ready(function () {
 
 
                     </div>
-                </div>
+
                 </form>
+                </div>
             </div>
             <div class="modal-footer">
 
@@ -769,7 +862,7 @@ $(document).ready(function () {
     <!-- Modal -->
 
 </div>
-<div class="modal" id="modalgabarito">
+<div class="modal fade" id="modalgabarito">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -779,64 +872,146 @@ $(document).ready(function () {
             </div>
             <div class="modal-body">
                 <!-- #########################mesma forma que ocorre no cadastrar prova ########################################################## -->
-                <form id="criargabarito" method="get" action="/listaavaliacao/gabaritoprova">
+                <form id="criargabarito" method="post" >
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="selectquestao">Estilo de questão </label>
+                        <div class="col-md-4">
+                            <select id="selectquestao" name="selectquestao" class="form-control">
+                                <option value="1">de A a E</option>
+                                <option value="2">de A a D</option>
+                                <option value="3">numérico</option>
+                            </select>
+                        </div>
+                    </div>
                     <table id="listagabarito" class="table table-striped">
                         <thead>
                         <tr>
                             <th>Questão</th>
                             <th>Alternativa</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="1" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="1" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="2" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="2" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="3" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="3" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="4" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="4" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="5" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="5" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="6" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="6" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="7" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="7" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="8" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="8" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
                             <td><input disabled class="form-control" type="text" name="questao" value="9" size="20"/>
                             </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="10" size="20"/>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="10" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id="questao" disabled class="form-control" type="text" name="questao" value="11" size="20"/>
                             </td>
                             <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="12" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="13" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="14" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="15" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="16" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="17" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="18" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="19" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
+                        </tr>
+                        <tr>
+                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="20" size="20"/>
+                            </td>
+                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
+                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
                         </tr>
                         </tbody>
                     </table>
@@ -873,7 +1048,7 @@ $(document).ready(function () {
                     <th>Tipo</th>
                     <th>Disciplina</th>
                     <th>Prova</th>
-                    <th>Ação</th>
+                    <th>Alunos/Turmas</th>
                 </tr>
                 </thead>
             </table>
