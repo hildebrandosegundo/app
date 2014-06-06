@@ -8,15 +8,14 @@
 <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
 <link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
-<script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
-
 <script type="text/javascript"
-        src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+        src="<?php echo URL; ?>/public/js/dataTables.bootstrap.js"></script>
 <link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
-<link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+<link href="<?php echo URL; ?>/public/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
@@ -214,7 +213,7 @@
 
 </style>
 <script type="text/javascript">
-var table,  listagabarito = null;
+var table, listagabarito, linha = null;
 RemoveTableRow = function (handler) {
     var result = confirm("Você deseja deletar esta prova?");
     if (result == true) {
@@ -232,7 +231,7 @@ RemoveTableRow = function (handler) {
     }
     return false;
 };
-RemoveGabaritoRow = function(d){
+RemoveGabaritoRow = function (d) {
     var tr = $(d).closest('tr');
     tr.fadeOut(400, function () {
         tr.remove();
@@ -240,19 +239,27 @@ RemoveGabaritoRow = function(d){
     return false;
 }
 EditTableRow = function (d) {
-    console.log(d);
+    //console.log(d);
     $('#modaleditar').modal('show');
     return false;
 
 };
-function init(){
+GabaritoAlunoRow = function (d) {
+    //console.log(d);
+    $('#modalgabaritoaluno').modal('show');
+    linha = $(d);
+    return false;
+};
+function init() {
     var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
-    if(autoSuggestion.length > 0){
+    if (autoSuggestion.length > 0) {
         autoSuggestion[0].style.zIndex = 1051;
     }
 }
 GabaritoTableRow = function (d) {
     $('#modalgabarito').modal('show');
+    linha = $(d);
+    return false;
 };
 function format(d) {
     // `d` is the original data object for the row
@@ -271,20 +278,13 @@ function format(d) {
         '</tr>' +
         '</table>';
 }
-$(window).load(function() {
-    init();
-});
+
 $(document).ready(function () {
 
-    listagabarito = $('#listagabarito').dataTable({
-        "dom": 'T<"clear">lfrtip',
-        "pageLength": 50,
-        "order": [
-            [0, 'asc']
-        ]
-    });
+//######################################## pagina com lista de provas #################################################
     table = $('#example').DataTable({
         "ajax": "<?php echo URL; ?>/listaavaliacao/lista",
+
         "columns": [
 
             { "data": "0" },
@@ -293,28 +293,10 @@ $(document).ready(function () {
             { "data": "3" },
             { "data": "4" },
             {
-                "class": 'details-control',
-                "orderable": false,
-                "data": null,
-                "defaultContent": "<div class='btn-group'>" +
-                    "<button id='info' class=\'btn btn-info\'>Info" +
-                    "</button>" +
-                    "<button id='editar' onclick='GabaritoTableRow(this)' class=\'btn btn-primary\'>Gabarito" +
-                    "</button>" +
-                    "<button id='editar' onclick='EditTableRow(this)' class=\'btn btn-warning\'>Editar" +
-                    "</button>" +
-                    "<button onclick='RemoveTableRow(this)' id='deletar' class=\'btn btn-danger\'>Deletar" +
-                    "</button>" +
-                    "</div>"
+                "data": "5"
             },
             {
-                "class": 'details-control',
-                "orderable": false,
-                "data": null,
-                "defaultContent": "<div class='btn-group'>" +
-                    "<button class=\'btn btn-success\'>Gabaritar" +
-                    "</button>" +
-                    "</div>"
+                "data": "6"
             }
         ],
         "order": [
@@ -341,8 +323,37 @@ $(document).ready(function () {
             //  $('tbody tr td #deletar').attr('disabled',true);
         }
     });
-});
-$(document).ready(function () {
+    $('#example tbody').on('click', '.gabaritoaluno0', function (e) {
+        var data = table.row( $(this).parents('tr') ).data();
+        e.preventDefault();
+        e.stopPropagation();
+       // console.log(data[0]);
+       GabaritoAlunoRow($(this));
+        $.ajax({
+            type: "POST",
+            url: "listaavaliacao/listaescolas",
+            data: {id: data[0]},
+           // dataType: "json",
+            success: function(json){
+                json = JSON.parse(json);
+                var options = "";
+                $.each(json.values, function(key, data){
+                    options += '<option value="' + key + '">' + data + '</option>';
+                });
+                $("#selectescola").html(options);
+            }
+        });
+
+    });
+    $('#example tbody').on('click', '.gabarito0', function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        // console.log(data[0]);
+        GabaritoTableRow(this);
+
+    });
+//############################### modal alterar prova ################################################################
     $("#diverror2").hide();
     $("#diverror1").hide();
     $("#wb_FormLista").hide();
@@ -466,60 +477,7 @@ $(document).ready(function () {
             }
         });
     });
-    function deAD(str){
 
-        if( /[^a-dA-D]/.test(str) ) {
-            alert('O campo está errado, somente de A a D!');
-            return false;
-        }
-        return true;
-    }
-    function deAE(str){
-
-        if( /[^a-eA-E]/.test(str) ) {
-            alert('O campo está errado, somente de A a E!');
-            return false;
-        }
-        return true;
-    }
-    function de09(str){
-
-        if( /[^0-9]/g.test(str) ) {
-            alert('O campo está errado, somente números');
-            return false;
-        }
-        return true;
-    }
-   /* $('tr #alternativa').keyup(function(){
-
-        if($('#selectquestao').val()=='2'){
-            deAD($('tr #alternativa').val());
-        }
-        if($('#selectquestao').val()=='1'){
-            deAE($('tr #alternativa').val());
-        }
-        if($('#selectquestao').val()=='3'){
-            de09($('tr #alternativa').val());
-        }
-
-    });*/
-
-    /*$('#listagabarito tbody').on('blur', 'tr', function () {
-
-
-        var text = $('td',this).eq(1).text();
-        console.log(text);
-        if($('#selectquestao').val()=='2'){
-            deAD(text);
-        }
-        if($('#selectquestao').val()=='1'){
-            deAE(text);
-        }
-        if($('#selectquestao').val()=='3'){
-            de09(text);
-        }
-
-    });*/
     $('#tokenfield-serie').change(function (e) {
 
         e.preventDefault();
@@ -600,43 +558,215 @@ $(document).ready(function () {
     $('#tokenfield-programa').tokenfield({
         limit: 1,
         autocomplete: {
-            source: ['PROVINHA BRASIL', 'SIMULADO', 'OUTROS'],
+            source: ['PROVINHA BRASIL', 'SIMULADO', 'OLIMPIADA INTERNA','OLIMPIADA EXTERA', 'AVALIAÇÃO PADRÃO', 'OUTROS'],
             delay: 100
         },
         showAutocompleteOnFocus: true
     });
-
-    $("#enviar").click(function () {
-        $("#criargabarito").submit();
+//###################################### modal gabarito ###################################################
+    listagabarito = $('#listagabarito').dataTable({
+        "dom": 'T<"clear">lfrtip',
+        "pageLength": 50,
+        "columnDefs": [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }
+        ],
+        "order": [
+            [0, 'asc']
+        ]
     });
+    function deAD(str) {
+
+        if (/[^a-dA-D]/.test(str) && str != '') {
+            alert('O campo está errado, somente de A a D!');
+            return false;
+        }
+        return true;
+    }
+
+    function deAE(str) {
+
+        if (/[^a-eA-E]/.test(str) && str != '') {
+            alert('O campo está errado, somente de A a E!');
+            return false;
+        }
+        return true;
+    }
+
+    function de09(str) {
+
+        if (/[^0-9]/g.test(str) && str != '') {
+            alert('O campo está errado, somente números');
+            return false;
+        }
+        return true;
+    }
+
+    $(document).on('keyup', '.alternativa', function (e) {
+//    $('.alternativa').keyup(function () {
+
+        if ($('#selectquestao').val() == '2') {
+            deAD($(this).val());
+
+        }
+        if ($('#selectquestao').val() == '1') {
+
+            deAE($(this).val());
+        }
+        if ($('#selectquestao').val() == '3') {
+            de09($(this).val());
+        }
+        return false;
+    });
+
+    /*$("#enviar").click(function () {
+        $("#criargabarito").submit();
+    });*/
     $("#mais").click(function (e) {
         e.preventDefault();
-        //e.stopPropagation();
-//recuperando o próximo numero da linha
+
         var next = $("#listagabarito tbody").children("tr").length + 1;
 
-//inserindo formulário
-        listagabarito.row.add([
-            "<input id='questao' disabled class='form-control' type='text' name='" + next + "' value='" + next + "'/>",
-            "<input class='form-control' type='text' name='" + next + "' />",
-            "<button id='deletagabarito' class='btn btn-danger glyphicon glyphicon-remove-sign'></button>"]).draw();
+
+        $("#listagabarito tbody").append(
+            "<tr>" +
+                "<td class='sorting_1'><input id='questao' disabled class='form-control' type='text' name='questao' value='" + next + "' size='20'/>" +
+                "</td>" +
+                "<td><input id='alternativa' class='alternativa form-control' type='text' name='alternativa' size='20'/></td>" +
+                "<td><button  id='deletagabarito' class='deletagabarito btn btn-danger glyphicon glyphicon-remove-sign'></button></td>" +
+                "</tr>"
+        );
 
     });
-    $('#listagabarito tbody').on( 'click', 'tr #deletagabarito', function (e) {
+    $(document).on('click', '.deletagabarito', function (e) {
         e.preventDefault();
         //e.stopPropagation();
-        listagabarito
-            .row( $(this).parents('tr') )
-            .remove()
-            .draw();
-    } );
-    /*$('tr #deletagabarito').click( function (e) {
-        e.preventDefault();
+        var tr = $(this).closest('tr');
+        tr.fadeOut(400, function () {
+            tr.remove();
+            var i = 1;
+            $('#listagabarito .sorting_1> input').each(function () {
+                $(this).val(i++);
+            });
+        });
+    });
+    $(document).on('click', '#enviarprova', function (e) {
+        //e.preventDefault();
         //e.stopPropagation();
-        listagabarito.row.remove().draw( false );
 
-    } );*/
-return false;
+       var button =linha.closest('.gabarito0');
+
+
+            button.removeClass('gabarito0 btn btn-primary').addClass('gabarito1 btn btn-success');
+            button.html('Concluido');
+
+
+    }); enviarprovaaluno
+//########################################### modal gabaritar aluno ######################################################################
+    $(document).on('click', '#enviarprovaaluno', function (e) {
+        //e.preventDefault();
+        //e.stopPropagation();
+
+        var button =linha.closest('.gabaritoaluno0');
+
+
+        button.removeClass('gabaritoaluno0 btn btn-primary').addClass('gabaritoaluno1 btn btn-success');
+        button.html('Concluido');
+
+
+    });
+    $(document).on('focus', '#selectescola', function (e) {
+        //console.log($(this).text());
+        var _escola = $(this).find('option').filter(':selected').text();
+
+        $.ajax({
+            type: "POST",
+            url: "listaavaliacao/listaturmas",
+            data: {escolas: _escola},
+           // dataType: "json",
+
+            success: function(json){
+                json = JSON.parse(json);
+                var options = "";
+                $.each(json.values, function(key, data){
+                    options += '<option value="' + key + '">' + data + '</option>';
+                });
+                $("#selectturma").html(options);
+            }
+        });
+    });
+    $('#gabaritarprova').dataTable({
+        "dom": 'T<"clear">lfrtip',
+        "pageLength": 50,
+        "columnDefs": [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": 1
+            }
+        ],
+        "order": [
+            [1, 'asc']
+        ]
+    });
+    $(document).on('click', '#buscar', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _turma = $(this).find('option').filter(':selected').text();
+        $.ajax({
+            type: "POST",
+            url: "listaavaliacao/listaalunos",
+            data: {turma: _turma},
+            //dataType: "json",
+            success: function(json){
+                json = JSON.parse(json);
+                var linhas, linhashead, altaluno = "";
+                for(var i = 1; i <=  json.qtdquestao;i++){
+                    linhashead+= "<th class='sorting' aria-label='"+i+": activate to sort column ascending' aria-controls='gabaritarprova'" +
+                        ">"+i+"</th>";
+                }
+                linhas = "<thead>"+
+                    "<tr>"+
+                    "<th class='sorting' aria-label='Matrícula: activate to sort column ascending' aria-controls='gabaritarprova'" +
+                    ">Matrícula</th>"+
+                    "<th class='sorting_asc' aria-label='Nome: activate to sort column ascending' aria-sort='ascending' aria-controls='gabaritarprova'>Nome</th>";
+                linhas +=linhashead;
+
+                linhas +="</tr>"+
+                         "<tr></tr></thead>";
+                for(var i = 1; i <= json.qtdquestao;i++){
+                   altaluno+= "<td><input id='alternativa"+i+"' class='form-control' type='text' name='alternativaaluno'/></td>";
+                }
+                linhas += "<tbody>";
+                $.each(json.values, function(key,data){
+                    linhas += "<tr><td>"+data.matricula+"</td><td class='sorting_1'>"+data.nome+"</td>"+ altaluno+
+                        "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'></button></td></tr>";
+
+                });
+                linhas+="</tbody>";
+                $("#gabaritarprova").html(linhas);
+            }
+        })
+    });
+    $(document).on('click', '.salvagabaritoaluno', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var tr = $(this).closest('tr');
+        tr.addClass('success');
+        $(this).removeClass('salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save').addClass('editagabaritoaluno btn btn-warning glyphicon glyphicon-refresh');
+
+    });
+    $(document).on('click', '.editagabaritoaluno', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var tr = $(this).closest('tr');
+        tr.addClass('warning');
+
+    });
+//######################################################################################################################################
 });
 
 </script>
@@ -663,7 +793,7 @@ return false;
      class="col-md-12 column" class="row">
 </div>-->
 <!-- Modal -->
-
+<!--################################## modal editar prova ################################################################-->
 <div class="modal fade" id="modaleditar">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -674,180 +804,179 @@ return false;
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                <!-- ######################### mesma forma que ocorre no cadastrar prova ########################################################## -->
-               <form id="editarprova" method="post" action="/listaavaliacao/gabaritoprova">
+                    <!-- ######################### mesma forma que ocorre no cadastrar prova ########################################################## -->
+                    <form id="editarprova" method="post" action="/listaavaliacao/gabaritoprova">
 
-                    <div id="wb_FormLista">
+                        <div id="wb_FormLista">
 
-                        <form class="form-horizontal" method="post"
-                              enctype="text/plain" id="Form-horizontal">
-                            <fieldset>
-                                <!-- Form Name -->
-                                <!--<legend>Filtrar avaliação</legend>-->
-                                <div class="alert alert-danger alert-dismissable" id="diverror2">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                            id="alerterror">&times;</button>
+                            <form class="form-horizontal" method="post"
+                                  enctype="text/plain" id="Form-horizontal">
+                                <fieldset>
+                                    <!-- Form Name -->
+                                    <!--<legend>Filtrar avaliação</legend>-->
+                                    <div class="alert alert-danger alert-dismissable" id="diverror2">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                                id="alerterror">&times;</button>
 
-                                    <input type='text' id='error2' name="error" value='' style="width:80em"
-                                           autocomplete='off'>
-                                </div>
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
-
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="tokenfield-zona"
-                                               value=""
-                                               placeholder="Selecione as zonas desejadas"/>
+                                        <input type='text' id='error2' name="error" value='' style="width:80em"
+                                               autocomplete='off'>
                                     </div>
-                                </div>
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
 
-                                <!-- Text input-->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
-
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="tokenfield-escolas" value=""
-                                               placeholder="Selecione as escolas desejadas"/>
-                                        <span class="help-block">(digite o código da escola)</span>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="tokenfield-zona"
+                                                   value=""
+                                                   placeholder="Selecione as zonas desejadas"/>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
 
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="tokenfield-escolas-nomes"
-                                               value=""
-                                               placeholder="Lista de escolas"/>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="tokenfield-escolas" value=""
+                                                   placeholder="Selecione as escolas desejadas"/>
+                                            <span class="help-block">(digite o código da escola)</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
 
-                                    <div class="col-md-6">
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
 
-                                        <input type="text" class="form-control" id="tokenfield-serie"
-                                               placeholder="Selecione as séries desejadas"/>
-
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="tokenfield-escolas-nomes"
+                                                   value=""
+                                                   placeholder="Lista de escolas"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Text input-->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
 
-                                    <div class="col-md-6">
+                                        <div class="col-md-6">
 
-                                        <input type="text" class="form-control" id="tokenfield-turma"
-                                               placeholder="Selecione as turmas desejadas"/>
-                                        <span class="help-block">(digite o código da turma)</span>
+                                            <input type="text" class="form-control" id="tokenfield-serie"
+                                                   placeholder="Selecione as séries desejadas"/>
 
+                                        </div>
                                     </div>
-                                </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
 
-                                <!-- Button -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="singlebutton1"></label>
+                                        <div class="col-md-6">
 
-                                    <div class="col-md-4">
-                                        <button type="submit" id="buttonsalvar2" name="singlebutton1"
-                                                class="btn btn-success">
-                                            Salvar
-                                        </button>
+                                            <input type="text" class="form-control" id="tokenfield-turma"
+                                                   placeholder="Selecione as turmas desejadas"/>
+                                            <span class="help-block">(digite o código da turma)</span>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
-                        </form>
 
-                    </div>
-                    <div id="wb_FormConf">
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="singlebutton1"></label>
 
-
-                        <form class="form-horizontal" method="post"
-                              enctype="text/plain" id="Form-horizontal">
-                            <fieldset>
-
-                                <!-- Form Name -->
-                                <!-- <legend>Cadastro de avaliação</legend>-->
-                                <div class="alert alert-danger alert-dismissable" id="diverror1">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                            id="alerterror">&times;</button>
-
-                                    <input type='text' id='error1' name="error" value='' style="width:80em"
-                                           autocomplete='off'>
-                                </div>
-                                <!-- Textarea -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textdescricao">Descrição da
-                                        avaliação</label>
-
-                                    <div class="col-md-6">
-                                        <textarea class="form-control" id="textdescricao"
-                                                  name="textdescricao"></textarea>
+                                        <div class="col-md-4">
+                                            <button type="submit" id="buttonsalvar2" name="singlebutton1"
+                                                    class="btn btn-success">
+                                                Salvar
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                </fieldset>
+                            </form>
 
-                                <!-- Multiple Radios (inline) -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="radios">Número da avaliação </label>
+                        </div>
+                        <div id="wb_FormConf">
 
-                                    <div class="col-md-4">
-                                        <label class="radio-inline" for="radios-0">
-                                            <input type="radio" name="radios" id="radios-0" value="1">
-                                            1
-                                        </label>
-                                        <label class="radio-inline" for="radios-1">
-                                            <input type="radio" name="radios" id="radios-1" value="2">
-                                            2
-                                        </label>
-                                        <label class="radio-inline" for="radios-2">
-                                            <input type="radio" name="radios" id="radios-2" value="3">
-                                            3
-                                        </label>
-                                        <label class="radio-inline" for="radios-3">
-                                            <input type="radio" name="radios" id="radios-3" value="4">
-                                            4
-                                        </label>
+                            <form class="form-horizontal" method="post"
+                                  enctype="text/plain" id="Form-horizontal">
+                                <fieldset>
+
+                                    <!-- Form Name -->
+                                    <!-- <legend>Cadastro de avaliação</legend>-->
+                                    <div class="alert alert-danger alert-dismissable" id="diverror1">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                                id="alerterror">&times;</button>
+
+                                        <input type='text' id='error1' name="error" value='' style="width:80em"
+                                               autocomplete='off'>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
+                                    <!-- Textarea -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textdescricao">Descrição da
+                                            avaliação</label>
 
-                                    <div class="col-md-6">
-
-                                        <input type="text" class="form-control" id="tokenfield-programa"
-                                               placeholder="Selecione o programa da prova"/>
-
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" id="textdescricao"
+                                                      name="textdescricao"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Button Drop Down -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
 
-                                    <div class="col-md-6">
-                                        <input class="form-control" id="tokenfield-materia"
-                                               placeholder="Selecione a materia" type="text">
+                                    <!-- Multiple Radios (inline) -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="radios">Número da avaliação </label>
+
+                                        <div class="col-md-4">
+                                            <label class="radio-inline" for="radios-0">
+                                                <input type="radio" name="radios" id="radios-0" value="1">
+                                                1
+                                            </label>
+                                            <label class="radio-inline" for="radios-1">
+                                                <input type="radio" name="radios" id="radios-1" value="2">
+                                                2
+                                            </label>
+                                            <label class="radio-inline" for="radios-2">
+                                                <input type="radio" name="radios" id="radios-2" value="3">
+                                                3
+                                            </label>
+                                            <label class="radio-inline" for="radios-3">
+                                                <input type="radio" name="radios" id="radios-3" value="4">
+                                                4
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Button -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="buttonsalvar"></label>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
 
-                                    <div class="col-md-4">
-                                        <button type="submit" id="buttonsalvar1" name="buttonsalvar"
-                                                class="btn btn-primary">Próximo
-                                        </button>
+                                        <div class="col-md-6">
+
+                                            <input type="text" class="form-control" id="tokenfield-programa"
+                                                   placeholder="Selecione o programa da prova"/>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
-                        </form>
+                                    <!-- Button Drop Down -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
+
+                                        <div class="col-md-6">
+                                            <input class="form-control" id="tokenfield-materia"
+                                                   placeholder="Selecione a materia" type="text">
+                                        </div>
+                                    </div>
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="buttonsalvar"></label>
+
+                                        <div class="col-md-4">
+                                            <button type="submit" id="buttonsalvar1" name="buttonsalvar"
+                                                    class="btn btn-primary">Próximo
+                                            </button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
 
 
-                    </div>
+                        </div>
 
-                </form>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
@@ -860,166 +989,326 @@ return false;
     </div>
     <!-- /.modal-dialog -->
     <!-- Modal -->
+</div>
+<!--####################################### modal gabarito prova ##############################################################-->
+<div class="modal fade" id="modalgabarito">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;</button>
+    <h4 class="modal-title">Criar gabarito</h4>
+</div>
+<div class="modal-body">
+<!-- ######################### mesma forma que ocorre no cadastrar prova ###################################################### -->
+<form id="criargabarito" method="post">
+<!-- Select Basic -->
+<div class="form-group">
+    <label class="col-md-4 control-label" for="selectquestao">Estilo de questão </label>
+
+    <div class="col-md-4">
+        <select id="selectquestao" name="selectquestao" class="form-control">
+            <option value="1">de A a E</option>
+            <option value="2">de A a D</option>
+            <option value="3">numérico</option>
+        </select>
+    </div>
+</div>
+<table id="listagabarito" class="table table-striped">
+<thead>
+<tr>
+    <th>Questão</th>
+    <th>Alternativa</th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="1"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="2"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="3"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="4"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="5"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="6"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="7"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="8"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input disabled class="form-control" type="text" name="questao" value="9" size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="10"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id="questao" disabled class="form-control" type="text" name="questao" value="11"
+               size="20"/>
+    </td>
+    <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="12"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="13"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="14"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="15"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="16"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="17"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="18"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="19"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+<tr>
+    <td><input id='questao' disabled class="form-control" type="text" name="questao" value="20"
+               size="20"/>
+    </td>
+    <td><input id='alternativa' class="alternativa form-control" type="text" name="alternativa" size="20"/>
+    </td>
+    <td>
+        <button id="deletagabarito"
+                class="deletagabarito btn btn-danger glyphicon glyphicon-remove-sign"></button>
+    </td>
+</tr>
+</tbody>
+</table>
+<!–Irá armazenar a quantidade de linhas–>
+<input id="total" type="hidden" value="1" name="Alternativa"/>
+<!--<a href="#" id="enviar">enviar</a>-->
+<button id="mais" class='btn btn-info glyphicon glyphicon-plus-sign'>Add questão
+</button>
+
+</form>
+</div>
+<div class="modal-footer">
+
+    <button data-dismiss='modal' aria-hidden='true' class='btn btn-danger'>Cancelar
+    </button>
+    <button id="enviarprova" class='btn btn-success'>Salvar
+    </button>
 
 </div>
-<div class="modal fade" id="modalgabarito">
+</div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!--####################################### modal gabarito aluno ##############################################################-->
+<div class="modal fade" id="modalgabaritoaluno">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;</button>
-                <h4 class="modal-title">Criar gabarito</h4>
+                <h4 class="modal-title">Gabarito de aluno p/ turma</h4>
             </div>
             <div class="modal-body">
                 <!-- #########################mesma forma que ocorre no cadastrar prova ########################################################## -->
-                <form id="criargabarito" method="post" >
+                <form id="criargabarito" method="post">
+                    <div class="row container-fluid">
+                        <fieldset>
                     <!-- Select Basic -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="selectquestao">Estilo de questão </label>
-                        <div class="col-md-4">
-                            <select id="selectquestao" name="selectquestao" class="form-control">
-                                <option value="1">de A a E</option>
-                                <option value="2">de A a D</option>
-                                <option value="3">numérico</option>
+                        <label class="col-md-4 control-label" for="selectescola">Escola :</label>
+                        <div class="col-md-5">
+                            <select id="selectescola" name="selectescola" class="form-control">
                             </select>
                         </div>
                     </div>
-                    <table id="listagabarito" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Questão</th>
-                            <th>Alternativa</th>
-                            <th></th>
-                        </tr>
+
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="selectturma">Turma :</label>
+                        <div class="col-md-5">
+                            <select id="selectturma" name="selectturma" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                            <button id="buscar" class='btn btn-primary'>Buscar
+                            </button>
+                            </fieldset>
+                        </div>
+                    <legend>Preencha as alternativas dos alunos</legend>
+                <!--#####################tabela de gabarito de aluno ##############################################################################-->
+                    <table id="gabaritarprova" class="table table-striped">
+                        <!--<thead>
+                        ####cabeçalho criado em javascript #######
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="1" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="2" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="3" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="4" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="5" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="6" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="7" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="8" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input disabled class="form-control" type="text" name="questao" value="9" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="10" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id="questao" disabled class="form-control" type="text" name="questao" value="11" size="20"/>
-                            </td>
-                            <td><input class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="12" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="13" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="14" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="15" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="16" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="17" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="18" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="19" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        <tr>
-                            <td><input id='questao' disabled class="form-control" type="text" name="questao" value="20" size="20"/>
-                            </td>
-                            <td><input id='alternativa' class="form-control" type="text" name="alternativa" size="20"/></td>
-                            <td><button  id="deletagabarito" class="btn btn-danger glyphicon glyphicon-remove-sign"></button></td>
-                        </tr>
-                        </tbody>
+                        ####corpo criado em javascript ########
+                        </tbody>-->
                     </table>
-                    <!–Irá armazenar a quantidade de linhas–>
-                    <input id="total" type="hidden" value="1" name="Alternativa"/>
-                    <!--<a href="#" id="enviar">enviar</a>-->
-                    <button id="mais" class='btn btn-info glyphicon glyphicon-plus-sign'>Add questão
-                    </button>
 
                 </form>
             </div>
@@ -1027,7 +1316,7 @@ return false;
 
                 <button data-dismiss='modal' aria-hidden='true' class='btn btn-danger'>Cancelar
                 </button>
-                <button id="enviar" class='btn btn-success'>Salvar
+                <button id="enviarprovaaluno" class='btn btn-success'>Salvar
                 </button>
 
             </div>
@@ -1036,6 +1325,8 @@ return false;
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+<!--######################################## pagina com lista de provas ##############################################-->
 <div id="container">
     <div class="container">
         <div id="wb_FormFiltro" style="position:relative;top:170px;z-index:21;">

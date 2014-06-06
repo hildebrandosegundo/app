@@ -7,15 +7,15 @@
 <title>SEMEC Avaliação</title>
 <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
 <link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
-<script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script type="text/javascript"
+        src="<?php echo URL; ?>/public/js/dataTables.bootstrap.js"></script>
 <link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
-<link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+<link href="<?php echo URL; ?>/public/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
@@ -423,7 +423,7 @@
         $('#tokenfield-programa').tokenfield({
             limit: 1,
             autocomplete: {
-                source: ['PROVINHA BRASIL', 'SIMULADO','OUTROS'],
+                source: ['PROVINHA BRASIL', 'SIMULADO', 'OLIMPIADA INTERNA','OLIMPIADA EXTERA', 'AVALIAÇÃO PADRÃO', 'OUTROS'],
                 delay: 100
             },
             showAutocompleteOnFocus: true

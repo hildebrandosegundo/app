@@ -9,20 +9,19 @@
     SEMEC Avaliação
 </title>
     <link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
+    <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="//cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script type="text/javascript"
+            src="<?php echo URL; ?>/public/js/dataTables.bootstrap.js"></script>
     <link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
-    <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
     <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
     <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -267,13 +266,13 @@
                                 <div class="radio">
                                     <label for="rad-0">
                                         <input type="radio" name="rad" id="rad-0" value="1">
-                                        Operador
+                                        Secretário(a)/Professor(a)
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label for="rad-1">
                                         <input type="radio" name="rad" id="rad-1" value="2">
-                                        Administrador
+                                        Administração/Setor de avaliação
                                     </label>
                                 </div>
                             </div>
@@ -283,20 +282,6 @@
 
                         <input type='text' id='error' name="error" value='' style="width:80em" autocomplete='off'>
                          </div>
-                        <!-- Modal -->
-                        <!--<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h3 id="myModalLabel">Parabéns</h3>
-                            </div>
-                            <div class="modal-body">
-                                <p>Cadastro efetuado com sucesso!</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar</button>
-
-                            </div>
-                        </div>-->
 
                         <!-- Button (Double) -->
                         <div class="form-group">
@@ -313,98 +298,6 @@
                 </p>
             </div>
         </div>
-        <!-- <div id="status"
-              style='position:absolute;left:117px;top:210px;width:30px;height:30px;line-height:30px;z-index:9;'>
-         </div>
-         <<div id="wb_Text3"
-              style="position:absolute;left:4px;top:4px;width:292px;height:16px;text-align:center;z-index:0;">
-                     <span style="color:#FFFFFF;font-family:Arial;font-size:13px;">
-                         Cadastre-se para efetuar login
-                     </span>
-         </div>
-         <div id="wb_Text4"
-              style="position:absolute;left:4px;top:57px;width:104px;height:16px;text-align:right;z-index:1;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Nome completo:
-                     </span>
-         </div>
-         <input type="text" id="fullname"
-                style="position:absolute;left:113px;top:54px;width:181px;height:24px;line-height:18px;z-index:2;"
-                name="fullname" value="" tabindex="3" disabled>
-
-         <div id="wb_Text6"
-              style="position:absolute;left:4px;top:114px;width:104px;height:16px;text-align:right;z-index:3;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Senha:
-                     </span>
-         </div>
-         <input type="password" id="password"
-                style="position:absolute;left:113px;top:111px;width:181px;height:24px;line-height:18px;z-index:4;"
-                name="password" value="" tabindex="5" disabled>
-
-         <div id="wb_Text7"
-              style="position:absolute;left:4px;top:141px;width:104px;height:16px;text-align:right;z-index:5;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Confirmar senha:
-                     </span>
-         </div>
-         <input type="password" id="confirmpassword"
-                style="position:absolute;left:113px;top:138px;width:181px;height:24px;line-height:18px;z-index:6;"
-                name="confirmpassword" value="" tabindex="6" disabled>
-
-         <div id="wb_Text8"
-              style="position:absolute;left:4px;top:86px;width:104px;height:16px;text-align:right;z-index:7;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         CPF:
-                     </span>
-         </div>
-         <input type="text" id="cpf"
-                style="position:absolute;left:113px;top:81px;width:181px;height:24px;line-height:24px;z-index:8;"
-                name="cpf" value="" tabindex="4" disabled>
-         <input type="text" id="error"
-                style="position:absolute;left:54px;top:210px;width:210px;height:20px;line-height:20px;z-index:9;"
-                name="error" value="" autocomplete="off">
-         <input type="submit" id="signup" name="button" value="Cadastrar"
-                style="position:absolute;left:105px;top:265px;width:90px;height:20px;z-index:10;"
-                tabindex="9">
-
-         <div id="wb_Text1"
-              style="position:absolute;left:147px;top:188px;width:123px;height:16px;z-index:11;text-align:left;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Administrador
-                     </span>
-         </div>
-         <div id="wb_Text2"
-              style="position:absolute;left:146px;top:168px;width:123px;height:16px;z-index:12;text-align:left;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Operador
-                     </span>
-         </div>
-         <input type="radio" id="RadioButton2" name="op" value="2"
-                style="position:absolute;left:117px;top:185px;z-index:13;"
-                tabindex="8" disabled title="Administrador">
-         <input type="radio" id="RadioButton1" name="op" value="1"
-                style="position:absolute;left:117px;top:165px;z-index:14;"
-                tabindex="7" disabled title="Operador">
-
-         <div id="wb_Text9"
-              style="position:absolute;left:13px;top:176px;width:96px;height:16px;text-align:right;z-index:15;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Tipo de usuário:
-                     </span>
-         </div>
-         <div id="wb_Text5"
-              style="position:absolute;left:5px;top:26px;width:104px;height:16px;text-align:right;z-index:16;">
-                     <span style="color:#000000;font-family:Arial;font-size:13px;">
-                         Matrícula:
-                     </span>
-         </div>
-         <input type="text" id="matricula"
-                style="position:absolute;left:114px;top:23px;width:148px;height:24px;line-height:18px;z-index:17;"
-                name="matricula" value="" tabindex="1">
-         <input type="submit" id="Pesquisar" name="button" value=""
-                style="position:absolute;left:271px;top:21px;width:26px;height:25px;z-index:18;"
-                tabindex="2" onClick="javascript:Executa_abilita();">-->
 
 </div>
 <!-- Pesquisar -->

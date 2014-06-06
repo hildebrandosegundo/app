@@ -23,9 +23,45 @@ class Listaavaliacao {
         $retorno = array();
 
         $lista_avaliacao =  array(
-            array(1,'1 ANO', 1, 'PROVINHA BRASIL', 'MATEMATICA')
-            , array(2,'4 ANO', 2, 'PROVINHA BRASIL','PORTUGUES' )
-            , array(3,'6 ANO',1, 'SIMULADO', 'GEOGRAFIA')
+            array(1,'1 ANO', 1, 'PROVINHA BRASIL', 'MATEMATICA',"<div class='btn-group'>" .
+                                                                "<button id='info' class='btn btn-info'>Info" .
+                                                                "</button>" .
+                                                                "<button class='gabarito0 btn btn-primary'>Gabarito" .
+                                                                "</button>" .
+                                                                "<button id='editar' onclick='EditTableRow(this)' class='btn btn-warning'>Editar" .
+                                                                "</button>" .
+                                                                "<button onclick='RemoveTableRow(this)' id='deletar' class='btn btn-danger'>Deletar" .
+                                                                "</button>" .
+                                                                "</div>","<div class='btn-group'>".
+                                                                        "<button class='gabaritoaluno0 btn btn-primary'>Gabaritar".
+                                                                        "</button>".
+                                                                        "</div>")
+            , array(2,'4 ANO', 2, 'PROVINHA BRASIL','PORTUGUES',"<div class='btn-group'>" .
+                                                                "<button id='info' class='btn btn-info'>Info" .
+                                                                "</button>" .
+                                                                "<button  class='gabarito1 btn btn-success'>Concluido" .
+                                                                "</button>" .
+                                                                "<button id='editar' onclick='EditTableRow(this)' class='btn btn-warning'>Editar" .
+                                                                "</button>" .
+                                                                "<button onclick='RemoveTableRow(this)' id='deletar' class='btn btn-danger'>Deletar" .
+                                                                "</button>" .
+                                                                "</div>","<div class='btn-group'>" .
+                                                                        "<button class='gabaritoaluno1 btn btn-success'>Concluido" .
+                                                                        "</button>" .
+                                                                        "</div>" )
+            , array(3,'6 ANO',1, 'SIMULADO', 'GEOGRAFIA',"<div class='btn-group'>" .
+                                                        "<button id='info' class='btn btn-info'>Info" .
+                                                        "</button>" .
+                                                        "<button class='gabarito0 btn btn-primary'>Gabarito" .
+                                                        "</button>" .
+                                                        "<button id='editar' onclick='EditTableRow(this)' class='btn btn-warning'>Editar" .
+                                                        "</button>" .
+                                                        "<button onclick='RemoveTableRow(this)' id='deletar' class='btn btn-danger'>Deletar" .
+                                                        "</button>" .
+                                                        "</div>","<div class='btn-group'>".
+                                                                "<button class='gabaritoaluno0 btn btn-primary'>Gabaritar".
+                                                                "</button>".
+                                                                "</div>")
         );
                 $retorno = array_merge($retorno,array(
                        'sucesso' => true,
@@ -36,17 +72,40 @@ class Listaavaliacao {
 
         echo json_encode($retorno);
     }
-    public function gabaritoprova(){
-        $quantidade_itens = $_GET['quantidade_itens'];
+    public function listaalunos(){
+        $retorno = array();
 
-        for ( $x = 1; $x <= $quantidade_itens ; $x++ ){
-
-            $item = $_GET["item$x"];
-            $quantidade = $_GET["quantidade$x"];
-
-//aqui seu código com o uso dos valores capturados
-
+            $lista_aluno =  array(array('matricula' => '4356','nome'=>'fulano de tal'),array('matricula' =>'5678','nome'=>'lindolfo monteiro'),array('matricula' =>'1234','nome'=>'fransisco fransisval'));
+       $retorno = array_merge($retorno,array(
+           'sucesso' => true,
+           'values' => $lista_aluno,
+           'qtdquestao' => 20
+       ));
+       echo json_encode($retorno);
+    }
+    public function listaturmas(){
+        $retorno = array();
+        $lista_turma = array();
+        if ($_POST['escolas']=='44456'||$_POST['escolas']=='44300'||$_POST['escolas']=='44120'||$_POST['escolas']=='44100'){
+        $lista_turma =  array('19em','19mt','19et');
+        $retorno = array_merge($retorno,array(
+            'sucesso' => true,
+            'values' => $lista_turma
+        ));
         }
+        echo json_encode($retorno);
+    }
+    public function listaescolas(){
+        $retorno = array();
+        $lista_escolas = array();
+       // var_dump($_POST['id']);
+        if ($_POST['id']=='1')
+            $lista_escolas =  array('44456','44300','44120','44100');
+        $retorno = array_merge($retorno,array(
+            'sucesso' => true,
+            'values' => $lista_escolas
+        ));
+        echo json_encode($retorno);
     }
 
     public function logout()
