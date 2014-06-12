@@ -157,13 +157,6 @@
        line-height: 0;
    }
 
-   #Layer3
-   {
-      background-color: transparent;
-      background-image: url(<?php echo URL; ?>/public/img/masterpage_Layer3_bkgrnd.png);
-      background-repeat: repeat-x;
-      background-position: left top;
-   }
    #LoginName1
    {
    color: #FFFFFF;
@@ -172,6 +165,11 @@
    text-align: left;
    }
    </style>
+   <script type="text/javascript">
+       $(document).ready(function () {
+       $('#wb_FormMaster').load('semec_page #ja-slide-articles-115');
+       });
+   </script>
 </head>
 <body>
    <div id="Layer2" style="position:absolute;text-align:left;left:0px;top:84px;width:100%;min-width:994px;height:82px;z-index:4;" title="">
@@ -189,6 +187,9 @@
    </div>
    <div id="container">
        <div class="container">
+           <div id="wb_FormMaster" style="position:relative;top:170px;z-index:21;">
+
+           </div>
        </div>
        <div id="Layer1"
             style="position:absolute;overflow:auto;text-align:center;left:0px;top:0px;width:972px;height:68px;z-index:22;"
@@ -196,13 +197,13 @@
            <div id="Layer1_Container"
                 style="width:972px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
                <div id="wb_Logout1" style="position:absolute;left:855px;top:9px;width:45px;height:45px;z-index:15;">
-                   <form name="logoutform" method="post" action="<?php echo URL; ?>/filtro/logout" id="logoutform">
+                   <form name="logoutform" method="post" action="<?php echo URL; ?>/masterpage_adm/logout" id="logoutform">
                        <input type="hidden" name="form_name" value="logoutform">
                        <input type="image" name="logout" id="logout" src="<?php echo URL; ?>/public/img/logout.gif"/>
                    </form>
                </div>
                <div id="wb_Logout2" style="position:absolute;left:905px;top:19px;width:45px;height:23px;z-index:16;">
-                   <form name="logoutform" method="post" action="<?php echo URL; ?>/filtro/logout" id="logoutform">
+                   <form name="logoutform" method="post" action="<?php echo URL; ?>/masterpage_adm/logout" id="logoutform">
                        <input type="hidden" name="form_name" value="logoutform">
                        <input class="logoutform_button" type="submit" name="logout" value="Sair" id="logout"
                               style="width:45px;height:23px;"/>
@@ -215,14 +216,12 @@
            <div id="wb_CssMenu1"
                 style="position:absolute;left:329px;top:3px;width:556px;height:76px;text-align:center;z-index:18;">
                <ul>
-                   <li class="firstmain"><a class="active" href="<?php echo URL; ?>/cadastroavaliacao" target="_self">Cadastrar avaliação</a>
+                   <li class="firstmain"><a class="active" href="<?php echo URL; ?>/masterpage_adm" target="_self">Inicio&nbsp;</a></li>
+                   <li><a href="<?php echo URL; ?>/cadastroavaliacao_adm" target="_self">Cadastrar avaliação</a>
                    </li>
-                   <li><a href="<?php echo URL; ?>/listaavaliacao" target="_self">Avaliações</a>
+                   <li><a href="<?php echo URL; ?>/listaavaliacao_adm" target="_self">Avaliações</a>
                    </li>
-                   <li><a href="#" target="_self">Button&nbsp;3</a>
-                   </li>
-                   <li><a href="#" target="_self">Button&nbsp;4</a>
-                   </li>
+
                </ul>
                <br>
            </div>

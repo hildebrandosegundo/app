@@ -31,7 +31,7 @@ class Index extends Controller
     public function entrar()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_name'] == 'loginform') {
-            $success_page = URL . '/masterpage';
+            $success_page_adm = URL . '/masterpage_adm';
             $error_page = URL . '/login_erro';
             $crypt_pass = md5($_POST['password']);
             $found = false;
@@ -39,7 +39,7 @@ class Index extends Controller
             $session_timeout = 600;
             $index_model = $this->loadModel('IndexModel');
             $login = $index_model->getLogin(mysql_real_escape_string($_POST['matricula']));
-            if ($crypt_pass == $login['password'] && $login['active'] != 0) {
+            if ($crypt_pass == $login['password']) {
                 $found = true;
                 $fullname = $login['fullname'];
             }
@@ -56,12 +56,14 @@ class Index extends Controller
                 $_SESSION['fullname'] = $fullname;
                 $_SESSION['expires_by'] = time() + $session_timeout;
                 $_SESSION['expires_timeout'] = $session_timeout;
+                $_SESSION['tipousario'] = $login['tipo'];
                 $rememberme = isset($_POST['rememberme']) ? true : false;
                 if ($rememberme) {
                     setcookie('matricula', $_POST['matricula'], time() + 3600 * 24 * 30);
                     setcookie('password', $_POST['password'], time() + 3600 * 24 * 30);
                 }
-                header('Location:' . $success_page);
+                print_r($login);
+                header('Location:' . $success_page_adm);
                 exit;
             }
         }

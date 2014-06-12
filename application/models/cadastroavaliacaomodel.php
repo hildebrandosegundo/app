@@ -8,15 +8,15 @@ class CadastroavaliacaoModel
      */
     function __construct()
     {
-        try {
+        /*try {
             $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
             //$this->db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql, DB_USER_mysql, DB_PASS_mysql, $options);
-            $this->db_oci = new PDO(DB_TYPE_oracle .':dbname='. DB_HOST_oracle, DB_USER_oracle, DB_PASS_oracle, $options);
+            $this->db_oci = new PDO(DB_TYPE_oracle . ':dbname=' . DB_HOST_oracle, DB_USER_oracle, DB_PASS_oracle, $options);
             //$this->db = $db;
         } catch (PDOException $e) {
             echo "Erro de Conexão " . $e->getMessage() . "\n";
             exit('Database connection could not be established.');
-        }
+        }*/
     }
 
     /**
@@ -26,15 +26,15 @@ class CadastroavaliacaoModel
     public function selectzonamodel($zona)
     {
 
-       // print_r($this->db_oci->quote($zona));
-        $dados='';
+        // print_r($this->db_oci->quote($zona));
+        $dados = '';
         $listazona = explode(',', $zona);
         $tam_lista = count($listazona);
         for ($i = 0; $i < $tam_lista; $i++) {
-            if($i==0){
+            if ($i == 0) {
                 $dados .= $this->db_oci->quote($listazona[$i]);
-            }else{
-                $dados .= ",".$this->db_oci->quote($listazona[$i]);
+            } else {
+                $dados .= "," . $this->db_oci->quote($listazona[$i]);
             }
         }
         // print_r($this->db_oci->quote($zona));
@@ -43,7 +43,7 @@ class CadastroavaliacaoModel
                 FROM   tb0008_unidade uni,
                        tb0003_nucleo_regional nuc
                WHERE  uni.tb0003_cod_nucleo_regional = nuc.tb0003_cod_nucleo_regional
-                      AND uni.tb0044_cod_cond_funcionamento = 1 AND nuc.tb0003_nome_nucleo_regional IN (".$dados.")";
+                      AND uni.tb0044_cod_cond_funcionamento = 1 AND nuc.tb0003_nome_nucleo_regional IN (" . $dados . ")";
 
         $query = $this->db_oci->prepare($sql);
 
@@ -51,19 +51,20 @@ class CadastroavaliacaoModel
         //$query = $this->db_sqlsrv->prepare($sql);
         $query->execute();
         //$retorno = $query->fetchAll(PDO::FETCH_ASSOC);
-            //var_dump($query);
+        //var_dump($query);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function selectanoturmamodel($anoturma)
     {
-        $dados='';
+        $dados = '';
         $listazona = explode(',', $anoturma);
         $tam_lista = count($listazona);
         for ($i = 0; $i < $tam_lista; $i++) {
-            if($i==0){
+            if ($i == 0) {
                 $dados .= $this->db_oci->quote($listazona[$i]);
-            }else{
-                $dados .= ",".$this->db_oci->quote($listazona[$i]);
+            } else {
+                $dados .= "," . $this->db_oci->quote($listazona[$i]);
             }
         }
         $data = date("Y");
@@ -72,13 +73,15 @@ class CadastroavaliacaoModel
                 FROM   tb0008_unidade uni,
                        tb0034_turma tur
                WHERE  uni.tb0008_num_unidade = tur.tb0008_num_unidade
-                      AND tur.tb0017_ano = '".$data."' AND tur.tb0034_ind_turma like '1%' AND uni.tb0008_num_unidade IN (".$dados.")";
+                      AND tur.tb0017_ano = '" . $data . "' AND tur.tb0034_ind_turma like '1%' AND uni.tb0008_num_unidade IN (" . $dados . ")";
         $query = $this->db_oci->prepare($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function cadastraravaliacao1($zona,$cod_escola, $turmas){
-         $sql ="SET AUTOCOMMIT=0;
+
+    public function cadastraravaliacao1($zona, $cod_escola, $turmas)
+    {
+        $sql = "SET AUTOCOMMIT=0;
                 START TRANSACTION;
                 INSERT INTO pessoa(nome_pessoa, senha_pessoa, cpf_pessoa, rg_pessoa)
                 VALUES('teste1', 'senha', '123', '456');
@@ -87,5 +90,38 @@ class CadastroavaliacaoModel
                 COMMIT;
                 SET AUTOCOMMIT=1;";
     }
+
+    public function cadmateriamodel($nome)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " INSERT INTO materia(nome)
+                VALUES('" . $nome . "');
+                ";
+            $query = $db->prepare($sql);
+            $query->execute();
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function selectmateriamodel()
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " SELECT nome
+                FROM   materia";
+            $query = $db->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+
+
 }
 

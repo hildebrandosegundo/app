@@ -1,6 +1,6 @@
 <?php
 ob_start();
-class Masterpage extends Controller 
+class Masterpage_adm extends Controller
 {
   
    public function index()
@@ -14,7 +14,7 @@ class Masterpage extends Controller
          header('Location: '.URL.'/index');
          exit;
       }
-      require 'application/views/home/masterpage.php';
+      require 'application/views/home/masterpage_adm.php';
 
    }
 

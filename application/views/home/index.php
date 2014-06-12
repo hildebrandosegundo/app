@@ -23,7 +23,7 @@
     <script type="text/javascript">
         $(function ($) {
 
-            if($.browser.name=='msie'||$.browser.name=='unknown') {
+            if($.browser.name=='msie8'||$.browser.name=='msie6'||$.browser.name=='msie'||$.browser.name=='unknown') {
                 $('#modalbrowser').modal('show');
             }
 
@@ -154,11 +154,12 @@
                 <h4 class="modal-title">Atenção</h4>
             </div>
             <div class="modal-body">
-                <h4>Seu Browser está fora dos padrões da W3C</h1>
+                <h4>Seu Browser é incompatível, pode ocorrer erros ou indisponibilidade de dados!</h4>
                 <a href='http://www.google.com/intl/pt-BR/chrome/browser/' target='parent'><img src='<?php echo URL; ?>/public/img/chrome.png' alt='Chrome' title='Google Chrome' border='none' /></a>
                 <a href='http://www.mozilla.org/pt-BR/firefox/new/' target='parent'><img src='<?php echo URL; ?>/public/img/firefox.png' alt='Firefox' title='Firefox' border='none' /></a>
                 <a href='http://support.apple.com/pt_BR/downloads/#safari' target='parent'><img src='<?php echo URL; ?>/public/img/safari.png' alt='Safari' title='Safari' border='none' /></a>
                 <a href='http://www.opera.com/pt-br/computer' target='parent'><img src='<?php echo URL; ?>/public/img/opera.png' alt='Opera' title='Opera' border='none' /></a>
+                <h4>Browsers compatíveis</h4>
             </div>
             <div class="modal-footer">
 
@@ -217,10 +218,10 @@
                                         </div>
                                     </div>
                                     <p style="padding: 0px 30px">
-                                        <button type="submit" class="btn btn-primary btn-success  btn-block" id="login"
+                                        <button type="submit" class="btn btn-primary btn-success  btn-block btn-lg" id="login"
                                                 name="login"><span class="glyphicon glyphicon-log-in"</span> Entrar
                                         </button>
-                                        <a href="<?php echo URL; ?>/cadastro"
+                                        <a href="<?php echo URL; ?>/cadastro" role="button"
                                            class="btn btn-primary btn-info  btn-block"><span
                                                 class="glyphicon glyphicon-ok-sign"></span> Cadastrar </a>
                                     </p>

@@ -6,7 +6,7 @@
  * Time: 08:47
  */
 
-class Listaavaliacao {
+class Listaavaliacao_adm {
     public function index(){
         if (session_id() == "")
         {
@@ -17,7 +17,7 @@ class Listaavaliacao {
             header('Location: '.URL.'/index');
             exit;
         }
-        require 'application/views/home/listaavaliacao.php';
+        require 'application/views/home/listaavaliacao_adm.php';
     }
     public function lista(){
         $retorno = array();

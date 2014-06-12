@@ -7,7 +7,7 @@ ob_start();
  * Date: 30/04/14
  * Time: 09:07
  */
-class Cadastroavaliacao extends Controller
+class Cadastroavaliacao_adm extends Controller
 {
 
     public function index()
@@ -20,7 +20,7 @@ class Cadastroavaliacao extends Controller
             exit;
         }
 
-        require 'application/views/home/cadastroavaliacao.php';
+        require 'application/views/home/cadastroavaliacao_adm.php';
 
     }
 
@@ -66,7 +66,36 @@ class Cadastroavaliacao extends Controller
         }
 
     }
+    public function  cadastrarmateria()
+    {
+        $retorno = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        if (empty($_POST['zona'])) {
+            $filtro = $filtro_model->cadmateriamodel(mysql_real_escape_string($_POST['nome']));
+        }
+        $retorno = array_merge($retorno,array(
+            'sucesso' =>'true',
+            'nome' =>$_POST['nome']
+        ));
+        echo json_encode($retorno);
+    }
+    public function  selectmateria()
+    {
+        $retorno = array();
+        $materias = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        $filtro = $filtro_model->selectmateriamodel();
+        //var_dump($filtro['nome']);
+        foreach ($filtro as $nome) {
 
+            $materias[] = $nome['nome'];
+        }
+        $retorno = array_merge($retorno,array(
+            'sucesso' =>'true',
+            'nome' =>$materias
+        ));
+        echo json_encode($retorno);
+    }
     public function  selecionaescolacod()
     {
         $retorno = array();

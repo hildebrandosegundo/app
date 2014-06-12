@@ -32,7 +32,7 @@ define('DB_TYPE_mysql', 'mysql');
 define('DB_HOST_mysql', '127.0.0.1');
 define('DB_NAME_mysql', 'avaliacao');
 define('DB_USER_mysql', 'root');
-define('DB_PASS_mysql', '');
+define('DB_PASS_mysql', 'sasuke5051');
 //ged
 define('DB_TYPE_oracle', 'oci');
 define('DB_HOST_oracle', '//100.100.10.162/GEDTHE');

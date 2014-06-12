@@ -47,13 +47,14 @@ class CadastroModel
     }
 
     public function cadastrar($crypt_pass, $newmatricula, $newcpf, $newfullname, $newop, $code)
-    {
+    {//--------------ativação do loin-----------------------------------------------
          if($newop=='1'){
              $active = 0;
          }
          else{
              $active = 1;
          }
+     //-----------------------------------------------------------------------------
         $sql = "INSERT login(matricula, password, fullname, cpf, active, code, op) VALUES ('" . $newmatricula . "', '" . $crypt_pass . "', '" . $newfullname . "', '" . $newcpf . "', '" . $active . "', '" . $code . "', '" . $newop . "')";
         $query = $this->db->prepare($sql);
         $query->execute();

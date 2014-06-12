@@ -22,11 +22,12 @@ class IndexModel
     public function getLogin($matricula)
     {
           
-        $sql = "SELECT password, fullname, active FROM login WHERE matricula = '".mysql_real_escape_string($matricula)."'";
+        $sql = "SELECT password, fullname, tipo FROM login WHERE matricula = '".mysql_real_escape_string($matricula)."'";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         // fetchAll() is the PDO method that gets all result rows
+
         return $query->fetch(PDO::FETCH_ASSOC);
     }
     public function close()
