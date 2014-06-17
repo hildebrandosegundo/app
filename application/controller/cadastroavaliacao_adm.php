@@ -79,6 +79,19 @@ class Cadastroavaliacao_adm extends Controller
         ));
         echo json_encode($retorno);
     }
+    public function  cadastrarprograma()
+    {
+        $retorno = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        if (empty($_POST['zona'])) {
+            $filtro = $filtro_model->cadprogramamodel(mysql_real_escape_string($_POST['nome']));
+        }
+        $retorno = array_merge($retorno,array(
+            'sucesso' =>'true',
+            'nome' =>$_POST['nome']
+        ));
+        echo json_encode($retorno);
+    }
     public function  selectmateria()
     {
         $retorno = array();
@@ -86,13 +99,30 @@ class Cadastroavaliacao_adm extends Controller
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
         $filtro = $filtro_model->selectmateriamodel();
         //var_dump($filtro['nome']);
-        foreach ($filtro as $nome) {
+        foreach ($filtro as $mat) {
 
-            $materias[] = $nome['nome'];
+            $materias[] = $mat['id_materia'].'-'.$mat['nome'];
         }
         $retorno = array_merge($retorno,array(
             'sucesso' =>'true',
             'nome' =>$materias
+        ));
+        echo json_encode($retorno);
+    }
+    public function  selectprograma()
+    {
+        $retorno = array();
+        $programas = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        $filtro = $filtro_model->selectprogramamodel();
+        //var_dump($filtro['nome']);
+        foreach ($filtro as $prog) {
+
+            $programas[] = $prog['id_programa'].'-'.$prog['nome'];
+        }
+        $retorno = array_merge($retorno,array(
+            'sucesso' =>'true',
+            'nome' =>$programas
         ));
         echo json_encode($retorno);
     }
@@ -175,7 +205,7 @@ class Cadastroavaliacao_adm extends Controller
         $anoserie = array();
         $turma = array();
 
-        $filtro_model = $this->loadModel('FiltroModel');
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
        // $cod = implode("','", $_POST['escolas_cod']);
         //var_dump($_POST['escolas_cod']);
         if(empty($_POST['escolas_cod'])){
@@ -244,7 +274,13 @@ class Cadastroavaliacao_adm extends Controller
             }else if(empty($_POST['op'])){
                 $retorno = array_merge(array(
                         'sucesso' => false,
-                        'values' => 'Selecione o número da avaliação!'
+                        'values' => 'O campo Número da avaliação está vazia!'
+                    )
+                );
+            }else if(empty($_POST['tipo'])){
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Tipo de prova está vazia!'
                     )
                 );
             }
@@ -262,34 +298,24 @@ class Cadastroavaliacao_adm extends Controller
                 );
 
             }else{
+               /* $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+                $filtro = $filtro_model->cadastraavaliacaomodel(mysql_real_escape_string($_POST['textdescricao']),
+                                                                mysql_real_escape_string($_POST['op']),
+                                                                mysql_real_escape_string($_POST['tokenfield_programa']),
+                                                                mysql_real_escape_string($_POST['tipo']),
+                                                                mysql_real_escape_string($_POST['tokenfield_materia']));*/
                 $retorno = array_merge(array(
                         'sucesso' => true,
-                        'values' => 'teste'
+                        'values' => 'Cadastro efetuado com sucesso!'
                     )
                 );
-               /* //print_r($this->escolas_nome[1]);
 
-                $tam_lista = count( $_POST['escolas_turma']);
-                $series = array('11'=> '1 ANO', '12'=>'2 ANO','13'=>'3 ANO','14'=>'4 ANO', '15'=>'5 ANO', '16'=>'6 ANO', '17'=>'7 ANO', '18'=>'8 ANO', '19'=>'9 ANO');
-                $key = array_search( $_POST['escolas_serie'],$series);
-                for ($i = 0; $i < $tam_lista; $i++) {
-                    $str = substr( $_POST['escolas_turma'][$i], 0,2);
-                    if($str == $key )
-                        $array_turmas[] =  $_POST['escolas_turma'][$i];
-                    //var_dump($key);
-
-                }
-                //var_dump($array_nome);
-                $retorno = array_merge(array(
-                        'sucesso' => true,
-                        'values' => $array_turmas
-                    )
-                );*/
             }
         }
         echo json_encode($retorno);
 
     }
+
     public function cadastrardetalhes(){
         $retorno = array();
         $escolas_cod = array();
@@ -329,6 +355,46 @@ class Cadastroavaliacao_adm extends Controller
             );
             echo json_encode($retorno);
         }
+    }
+    public function excluirprograma(){
+        $retorno = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        $filtro = $filtro_model->excluirprogramamodel($_POST['id']);
+        $retorno = array_merge($retorno, array(
+                'sucesso' => true
+            )
+        );
+        echo json_encode($retorno);
+    }
+    public function excluirmateria(){
+        $retorno = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        $filtro = $filtro_model->excluirmateriamodel($_POST['id']);
+        $retorno = array_merge($retorno, array(
+                'sucesso' => true
+            )
+        );
+        echo json_encode($retorno);
+    }
+    public function editarprograma(){
+        $retorno = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        $filtro = $filtro_model->editarprogramamodel($_POST['nome'],$_POST['id']);
+        $retorno = array_merge($retorno, array(
+                'sucesso' => true
+            )
+        );
+        echo json_encode($retorno);
+    }
+    public function editarmateria(){
+        $retorno = array();
+        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+        $filtro = $filtro_model->editarmateriamodel($_POST['nome'],$_POST['id']);
+        $retorno = array_merge($retorno, array(
+                'sucesso' => true
+            )
+        );
+        echo json_encode($retorno);
     }
     public function utf8_encode_all($dat) // -- It returns $dat encoded to UTF8
     {

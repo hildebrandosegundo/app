@@ -26,7 +26,8 @@ class CadastroavaliacaoModel
     public function selectzonamodel($zona)
     {
 
-        // print_r($this->db_oci->quote($zona));
+        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+        $this->db_oci = new PDO(DB_TYPE_oracle . ':dbname=' . DB_HOST_oracle, DB_USER_oracle, DB_PASS_oracle, $options);
         $dados = '';
         $listazona = explode(',', $zona);
         $tam_lista = count($listazona);
@@ -57,6 +58,8 @@ class CadastroavaliacaoModel
 
     public function selectanoturmamodel($anoturma)
     {
+        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+        $this->db_oci = new PDO(DB_TYPE_oracle . ':dbname=' . DB_HOST_oracle, DB_USER_oracle, DB_PASS_oracle, $options);
         $dados = '';
         $listazona = explode(',', $anoturma);
         $tam_lista = count($listazona);
@@ -79,16 +82,22 @@ class CadastroavaliacaoModel
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function cadastraravaliacao1($zona, $cod_escola, $turmas)
+    public function cadastraavaliacaomodel($textdescricao, $num, $programa, $tipo, $materia)
     {
-        $sql = "SET AUTOCOMMIT=0;
-                START TRANSACTION;
-                INSERT INTO pessoa(nome_pessoa, senha_pessoa, cpf_pessoa, rg_pessoa)
-                VALUES('teste1', 'senha', '123', '456');
-                INSERT INTO Certificados(nome_certificado, lugar_certificado, idPessoa)
-                values('cert1', 'rj', (select LAST_INSERT_ID()));
-                COMMIT;
-                SET AUTOCOMMIT=1;";
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $data = date("Y");
+            $sql = "
+                INSERT INTO avaliacao(desc_avaliacao, ano_avaliacao, num_avaliacao, programa, materia, tipo)
+                VALUES('".$textdescricao."', '".$data."', '".$num."', '".$programa."','".$materia."', '".$tipo."');
+               ";
+            $query = $db->prepare($sql);
+            $query->execute();
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
     }
 
     public function cadmateriamodel($nome)
@@ -111,7 +120,7 @@ class CadastroavaliacaoModel
         try {
             $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
             $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
-            $sql = " SELECT nome
+            $sql = " SELECT *
                 FROM   materia";
             $query = $db->prepare($sql);
             $query->execute();
@@ -121,7 +130,96 @@ class CadastroavaliacaoModel
             exit('Database connection could not be established.');
         }
     }
+    public function excluirmateriamodel($id)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = "DELETE FROM materia
+                    WHERE id_materia = '".$id."'";
+            $query = $db->prepare($sql);
+            $query->execute();
 
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function editarmateriamodel($nome,$id)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = "UPDATE materia SET nome = '".$nome."' WHERE id_materia='".$id."'";
 
+            $query = $db->prepare($sql);
+            $query->execute();
+
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+
+    public function cadprogramamodel($nome)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " INSERT INTO programa(nome)
+                VALUES('" . $nome . "');
+                ";
+            $query = $db->prepare($sql);
+            $query->execute();
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function selectprogramamodel()
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " SELECT *
+                FROM   programa";
+            $query = $db->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function excluirprogramamodel($id)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = "DELETE FROM programa
+                    WHERE id_programa = '".$id."'";
+            $query = $db->prepare($sql);
+            $query->execute();
+
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function editarprogramamodel($nome,$id)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = "UPDATE programa SET nome = '".$nome."' WHERE id_programa='".$id."'";
+
+            $query = $db->prepare($sql);
+            $query->execute();
+
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
 }
 

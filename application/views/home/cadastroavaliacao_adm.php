@@ -223,6 +223,8 @@ $(document).ready(function () {
     $("#cadMateria").hide();
     $("#cadPrograma").hide();
     $("#wb_FormLista").hide();
+    $("#progmat").hide();
+
     $("#wb_FormConf").show('slide', {direction: 'left'}, 500);
 
 
@@ -240,7 +242,7 @@ $(document).ready(function () {
         $("#edMateria").hide();
         $("#cadPrograma").show();
         $("#edPrograma").hide();
-        $('.modalbutton').removeClass('modalbutton btn btn-success').addClass('modalbutton btn btn-danger');
+        $('.modalbutton').removeClass('programa btn btn-success').addClass('programa btn btn-danger');
         $('.modalbutton').html('Cancelar');
         $('#modalcadprogmat').modal('show');
     });
@@ -251,25 +253,17 @@ $(document).ready(function () {
         $("#edMateria").hide();
         $("#cadPrograma").hide();
         $("#edPrograma").hide();
-        $('.modalbutton').removeClass('modalbutton btn btn-success').addClass('modalbutton btn btn-danger');
+        $('.modalbutton').removeClass('materia btn btn-success').addClass('materia btn btn-danger');
         $('.modalbutton').html('Cancelar');
         $("#cadPrograma").hide();
 
         $('#modalcadprogmat').modal('show');
     });
-    $('#editamateria').click(function (e) {
+   /* $('#editamateria').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
-        $("#cadMateria").hide();
-        $("#edMateria").show();
 
-        $("#cadPrograma").hide();
-        $("#edPrograma").hide();
-
-        $('.modalbutton').removeClass('modalbutton btn btn-success').addClass('modalbutton btn btn-danger');
-        $('.modalbutton').html('Cancelar');
-        $('#modalcadprogmat').modal('show');
-    });
+    });*/
     $('#excluimateria').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -279,9 +273,29 @@ $(document).ready(function () {
         $("#cadPrograma").hide();
         $("#edPrograma").hide();
 
-        $('.modalbutton').removeClass('modalbutton btn btn-success').addClass('modalbutton btn btn-danger');
+        $('.modalbutton').removeClass('materia btn btn-success').addClass('materia btn btn-danger');
         $('.modalbutton').html('Cancelar');
+        var result = confirm("Você deseja deletar esta matéria?");
+        if (result == true) {
+            var token = $('#tokenfield-materia').val().split('-');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirmateria",
+                data: {
+                    id: token[0]
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
 
+                        alert(token[1] + " excluido com sucesso!!");
+                        $('.materia').click();
+                    }
+                }
+
+            });
+        }
+        return false;
     });
     $('#excluiprograma').click(function (e) {
         e.preventDefault();
@@ -292,23 +306,35 @@ $(document).ready(function () {
         $("#cadPrograma").hide();
         $("#edPrograma").hide();
 
-        $('.modalbutton').removeClass('modalbutton btn btn-success').addClass('modalbutton btn btn-danger');
+        $('.modalbutton').removeClass('programa btn btn-success').addClass('programa btn btn-danger');
         $('.modalbutton').html('Cancelar');
+        var result = confirm("Você deseja deletar este Programa?");
+        if (result == true) {
+            var token = $('#tokenfield-programa').val().split('-');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirprograma",
+                data: {
+                    id: token[0]
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
 
+                        alert(token[1] + " excluido com sucesso!!");
+                        $('.programa').click();
+                    }
+                }
+
+            });
+        }
+return false;
     });
-    $('#editaprograma').click(function (e) {
+   /* $('#editaprograma').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
-        $("#cadMateria").hide();
-        $("#edMateria").hide();
 
-        $("#cadPrograma").hide();
-        $("#edPrograma").show();
-
-        $('.modalbutton').removeClass('modalbutton btn btn-success').addClass('modalbutton btn btn-danger');
-        $('.modalbutton').html('Cancelar');
-        $('#modalcadprogmat').modal('show');
-    });
+    });*/
     $('#cadastrarmateria').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -322,13 +348,119 @@ $(document).ready(function () {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.sucesso) {
-                    $('.modalbutton').removeClass('modalbutton btn btn-danger').addClass('modalbutton btn btn-success');
+                    $('.modalbutton').removeClass('materia btn btn-danger').addClass('materia btn btn-success');
                     $('.modalbutton').html('Ok');
                     alert(data.nome + " cadastrado com sucesso!!");
                 }
             }
 
         });
+
+    });
+    $('#editarmateria').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _nome = $("#inputedmateria").val();
+        var _id = $("#inputedmateriaid").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarmateria",
+            data: {
+                nome: _nome,
+                id: _id
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('.modalbutton').removeClass('materia btn btn-danger').addClass('materia btn btn-success');
+                    $('.modalbutton').html('Ok');
+                    alert(_nome + " editado com sucesso!!");
+                }
+            }
+
+        });
+
+    });
+    $(document).on('click','#editamateria',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var token = $('#tokenfield-materia').val().split('-');
+        $("#inputedmateriaid").val(token[0]);
+        $("#inputedmateria").val(token[1]);
+
+        $("#cadMateria").hide();
+        $("#edMateria").show();
+
+        $("#cadPrograma").hide();
+        $("#edPrograma").hide();
+
+        $('.modalbutton').removeClass('materia btn btn-success').addClass('materia btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        $('#modalcadprogmat').modal('show');
+    });
+    $(document).on('click','#editaprograma',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var token = $('#tokenfield-programa').val().split('-');
+        $("#inputedprogramaid").val(token[0]);
+        $("#inputedprograma").val(token[1]);
+
+        $("#cadMateria").hide();
+        $("#edMateria").hide();
+
+        $("#cadPrograma").hide();
+        $("#edPrograma").show();
+
+        $('.modalbutton').removeClass('programa btn btn-success').addClass('programa btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        $('#modalcadprogmat').modal('show');
+    });
+    $('#editarprograma').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _nome = $("#inputedprograma").val();
+        var _id = $("#inputedprogramaid").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarprograma",
+            data: {
+                nome: _nome,
+                id: _id
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('.modalbutton').removeClass('programa btn btn-danger').addClass('programa btn btn-success');
+                    $('.modalbutton').html('Ok');
+                    alert(_nome + " editado com sucesso!!");
+                }
+            }
+
+        });
+
+    });
+    $(document).on('click','.materia',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $('#tokenfield-materia').val('Carregando...');
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+                data: {
+                    materia: '*'
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
+                        $('#tokenfield-materia').val('');
+                        $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
+                        $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                    }
+                }
+
+            });
+
     });
     $('#cadastrarprograma').click(function (e) {
         e.preventDefault();
@@ -336,33 +468,82 @@ $(document).ready(function () {
         var _nome = $("#inputprograma").val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarmateria",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarprograma",
             data: {
                 nome: _nome
             },
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.sucesso) {
-                    $('.modalbutton').removeClass('modalbutton btn btn-danger').addClass('modalbutton btn btn-success');
+                    $('.modalbutton').removeClass('programa btn btn-danger').addClass('programa btn btn-success');
                     $('.modalbutton').html('Ok');
                     alert(data.nome + " cadastrado com sucesso!!");
                 }
             }
 
         });
+
     });
-    $(document).on('blur', '#textdescricao', function (e) {
-        $('#tokenfield-materia').data('bs.tokenfield').$input.val('Carregando...');
+    $(document).on('click','.programa', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $('#tokenfield-programa').val('Carregando...');
+        setTimeout(function() {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
+                data: {
+                    programa: '*'
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
+
+                        $('#tokenfield-programa').val('');
+                        $('#tokenfield-programa').data('bs.tokenfield').$input.val('');
+                        $('#tokenfield-programa').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                    }
+                }
+
+            });
+        },1500);
+    });
+
+    $(document).on('focus', '#textdescricao', function (e) {
+        $('#tokenfield-programa').val('Carregando...');
+        $("#progmat").show('slide', {direction: 'down'}, 500);
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
             data: {
-                materias: '*'
+                programa: '*'
             },
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.sucesso) {
+                    $('#tokenfield-programa').val('');
+                    $('#tokenfield-programa').data('bs.tokenfield').$input.val('');
+                    $('#tokenfield-programa').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                }
+            }
 
+        });
+    });
+
+    $(document).on('focus', '#textdescricao', function (e) {
+        $('#tokenfield-materia').val('Carregando...');
+
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            data: {
+               materia: '*'
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('#tokenfield-materia').val('');
                     $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
                     $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
                 }
@@ -370,16 +551,16 @@ $(document).ready(function () {
 
         });
     });
-
-    $('#buttonsalvar1').click(function (e) {
+    $('.buttonsalvar1').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
         var _textdescricao = $("#textdescricao").val();
-        var _tokenfield_programa = $("#tokenfield-programa").val();
-        console.log(_tokenfield_programa);
-        var _tokenfield_materia = $("#tokenfield-materia").val();
-        console.log(_tokenfield_materia);
+        var _tokenfield_programa = $("#tokenfield-programa").val().split('-')[1];
+
+        var _tokenfield_materia = $("#tokenfield-materia").val().split('-')[1];
+
         var _op = $('#inputnumero').val();
+        var _tipo = $('#tipodeprova').find('option').filter(':selected').text();
         $("#tokenfield-escolas-nomes").tokenfield('disable');
         $.ajax({
             type: "POST",
@@ -388,7 +569,8 @@ $(document).ready(function () {
                 textdescricao: _textdescricao,
                 tokenfield_programa: _tokenfield_programa,
                 tokenfield_materia: _tokenfield_materia,
-                op: _op
+                op: _op,
+                tipo: _tipo
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -396,8 +578,11 @@ $(document).ready(function () {
                     $("#error1").val('');
                     $("#diverror1").hide();
 
-                    $("#wb_FormConf").hide();
-                    $("#wb_FormLista").show('slide', {direction: 'right'}, 500)
+                    //$("#wb_FormConf").hide();
+                    $("#wb_FormLista").show('slide', {direction: 'down'}, 500);
+                    $('.buttonsalvar1').removeClass('buttonsalvar1 btn btn-primary glyphicon glyphicon-arrow-down').addClass(
+                        'buttoneditar1 btn btn-warning glyphicon glyphicon-refresh');
+                    $('.buttoneditar1').html('Editar');
                 }
                 else {
                     console.log(data.values);
@@ -552,6 +737,18 @@ $(document).ready(function () {
         },
         showAutocompleteOnFocus: true
     });
+    $('#tokenfield-anoserie').tokenfield({
+        limit: 1,
+        autocomplete: {
+            source: ['1 ANO', '2 ANO', '3 ANO', '4 ANO', '5 ANO','6 ANO', '7 ANO', '8 ANO', '9 ANO',
+                '1 SERIE', '2 SERIE', '3 SERIE', '4 SERIE', '5 SERIE','6 SERIE', '7 SERIE', '8 SERIE',
+                'ALFABETIZACAO', 'MULTISERIADA', 'SELIGA', 'ACELERA', 'MATERNAL','MATERNAL I', 'MATERNAL II',
+                'MATERNALZINHO', 'BERCARIO', '1 PERIODO', '2 PERIODO'],
+
+            delay: 100
+        },
+        showAutocompleteOnFocus: true
+    });
     $('#tokenfield-materia').tokenfield({
         limit: 1,
         autocomplete: {
@@ -614,7 +811,7 @@ $(document).ready(function () {
                                    placeholder="Digite o programa da prova"/>
 
                             <div class="input-group-btn">
-                                <button id="cadastrarprograma" type="button" class="btn btn-warning dropdown-toggle"
+                                <button id="cadastrarprograma" type="button" class="programa btn btn-success dropdown-toggle"
                                         data-toggle="dropdown">
                                     Cadastrar
                                 </button>
@@ -626,14 +823,16 @@ $(document).ready(function () {
                 <!--################################# editar progragra #####################################-->
                 <div id="edPrograma" class="form-group">
                     <label class="col-md-4 control-label" for="inputprograma">Editar Programa</label>
-
+                    <div class="col-md-2">
+                        <input id="inputedprogramaid" type="text" class="form-control input-md" disabled/>
+                    </div>
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input id="inputprograma" type="text" class="form-control input-xxlarge"
+                            <input id="inputedprograma" type="text" class="form-control input-xxlarge"
                                    placeholder="Digite o programa da prova"/>
 
                             <div class="input-group-btn">
-                                <button id="cadastrarprograma" type="button" class="btn btn-warning dropdown-toggle"
+                                <button id="editarprograma" type="button" class="programa btn btn-warning dropdown-toggle"
                                         data-toggle="dropdown">
                                     Editar
                                 </button>
@@ -653,7 +852,7 @@ $(document).ready(function () {
 
                             <div class="input-group-btn">
                                 <button id="cadastrarmateria" data-dismiss='modal' aria-hidden='true' type="button"
-                                        class="btn btn-warning dropdown-toggle"
+                                        class="materia btn btn-success dropdown-toggle"
                                         data-toggle="dropdown">
                                     Cadastrar
                                 </button>
@@ -667,14 +866,19 @@ $(document).ready(function () {
                 <div id="edMateria" class="form-group">
                     <label class="col-md-4 control-label" for="inputmateria">Alterar matéria</label>
 
+
+                        <div class="col-md-2">
+                            <input id="inputedmateriaid" type="text" class="form-control input-md" disabled/>
+                        </div>
                     <div class="col-md-6">
                         <div class="input-group">
+
                             <input id="inputedmateria" type="text" class="form-control input-xxlarge"
                                    placeholder="Digite a matéria da prova"/>
 
                             <div class="input-group-btn">
                                 <button id="editarmateria" data-dismiss='modal' aria-hidden='true' type="button"
-                                        class="btn btn-warning dropdown-toggle"
+                                        class="materia btn btn-warning dropdown-toggle"
                                         data-toggle="dropdown">
                                     Editar
                                 </button>
@@ -699,7 +903,128 @@ $(document).ready(function () {
 </div>
 <div id="container">
 <div class="container">
-    <div id="wb_FormLista" style="position:relative;top:176px;z-index:21;">
+
+    <div id="wb_FormConf" style="position:relative;top:176px;z-index:21;">
+
+        <div class="row">
+            <form class="form-horizontal" method="post"
+                  enctype="text/plain" id="Form-horizontal">
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>Cadastro de avaliação</legend>
+                    <div class="alert alert-danger alert-dismissable" id="diverror1">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                id="alerterror">&times;</button>
+
+                        <input type='text' id='error1' name="error" value='' style="width:80em" autocomplete='off'>
+                    </div>
+                    <!-- Textarea -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
+
+                        <div class="col-md-6">
+                            <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="inputnumero">Número da avaliação</label>
+
+                        <div class="col-md-2">
+                            <input id="inputnumero" name="inputnumero" type="text" placeholder=""
+                                   class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="tipodeprova">Tipo de prova</label>
+                        <div class="col-md-4">
+                            <select id="tipodeprova" name="tipodeprova" class="form-control">
+                                <option value="1"></option>
+                                <option value="2">Interna</option>
+                                <option value="3">Externa</option>
+                            </select>
+                            <span class="help-block">(Selecione se a prova é interna ou externa à rede de ensino)</span>
+                        </div>
+                    </div>
+
+                    <div id="progmat">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="tokenfield-anoserie">Ano/Série</label>
+
+                            <div class="col-md-6">
+
+                                <input type="text" class="input-xxlarge" id="tokenfield-anoserie"
+                                       placeholder="Selecione as séries desejadas"/>
+
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
+
+                        <div class="col-md-6">
+
+                            <input type="text" class="input-xlarge" id="tokenfield-programa"
+                                   placeholder="Selecione o programa da prova"/>
+
+                        </div>
+                        <div class="btn-group">
+                            <button id="novoprograma" type="button" class="btn btn-success glyphicon glyphicon-plus">
+                            </button>
+                            <button id="editaprograma" type="button"
+                                    class="btn btn-warning  glyphicon glyphicon-pencil">
+                            </button>
+                            <button id="excluiprograma" type="button"
+                                    class="btn btn-danger  glyphicon glyphicon-remove-circle">
+                            </button>
+                        </div>
+
+                    </div>
+                    <!-- Button Drop Down -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
+
+                        <div class="col-md-6">
+
+                            <input class="input-xlarge" id="tokenfield-materia"
+                                   placeholder="Selecione a materia" type="text">
+
+                        </div>
+                        <div class="btn-group">
+                            <button id="novamateria" type="button" class="btn btn-success glyphicon glyphicon-plus">
+                            </button>
+                            <button id="editamateria" type="button"
+                                    class="btn btn-warning glyphicon glyphicon-pencil">
+                            </button>
+                            <button id="excluimateria" type="button"
+                                    class="btn btn-danger glyphicon glyphicon-remove-circle">
+
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="buttonsalvar"></label>
+
+                        <div class="col-md-4">
+                            <button type="submit" name="buttonsalvar"
+                                    class="buttonsalvar1 btn btn-primary glyphicon glyphicon-arrow-down">Próximo
+                            </button>
+                        </div>
+                    </div>
+                        </div>
+                </fieldset>
+            </form>
+
+        </div>
+
+    </div>
+    <div id="wb_FormLista" style="position:relative;top:170px;z-index:21;">
 
         <div class="row">
             <form class="form-horizontal" method="post"
@@ -778,102 +1103,6 @@ $(document).ready(function () {
                             <button type="submit" id="buttonsalvar2" name="singlebutton1"
                                     class="btn btn-success glyphicon glyphicon-floppy-save">
                                 Salvar
-                            </button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-
-        </div>
-
-    </div>
-    <div id="wb_FormConf" style="position:relative;top:176px;z-index:21;">
-
-        <div class="row">
-            <form class="form-horizontal" method="post"
-                  enctype="text/plain" id="Form-horizontal">
-                <fieldset>
-
-                    <!-- Form Name -->
-                    <legend>Cadastro de avaliação</legend>
-                    <div class="alert alert-danger alert-dismissable" id="diverror1">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                id="alerterror">&times;</button>
-
-                        <input type='text' id='error1' name="error" value='' style="width:80em" autocomplete='off'>
-                    </div>
-                    <!-- Textarea -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
-
-                        <div class="col-md-6">
-                            <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="inputnumero">Número da avaliação</label>
-
-                        <div class="col-md-2">
-                            <input id="inputnumero" name="inputnumero" type="text" placeholder=""
-                                   class="form-control input-md" required="">
-
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
-
-                        <div class="col-md-6">
-
-                            <input type="text" class="input-xlarge" id="tokenfield-programa"
-                                   placeholder="Selecione o programa da prova"/>
-
-                        </div>
-                        <div class="btn-group">
-                            <button id="novoprograma" type="button" class="btn btn-success glyphicon glyphicon-plus">
-                            </button>
-                            <button id="editaprograma" type="button"
-                                    class="btn btn-warning  glyphicon glyphicon-refresh">
-                            </button>
-                            <button id="excluiprograma" type="button"
-                                    class="btn btn-danger  glyphicon glyphicon-remove-circle">
-                            </button>
-                        </div>
-
-                    </div>
-                    <!-- Button Drop Down -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
-
-                        <div class="col-md-6">
-
-                            <input class="input-xlarge" id="tokenfield-materia"
-                                   placeholder="Selecione a materia" type="text">
-
-                        </div>
-                        <div class="btn-group">
-                            <button id="novamateria" type="button" class="btn btn-success glyphicon glyphicon-plus">
-                            </button>
-                            <button id="editamateria" type="button"
-                                    class="btn btn-warning glyphicon glyphicon-refresh">
-                            </button>
-                            <button id="excluimateria" type="button"
-                                    class="btn btn-danger glyphicon glyphicon-remove-circle">
-
-                            </button>
-                        </div>
-
-                    </div>
-
-                    <!-- Button -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="buttonsalvar"></label>
-
-                        <div class="col-md-4">
-                            <button type="submit" id="buttonsalvar1" name="buttonsalvar"
-                                    class="btn btn-primary glyphicon glyphicon-arrow-right">Próximo
                             </button>
                         </div>
                     </div>
