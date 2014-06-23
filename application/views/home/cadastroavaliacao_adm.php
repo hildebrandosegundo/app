@@ -224,13 +224,9 @@ $(document).ready(function () {
     $("#cadPrograma").hide();
     $("#wb_FormLista").hide();
     $("#progmat").hide();
-
+    $("#editargabarito").hide();
     $("#wb_FormConf").show('slide', {direction: 'left'}, 500);
 
-
-    var cod_escolas;
-    var nome_escolas;
-    var turmas;
     $(document).on('keyup', '#inputnumero', function (e) {
         de09($(this).val());
         return false;
@@ -259,11 +255,11 @@ $(document).ready(function () {
 
         $('#modalcadprogmat').modal('show');
     });
-   /* $('#editamateria').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    /* $('#editamateria').click(function (e) {
+     e.preventDefault();
+     e.stopPropagation();
 
-    });*/
+     });*/
     $('#excluimateria').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -328,13 +324,13 @@ $(document).ready(function () {
 
             });
         }
-return false;
+        return false;
     });
-   /* $('#editaprograma').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    /* $('#editaprograma').click(function (e) {
+     e.preventDefault();
+     e.stopPropagation();
 
-    });*/
+     });*/
     $('#cadastrarmateria').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -381,7 +377,7 @@ return false;
         });
 
     });
-    $(document).on('click','#editamateria',function(e){
+    $(document).on('click', '#editamateria', function (e) {
         e.preventDefault();
         e.stopPropagation();
         var token = $('#tokenfield-materia').val().split('-');
@@ -398,7 +394,7 @@ return false;
         $('.modalbutton').html('Cancelar');
         $('#modalcadprogmat').modal('show');
     });
-    $(document).on('click','#editaprograma',function(e){
+    $(document).on('click', '#editaprograma', function (e) {
         e.preventDefault();
         e.stopPropagation();
         var token = $('#tokenfield-programa').val().split('-');
@@ -439,27 +435,27 @@ return false;
         });
 
     });
-    $(document).on('click','.materia',function(e){
+    $(document).on('click', '.materia', function (e) {
         e.preventDefault();
         e.stopPropagation();
         $('#tokenfield-materia').val('Carregando...');
 
-            $.ajax({
-                type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
-                data: {
-                    materia: '*'
-                },
-                success: function (data) {
-                    data = JSON.parse(data);
-                    if (data.sucesso) {
-                        $('#tokenfield-materia').val('');
-                        $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
-                        $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
-                    }
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            data: {
+                materia: '*'
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('#tokenfield-materia').val('');
+                    $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
+                    $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
                 }
+            }
 
-            });
+        });
 
     });
     $('#cadastrarprograma').click(function (e) {
@@ -484,11 +480,11 @@ return false;
         });
 
     });
-    $(document).on('click','.programa', function(e){
+    $(document).on('click', '.programa', function (e) {
         e.preventDefault();
         e.stopPropagation();
         $('#tokenfield-programa').val('Carregando...');
-        setTimeout(function() {
+        setTimeout(function () {
             $.ajax({
                 type: "POST",
                 url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
@@ -506,7 +502,7 @@ return false;
                 }
 
             });
-        },1500);
+        }, 1500);
     });
 
     $(document).on('focus', '#textdescricao', function (e) {
@@ -538,7 +534,7 @@ return false;
             type: "POST",
             url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
             data: {
-               materia: '*'
+                materia: '*'
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -551,7 +547,7 @@ return false;
 
         });
     });
-    $('.buttonsalvar1').click(function (e) {
+    $(document).on('click', '.buttonsalvar1', function (e) {
         e.preventDefault();
         e.stopPropagation();
         var _textdescricao = $("#textdescricao").val();
@@ -561,7 +557,7 @@ return false;
 
         var _op = $('#inputnumero').val();
         var _tipo = $('#tipodeprova').find('option').filter(':selected').text();
-        $("#tokenfield-escolas-nomes").tokenfield('disable');
+        var _serie = $("#tokenfield-anoserie").val()
         $.ajax({
             type: "POST",
             url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastraravaliacao",
@@ -570,6 +566,7 @@ return false;
                 tokenfield_programa: _tokenfield_programa,
                 tokenfield_materia: _tokenfield_materia,
                 op: _op,
+                serie: _serie,
                 tipo: _tipo
             },
             success: function (data) {
@@ -579,10 +576,12 @@ return false;
                     $("#diverror1").hide();
 
                     //$("#wb_FormConf").hide();
-                    $("#wb_FormLista").show('slide', {direction: 'down'}, 500);
+                    $("#editargabarito").show('slide', {direction: 'down'}, 500);
                     $('.buttonsalvar1').removeClass('buttonsalvar1 btn btn-primary glyphicon glyphicon-arrow-down').addClass(
                         'buttoneditar1 btn btn-warning glyphicon glyphicon-refresh');
-                    $('.buttoneditar1').html('Editar');
+                    $('.buttoneditar1').html('Atualizar');
+                    console.log("teste 1");
+                    alert(data.values);
                 }
                 else {
                     console.log(data.values);
@@ -592,117 +591,47 @@ return false;
             }
         });
     });
-//zonas
-    $('#tokenfield-zona').change(function (e) {
+    $(document).on('click', '.buttoneditar1', function (e) {
 
         e.preventDefault();
         e.stopPropagation();
+        var _textdescricao = $("#textdescricao").val();
+        var _tokenfield_programa = $("#tokenfield-programa").val().split('-')[1];
 
+        var _tokenfield_materia = $("#tokenfield-materia").val().split('-')[1];
 
-        var _zona = $('#tokenfield-zona').tokenfield('getTokensList', ',');
-        console.log(_zona);
-        $('#tokenfield-escolas').data('bs.tokenfield').$input.val('Carregando...');
-        $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('Carregando...');
+        var _op = $('#inputnumero').val();
+        var _tipo = $('#tipodeprova').find('option').filter(':selected').text();
+        var _serie = $("#tokenfield-anoserie").val()
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectzona",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/atualizaravaliacao",
             data: {
-                zona: _zona
+                textdescricao: _textdescricao,
+                tokenfield_programa: _tokenfield_programa,
+                tokenfield_materia: _tokenfield_materia,
+                op: _op,
+                serie: _serie,
+                tipo: _tipo
             },
-            //dataType: "json",
             success: function (data) {
-
                 data = JSON.parse(data);
-                //console.log(data.values);
                 if (data.sucesso) {
-                    $("#error2").val('');
-                    $("#diverror2").hide();
-                    cod_escolas = data.codigo;
-                    nome_escolas = data.nome;
-                    $('#tokenfield-escolas').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-escolas').data('bs.tokenfield').$input.autocomplete({source: data.codigo});
-                    $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                    $("#error1").val('');
+                    $("#diverror1").hide();
+
+                    console.log('teste 2');
+                    alert(data.values);
                 }
                 else {
-                    $("#error2").val(data.values);
-                    $("#diverror2").show();
+                    console.log(data.values);
+                    $("#error1").val(data.values);
+                    $("#diverror1").show();
                 }
             }
         });
     });
-//escolas por codigo
-    $('#tokenfield-escolas').change(function (e) {
 
-        e.preventDefault();
-        e.stopPropagation();
-
-        var _escolas_cod = $('#tokenfield-escolas').tokenfield('getTokensList', ',');
-        var _nome_escola = nome_escolas;
-        var _cod_escola = cod_escolas;
-        console.log(_escolas_cod);
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selecionaescolacod",
-            data: {
-                escolas_cod: _escolas_cod,
-                escolas_nome: _nome_escola,
-                escolas_cod2: _cod_escola
-            },
-            //dataType: "json",
-            success: function (data) {
-
-                data = JSON.parse(data);
-                //console.log(data.values);
-                if (data.sucesso) {
-                    $("#error2").val('');
-                    $("#diverror2").hide();
-                    $('#tokenfield-escolas-nomes').tokenfield('setTokens', data.values);
-                    $('#tokenfield-serie').data('bs.tokenfield').$input.autocomplete({source: data.ano});
-                    $('#tokenfield-turma').data('bs.tokenfield').$input.autocomplete({source: data.turma});
-                    turmas = data.turma;
-
-                } else {
-                    $("#error2").val(data.values);
-                    $("#diverror2").show();
-                }
-            }
-        });
-    });
-    $('#tokenfield-serie').change(function (e) {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        var _escolas_serie = $('#tokenfield-serie').tokenfield('getTokensList', ',');
-        var _turmas = turmas;
-
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selecionaserie",
-            data: {
-                escolas_serie: _escolas_serie,
-                escolas_turma: _turmas
-
-            },
-            //dataType: "json",
-            success: function (data) {
-
-                data = JSON.parse(data);
-                //console.log(data.values);
-                if (data.sucesso) {
-                    $("#error2").val('');
-                    $("#diverror2").hide();
-                    $('#tokenfield-turma').tokenfield('setTokens', data.values);
-
-
-                } else {
-                    $("#tokenfield-serie").val(data.values);
-
-                }
-            }
-        });
-    });
 
     $('#tokenfield-zona').tokenfield({
         autocomplete: {
@@ -740,9 +669,9 @@ return false;
     $('#tokenfield-anoserie').tokenfield({
         limit: 1,
         autocomplete: {
-            source: ['1 ANO', '2 ANO', '3 ANO', '4 ANO', '5 ANO','6 ANO', '7 ANO', '8 ANO', '9 ANO',
-                '1 SERIE', '2 SERIE', '3 SERIE', '4 SERIE', '5 SERIE','6 SERIE', '7 SERIE', '8 SERIE',
-                'ALFABETIZACAO', 'MULTISERIADA', 'SELIGA', 'ACELERA', 'MATERNAL','MATERNAL I', 'MATERNAL II',
+            source: ['1 ANO', '2 ANO', '3 ANO', '4 ANO', '5 ANO', '6 ANO', '7 ANO', '8 ANO', '9 ANO',
+                '1 SERIE', '2 SERIE', '3 SERIE', '4 SERIE', '5 SERIE', '6 SERIE', '7 SERIE', '8 SERIE',
+                'ALFABETIZACAO', 'MULTISERIADA', 'SELIGA', 'ACELERA', 'MATERNAL', 'MATERNAL I', 'MATERNAL II',
                 'MATERNALZINHO', 'BERCARIO', '1 PERIODO', '2 PERIODO'],
 
             delay: 100
@@ -811,7 +740,8 @@ return false;
                                    placeholder="Digite o programa da prova"/>
 
                             <div class="input-group-btn">
-                                <button id="cadastrarprograma" type="button" class="programa btn btn-success dropdown-toggle"
+                                <button id="cadastrarprograma" type="button"
+                                        class="programa btn btn-success dropdown-toggle"
                                         data-toggle="dropdown">
                                     Cadastrar
                                 </button>
@@ -823,6 +753,7 @@ return false;
                 <!--################################# editar progragra #####################################-->
                 <div id="edPrograma" class="form-group">
                     <label class="col-md-4 control-label" for="inputprograma">Editar Programa</label>
+
                     <div class="col-md-2">
                         <input id="inputedprogramaid" type="text" class="form-control input-md" disabled/>
                     </div>
@@ -832,7 +763,8 @@ return false;
                                    placeholder="Digite o programa da prova"/>
 
                             <div class="input-group-btn">
-                                <button id="editarprograma" type="button" class="programa btn btn-warning dropdown-toggle"
+                                <button id="editarprograma" type="button"
+                                        class="programa btn btn-warning dropdown-toggle"
                                         data-toggle="dropdown">
                                     Editar
                                 </button>
@@ -867,9 +799,9 @@ return false;
                     <label class="col-md-4 control-label" for="inputmateria">Alterar matéria</label>
 
 
-                        <div class="col-md-2">
-                            <input id="inputedmateriaid" type="text" class="form-control input-md" disabled/>
-                        </div>
+                    <div class="col-md-2">
+                        <input id="inputedmateriaid" type="text" class="form-control input-md" disabled/>
+                    </div>
                     <div class="col-md-6">
                         <div class="input-group">
 
@@ -904,64 +836,65 @@ return false;
 <div id="container">
 <div class="container">
 
-    <div id="wb_FormConf" style="position:relative;top:176px;z-index:21;">
+<div id="wb_FormConf" style="position:relative;top:176px;z-index:21;">
 
-        <div class="row">
-            <form class="form-horizontal" method="post"
-                  enctype="text/plain" id="Form-horizontal">
-                <fieldset>
+    <div class="row">
+        <form class="form-horizontal" method="post"
+              enctype="text/plain" id="Form-horizontal">
+            <fieldset>
 
-                    <!-- Form Name -->
-                    <legend>Cadastro de avaliação</legend>
-                    <div class="alert alert-danger alert-dismissable" id="diverror1">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                id="alerterror">&times;</button>
+                <!-- Form Name -->
+                <legend>Cadastro de avaliação</legend>
+                <div class="alert alert-danger alert-dismissable" id="diverror1">
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                            id="alerterror">&times;</button>-->
 
-                        <input type='text' id='error1' name="error" value='' style="width:80em" autocomplete='off'>
+                    <input type='text' id='error1' name="error" value='' style="width:80em" autocomplete='off'>
+                </div>
+                <!-- Textarea -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
+
+                    <div class="col-md-6">
+                        <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
                     </div>
-                    <!-- Textarea -->
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="inputnumero">Número da avaliação</label>
+
+                    <div class="col-md-2">
+                        <input id="inputnumero" name="inputnumero" type="text" placeholder=""
+                               class="form-control input-md" required="">
+
+                    </div>
+                </div>
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="tipodeprova">Tipo de prova</label>
+
+                    <div class="col-md-4">
+                        <select id="tipodeprova" name="tipodeprova" class="form-control">
+                            <option value="1"></option>
+                            <option value="2">Interna</option>
+                            <option value="3">Externa</option>
+                        </select>
+                        <span class="help-block">(Selecione se a prova é interna ou externa à rede de ensino)</span>
+                    </div>
+                </div>
+
+                <div id="progmat">
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
+                        <label class="col-md-4 control-label" for="tokenfield-anoserie">Ano/Série</label>
 
                         <div class="col-md-6">
-                            <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
-                        </div>
-                    </div>
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="inputnumero">Número da avaliação</label>
-
-                        <div class="col-md-2">
-                            <input id="inputnumero" name="inputnumero" type="text" placeholder=""
-                                   class="form-control input-md" required="">
+                            <input type="text" class="input-xxlarge" id="tokenfield-anoserie"
+                                   placeholder="Selecione as séries desejadas"/>
 
                         </div>
                     </div>
-                    <!-- Select Basic -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tipodeprova">Tipo de prova</label>
-                        <div class="col-md-4">
-                            <select id="tipodeprova" name="tipodeprova" class="form-control">
-                                <option value="1"></option>
-                                <option value="2">Interna</option>
-                                <option value="3">Externa</option>
-                            </select>
-                            <span class="help-block">(Selecione se a prova é interna ou externa à rede de ensino)</span>
-                        </div>
-                    </div>
-
-                    <div id="progmat">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="tokenfield-anoserie">Ano/Série</label>
-
-                            <div class="col-md-6">
-
-                                <input type="text" class="input-xxlarge" id="tokenfield-anoserie"
-                                       placeholder="Selecione as séries desejadas"/>
-
-                            </div>
-                        </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
 
@@ -1009,37 +942,41 @@ return false;
 
                     <!-- Button -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="buttonsalvar"></label>
+                        <label class="col-md-4 control-label"></label>
 
-                        <div class="col-md-4">
-                            <button type="submit" name="buttonsalvar"
-                                    class="buttonsalvar1 btn btn-primary glyphicon glyphicon-arrow-down">Próximo
+                        <div class="col-md-8">
+                            <button type="submit" name="singlebutton1"
+                                    class="buttonsalvar1 btn btn-success glyphicon glyphicon-floppy-save">
+                                Salvar
+                            </button>
+                            <button id="editargabarito" name="editargabarito"
+                                    class="btn btn-info glyphicon glyphicon-share-alt">Gabaritar?
                             </button>
                         </div>
                     </div>
-                        </div>
-                </fieldset>
-            </form>
-
-        </div>
+                </div>
+            </fieldset>
+        </form>
 
     </div>
-    <div id="wb_FormLista" style="position:relative;top:170px;z-index:21;">
 
-        <div class="row">
-            <form class="form-horizontal" method="post"
-                  enctype="text/plain" id="Form-horizontal">
-                <fieldset>
+</div>
+<!--<div id="wb_FormLista" style="position:relative;top:170px;z-index:21;">
 
-                    <!-- Form Name -->
-                    <legend>Filtrar avaliação</legend>
-                    <div class="alert alert-danger alert-dismissable" id="diverror2">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                id="alerterror">&times;</button>
+    <div class="row">
+        <form class="form-horizontal" method="post"
+              enctype="text/plain" id="Form-horizontal">
+            <fieldset>
+
+                <!-- Form Name
+                <legend>Filtrar avaliação</legend>
+                <div class="alert alert-danger alert-dismissable" id="diverror2">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                            id="alerterror">&times;</button>
 
                         <input type='text' id='error2' name="error" value='' style="width:80em" autocomplete='off'>
                     </div>
-                    <!-- Button Drop Down -->
+                    <!-- Button Drop Down
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
 
@@ -1051,7 +988,7 @@ return false;
                         </div>
                     </div>
 
-                    <!-- Text input-->
+                    <!-- Text input
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
 
@@ -1062,7 +999,7 @@ return false;
                         </div>
                     </div>
 
-                    <!-- Button Drop Down -->
+                    <!-- Button Drop Down
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
 
@@ -1071,7 +1008,7 @@ return false;
                                    placeholder="Lista de escolas"/>
                         </div>
                     </div>
-                    <!-- Button Drop Down -->
+                    <!-- Button Drop Down
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
 
@@ -1082,7 +1019,7 @@ return false;
 
                         </div>
                     </div>
-                    <!-- Text input-->
+                    <!-- Text input
                     <div class="form-group">
                         <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
 
@@ -1095,7 +1032,7 @@ return false;
                         </div>
                     </div>
 
-                    <!-- Button -->
+                    <!-- Button
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="singlebutton1"></label>
 
@@ -1111,7 +1048,7 @@ return false;
 
         </div>
 
-    </div>
+    </div>-->
 </div>
 <div id="Layer1"
      style="position:absolute;overflow:auto;text-align:center;left:0px;top:0px;width:972px;height:68px;z-index:22;"

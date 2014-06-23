@@ -24,48 +24,8 @@ class Cadastroavaliacao_adm extends Controller
 
     }
 
-    public function selectzona()
-    {
-        $retorno = array();
-        $escolas_cod = array();
-        $escolas_nome = array();
-        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            if (empty($_POST['zona'])) {
-                $filtro = $filtro_model->selectzonamodel('*');
-                foreach ($filtro as $escola) {
-                    if (empty($escola['TB0008_NOME_UNIDADE'])) {
-                        $escolas_nome[] = $this->utf8_encode_all('Sem nome');
-                    } else {
-                        $escolas_nome[] = $this->utf8_encode_all($escola['TB0008_NOME_UNIDADE']);
-                    }
-                    $escolas_cod[] = $this->utf8_encode_all($escola['TB0008_NUM_UNIDADE']);
-                }
-            } else {
-
-                $filtro = $filtro_model->selectzonamodel($_POST['zona']);
-                // print_r($filtro);
-                foreach ($filtro as $escola) {
-                    if (empty($escola['TB0008_NOME_UNIDADE'])) {
-                        $escolas_nome[] = $this->utf8_encode_all('Sem nome');
-                    } else {
-                        $escolas_nome[] = $this->utf8_encode_all($escola['TB0008_NOME_UNIDADE']);
-                    }
-                    $escolas_cod[] = $this->utf8_encode_all($escola['TB0008_NUM_UNIDADE']);
-                }
 
 
-            }
-            $retorno = array_merge($retorno, array(
-                    'sucesso' => true,
-                    'codigo' => $escolas_cod,
-                    'nome' => $escolas_nome)
-            );
-            echo json_encode($retorno);
-        }
-
-    }
     public function  cadastrarmateria()
     {
         $retorno = array();
@@ -73,12 +33,13 @@ class Cadastroavaliacao_adm extends Controller
         if (empty($_POST['zona'])) {
             $filtro = $filtro_model->cadmateriamodel(mysql_real_escape_string($_POST['nome']));
         }
-        $retorno = array_merge($retorno,array(
-            'sucesso' =>'true',
-            'nome' =>$_POST['nome']
+        $retorno = array_merge($retorno, array(
+            'sucesso' => 'true',
+            'nome' => $_POST['nome']
         ));
         echo json_encode($retorno);
     }
+
     public function  cadastrarprograma()
     {
         $retorno = array();
@@ -86,12 +47,13 @@ class Cadastroavaliacao_adm extends Controller
         if (empty($_POST['zona'])) {
             $filtro = $filtro_model->cadprogramamodel(mysql_real_escape_string($_POST['nome']));
         }
-        $retorno = array_merge($retorno,array(
-            'sucesso' =>'true',
-            'nome' =>$_POST['nome']
+        $retorno = array_merge($retorno, array(
+            'sucesso' => 'true',
+            'nome' => $_POST['nome']
         ));
         echo json_encode($retorno);
     }
+
     public function  selectmateria()
     {
         $retorno = array();
@@ -101,14 +63,15 @@ class Cadastroavaliacao_adm extends Controller
         //var_dump($filtro['nome']);
         foreach ($filtro as $mat) {
 
-            $materias[] = $mat['id_materia'].'-'.$mat['nome'];
+            $materias[] = $mat['id_materia'] . '-' . $mat['nome'];
         }
-        $retorno = array_merge($retorno,array(
-            'sucesso' =>'true',
-            'nome' =>$materias
+        $retorno = array_merge($retorno, array(
+            'sucesso' => 'true',
+            'nome' => $materias
         ));
         echo json_encode($retorno);
     }
+
     public function  selectprograma()
     {
         $retorno = array();
@@ -118,149 +81,19 @@ class Cadastroavaliacao_adm extends Controller
         //var_dump($filtro['nome']);
         foreach ($filtro as $prog) {
 
-            $programas[] = $prog['id_programa'].'-'.$prog['nome'];
+            $programas[] = $prog['id_programa'] . '-' . $prog['nome'];
         }
-        $retorno = array_merge($retorno,array(
-            'sucesso' =>'true',
-            'nome' =>$programas
+        $retorno = array_merge($retorno, array(
+            'sucesso' => 'true',
+            'nome' => $programas
         ));
         echo json_encode($retorno);
     }
-    public function  selecionaescolacod()
+
+
+
+    public function cadastraravaliacao()
     {
-        $retorno = array();
-        $array_nome = array();
-        $anoturmas = $this->selecionaturma();
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            if (empty($_POST['escolas_cod'])) {
-                $retorno = array_merge(array(
-                        'sucesso' => false,
-                        'values' => 'escolas não informadas'
-                    )
-                );
-            } else {
-
-                //print_r($this->escolas_nome[1]);
-                $listaescolas = explode(',', $_POST['escolas_cod']);
-               // print_r($listaescolas);
-                $tam_lista = count($listaescolas);
-
-                for ($i = 0; $i < $tam_lista; $i++) {
-                    $key = array_search($listaescolas[$i], $_POST['escolas_cod2']);
-
-                        $array_nome[] = $_POST['escolas_cod2'][$key].' - '.$_POST['escolas_nome'][$key];
-                         //var_dump($key);
-
-                }
-                //var_dump($array_nome);
-                $retorno = array_merge(array(
-                        'sucesso' => true,
-                        'values' => $array_nome,
-                        'ano' => $anoturmas['ano'],
-                        'turma'=>$anoturmas['turma']
-                    )
-                );
-            }
-        }
-        echo json_encode($retorno);
-    }
-    public function  selecionaescolanome()
-    {
-        $retorno = array();
-        $array_cod = array();
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            if (empty($_POST['escolas_nome'])) {
-                $retorno = array_merge(array(
-                        'sucesso' => false,
-                        'values' => 'zonas não informadas'
-                    )
-                );
-            } else {
-                //print_r($this->escolas_nome[1]);
-                $listaescolas = explode(",", $_POST['escolas_nome']);
-                // print_r($listaescolas);
-                $tam_lista = count($listaescolas);
-
-                for ($i = 0; $i < $tam_lista; $i++) {
-                    $key = array_search($listaescolas[$i], $_POST['escolas_nome2']);
-
-                    $array_cod[] = $_POST['escolas_cod'][$key];
-                    //var_dump($key);
-
-                }
-                //var_dump($array_nome);
-                $retorno = array_merge(array(
-                        'sucesso' => true,
-                        'values' => $array_cod
-                    )
-                );
-            }
-        }
-        echo json_encode($retorno);
-    }
-    public function selecionaturma(){
-        $anoserie = array();
-        $turma = array();
-
-        $filtro_model = $this->loadModel('CadastroavaliacaoModel');
-       // $cod = implode("','", $_POST['escolas_cod']);
-        //var_dump($_POST['escolas_cod']);
-        if(empty($_POST['escolas_cod'])){
-            $filtro = $filtro_model->selectanoturmamodel('*');
-        }
-        else{
-        $filtro = $filtro_model->selectanoturmamodel($_POST['escolas_cod']);
-        }
-        $series = array('11'=> '1 ANO', '12'=>'2 ANO','13'=>'3 ANO','14'=>'4 ANO', '15'=>'5 ANO', '16'=>'6 ANO', '17'=>'7 ANO', '18'=>'8 ANO', '19'=>'9 ANO');
-        foreach ($filtro as $anoturma) {
-            $str = substr($anoturma['TB0034_IND_TURMA'], 0,2);
-            //var_dump($str);
-            $anoserie[] = $this->utf8_encode_all( $series[$str]);
-            $turma[] = $this->utf8_encode_all($anoturma['TB0034_IND_TURMA']);
-        }
-        //$retorno[] =array_merge(array('ano'=>array_unique($anoserie),'turma'=>$turma));
-        return array_merge(array('ano'=>array_values(array_unique($anoserie)),'turma'=>$turma));
-
-    }
-    public  function selecionaserie(){
-        $retorno = array();
-        $array_turmas = array();
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            if (empty($_POST['escolas_serie'])) {
-                $retorno = array_merge(array(
-                        'sucesso' => false,
-                        'values' => 'Ano/série não informadas'
-                    )
-                );
-            } else {
-                //print_r($this->escolas_nome[1]);
-
-                $tam_lista = count( $_POST['escolas_turma']);
-                $series = array('11'=> '1 ANO', '12'=>'2 ANO','13'=>'3 ANO','14'=>'4 ANO', '15'=>'5 ANO', '16'=>'6 ANO', '17'=>'7 ANO', '18'=>'8 ANO', '19'=>'9 ANO');
-                $key = array_search( $_POST['escolas_serie'],$series);
-                for ($i = 0; $i < $tam_lista; $i++) {
-                    $str = substr( $_POST['escolas_turma'][$i], 0,2);
-                    if($str == $key )
-                    $array_turmas[] =  $_POST['escolas_turma'][$i];
-                    //var_dump($key);
-
-                }
-                //var_dump($array_nome);
-                $retorno = array_merge(array(
-                        'sucesso' => true,
-                        'values' => $array_turmas
-                    )
-                );
-            }
-        }
-        echo json_encode($retorno);
-
-    }
-    public function cadastraravaliacao(){
         $retorno = array();
         $array_turmas = array();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -271,39 +104,45 @@ class Cadastroavaliacao_adm extends Controller
                         'values' => 'O campo Descrição da avaliação está vazia!'
                     )
                 );
-            }else if(empty($_POST['op'])){
+            } else if (empty($_POST['op'])) {
                 $retorno = array_merge(array(
                         'sucesso' => false,
                         'values' => 'O campo Número da avaliação está vazia!'
                     )
                 );
-            }else if(empty($_POST['tipo'])){
+            } else if (empty($_POST['tipo'])) {
                 $retorno = array_merge(array(
                         'sucesso' => false,
                         'values' => 'O campo Tipo de prova está vazia!'
                     )
                 );
-            }
-            else if(empty($_POST['tokenfield_programa'])){
+            } else if (empty($_POST['serie'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Ano/Série está vazia!'
+                    )
+                );
+            } else if (empty($_POST['tokenfield_programa'])) {
                 $retorno = array_merge(array(
                         'sucesso' => false,
                         'values' => 'O campo Programa está vazia!'
                     )
                 );
-            }else if(empty($_POST['tokenfield_materia'])){
+            } else if (empty($_POST['tokenfield_materia'])) {
                 $retorno = array_merge(array(
                         'sucesso' => false,
                         'values' => 'O campo Matéria está vazia!'
                     )
                 );
 
-            }else{
-               /* $filtro_model = $this->loadModel('CadastroavaliacaoModel');
-                $filtro = $filtro_model->cadastraavaliacaomodel(mysql_real_escape_string($_POST['textdescricao']),
-                                                                mysql_real_escape_string($_POST['op']),
-                                                                mysql_real_escape_string($_POST['tokenfield_programa']),
-                                                                mysql_real_escape_string($_POST['tipo']),
-                                                                mysql_real_escape_string($_POST['tokenfield_materia']));*/
+            } else {
+                 $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+                 $filtro = $filtro_model->cadastraavaliacaomodel(mysql_real_escape_string($_POST['textdescricao']),
+                                                                 mysql_real_escape_string($_POST['op']),
+                                                                 mysql_real_escape_string($_POST['tokenfield_programa']),
+                                                                 mysql_real_escape_string($_POST['tipo']),
+                                                                 mysql_real_escape_string($_POST['serie']),
+                                                                 mysql_real_escape_string($_POST['tokenfield_materia']));
                 $retorno = array_merge(array(
                         'sucesso' => true,
                         'values' => 'Cadastro efetuado com sucesso!'
@@ -315,8 +154,70 @@ class Cadastroavaliacao_adm extends Controller
         echo json_encode($retorno);
 
     }
+    public function atualizaravaliacao()
+    {
+        $retorno = array();
+        $array_turmas = array();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    public function cadastrardetalhes(){
+            if (empty($_POST['textdescricao'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Descrição da avaliação está vazia!'
+                    )
+                );
+            } else if (empty($_POST['op'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Número da avaliação está vazia!'
+                    )
+                );
+            } else if (empty($_POST['tipo'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Tipo de prova está vazia!'
+                    )
+                );
+            } else if (empty($_POST['serie'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Ano/Série está vazia!'
+                    )
+                );
+            } else if (empty($_POST['tokenfield_programa'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Programa está vazia!'
+                    )
+                );
+            } else if (empty($_POST['tokenfield_materia'])) {
+                $retorno = array_merge(array(
+                        'sucesso' => false,
+                        'values' => 'O campo Matéria está vazia!'
+                    )
+                );
+
+            } else {
+                $filtro_model = $this->loadModel('CadastroavaliacaoModel');
+                $filtro = $filtro_model->atualizaavaliacaomodel(mysql_real_escape_string($_POST['textdescricao']),
+                    mysql_real_escape_string($_POST['op']),
+                    mysql_real_escape_string($_POST['tokenfield_programa']),
+                    mysql_real_escape_string($_POST['tipo']),
+                    mysql_real_escape_string($_POST['serie']),
+                    mysql_real_escape_string($_POST['tokenfield_materia']));
+                $retorno = array_merge(array(
+                        'sucesso' => true,
+                        'values' => 'Avaliação atualizada com sucesso!'
+                    )
+                );
+
+            }
+        }
+        echo json_encode($retorno);
+
+    }
+    public function cadastrardetalhes()
+    {
         $retorno = array();
         $escolas_cod = array();
         $escolas_nome = array();
@@ -356,7 +257,9 @@ class Cadastroavaliacao_adm extends Controller
             echo json_encode($retorno);
         }
     }
-    public function excluirprograma(){
+
+    public function excluirprograma()
+    {
         $retorno = array();
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
         $filtro = $filtro_model->excluirprogramamodel($_POST['id']);
@@ -366,7 +269,9 @@ class Cadastroavaliacao_adm extends Controller
         );
         echo json_encode($retorno);
     }
-    public function excluirmateria(){
+
+    public function excluirmateria()
+    {
         $retorno = array();
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
         $filtro = $filtro_model->excluirmateriamodel($_POST['id']);
@@ -376,26 +281,31 @@ class Cadastroavaliacao_adm extends Controller
         );
         echo json_encode($retorno);
     }
-    public function editarprograma(){
+
+    public function editarprograma()
+    {
         $retorno = array();
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
-        $filtro = $filtro_model->editarprogramamodel($_POST['nome'],$_POST['id']);
+        $filtro = $filtro_model->editarprogramamodel($_POST['nome'], $_POST['id']);
         $retorno = array_merge($retorno, array(
                 'sucesso' => true
             )
         );
         echo json_encode($retorno);
     }
-    public function editarmateria(){
+
+    public function editarmateria()
+    {
         $retorno = array();
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
-        $filtro = $filtro_model->editarmateriamodel($_POST['nome'],$_POST['id']);
+        $filtro = $filtro_model->editarmateriamodel($_POST['nome'], $_POST['id']);
         $retorno = array_merge($retorno, array(
                 'sucesso' => true
             )
         );
         echo json_encode($retorno);
     }
+
     public function utf8_encode_all($dat) // -- It returns $dat encoded to UTF8
     {
         if (is_string($dat)) return utf8_encode($dat);

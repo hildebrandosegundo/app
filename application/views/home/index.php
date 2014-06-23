@@ -174,13 +174,13 @@
 </div>
 
 <div id="container">
-    <div class="container">
+    <!--<div class="container">-->
         <div id="wb_loginform" style="position:absolute;top:140px;">
             <form name="loginform" method="post" action="<?php echo URL; ?>/index/entrar" id="loginform">
                 <input type="hidden" name="formid" value="loginform">
                 <input type="hidden" name="form_name" value="loginform">
                 <div id="brosers"></div>
-                <div class="row">
+                <!--<div class="row">-->
                     <div class="col-md-5 col-md-offset-4">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -231,12 +231,12 @@
 
                         </div>
                     </div>
-                </div>
+                <!--</div>-->
             </form>
 
         </div>
 
-    </div>
+    <!--</div>-->
 
     <div id="Layer1"
          style="position:absolute;overflow:auto;text-align:center;left:11px;top:4px;width:972px;height:68px;z-index:11;"

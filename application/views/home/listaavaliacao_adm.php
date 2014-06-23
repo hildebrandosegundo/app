@@ -255,26 +255,30 @@ function init() {
     if (autoSuggestion.length > 0) {
         autoSuggestion[0].style.zIndex = 1051;
     }
+    var modalpm = document.getElementsByClassName('modalprogmat');
+    if (modalpm.length > 0) {
+        modalpm[0].style.zIndex = 1051;
+    }
 }
 GabaritoTableRow = function (d) {
     $('#modalgabarito').modal('show');
     linha = $(d);
     return false;
 };
-function format(d) {
+function format(d,json) {
     // `d` is the original data object for the row
     return '<table id="tabela" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
-        '<td>Zona:</td>' +
-        '<td>zona teste</td>' +
+        '<td>Descrição:</td>' +
+        '<td>'+json.descricao+'</td>' +
         '</tr>' +
         '<tr>' +
-        '<td>Numero:</td>' +
-        '<td>teste de numero</td>' +
+        '<td>Ano:</td>' +
+        '<td>'+json.ano+'</td>' +
         '</tr>' +
         '<tr>' +
-        '<td>Extra info:</td>' +
-        '<td>And any further details here (images etc)...</td>' +
+        '<td>Tipo:</td>' +
+        '<td>'+json.tipo+'</td>' +
         '</tr>' +
         '</table>';
 }
@@ -287,13 +291,13 @@ $(document).ready(function () {
 
         "columns": [
 
-            { "data": "0" },
-            { "data": "1" },
-            { "data": "2" },
-            { "data": "3" },
-            { "data": "4" },
-            { "data": "5" },
-            { "data": "6" }
+            { "data": "id_avaliacao" },
+            { "data": "serie" },
+            { "data": "num_avaliacao" },
+            { "data": "programa" },
+            { "data": "materia" },
+            { "data": "gabarito_prova_comp" },
+            { "data": "gabarito_aluno_comp" }
         ],
         "order": [
             [0, 'asc']
@@ -303,6 +307,7 @@ $(document).ready(function () {
     // Add event listener for opening and closing details
     $('#example tbody').on('click', '#info', function (e) {
         var tr = $(this).parents('tr');
+        var data = table.row( $(this).parents('tr') ).data();
         var row = table.row(tr);
         e.preventDefault();
         e.stopPropagation();
@@ -313,11 +318,22 @@ $(document).ready(function () {
             // $('tbody tr td #deletar').attr('disabled',false);
         }
         else {
+            $.ajax({
+                type: "POST",
+                url: "listaavaliacao_adm/info",
+                data: {id: data['id_avaliacao']},
+                // dataType: "json",
+                success: function(json){
+                    json = JSON.parse(json);
+
+
             // Open this row
-            row.child(format(row.data())).show();
+            row.child(format(row.data(),json)).show();
             tr.addClass('shown');
-            //  $('tbody tr td #deletar').attr('disabled',true);
+                }
+            });
         }
+
     });
     $('#example tbody').on('click', '.gabaritoaluno0', function (e) {
         var data = table.row( $(this).parents('tr') ).data();
@@ -328,7 +344,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "listaavaliacao_adm/listaescolas",
-            data: {id: data[0]},
+            data: {id: data['id_avaliacao']},
            // dataType: "json",
             success: function(json){
                 json = JSON.parse(json);
@@ -341,6 +357,22 @@ $(document).ready(function () {
         });
 
     });
+    $('#example tbody').on('mouseover', '.gabaritoaluno1', function (e) {
+        $(this).removeClass('btn btn-success glyphicon glyphicon-ok').addClass('btn btn-warning glyphicon glyphicon-pencil');
+        $(this).html('Editar');
+    });
+    $('#example tbody').on('mouseleave', '.gabaritoaluno1', function (e) {
+        $(this).removeClass('btn btn-warning glyphicon glyphicon-pencil').addClass('btn btn-success glyphicon glyphicon-ok');
+        $(this).html('Concluido');
+    });
+    $('#example tbody').on('mouseover', '.gabarito1', function (e) {
+        $(this).removeClass('btn btn-success glyphicon glyphicon-ok').addClass('btn btn-warning glyphicon glyphicon-pencil');
+        $(this).html('Editar');
+    });
+    $('#example tbody').on('mouseleave', '.gabarito1', function (e) {
+        $(this).removeClass('btn btn-warning glyphicon glyphicon-pencil').addClass('btn btn-success glyphicon glyphicon-ok');
+        $(this).html('Concluido');
+    });
     $('#example tbody').on('click', '.gabarito0', function (e) {
 
         e.preventDefault();
@@ -352,31 +384,359 @@ $(document).ready(function () {
 //############################### modal alterar prova ################################################################
     $("#diverror2").hide();
     $("#diverror1").hide();
+    $("#cadMateria").hide();
+    $("#cadPrograma").hide();
     $("#wb_FormLista").hide();
+    $("#progmat").hide();
+    $("#editargabarito").hide();
     $("#wb_FormConf").show('slide', {direction: 'left'}, 500);
 
 
     var cod_escolas;
     var nome_escolas;
     var turmas;
-    $('#buttonsalvar1').click(function (e) {
+    $(document).on('keyup', '#inputnumero', function (e) {
+        de09($(this).val());
+        return false;
+    });
+    $('#novoprograma').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $("#cadMateria").hide();
+        $("#edMateria").hide();
+        $("#cadPrograma").show();
+        $("#edPrograma").hide();
+        $('.modalbutton').removeClass('programa btn btn-success').addClass('programa btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        //$('#modalcadprogmat').modal('show');
+    });
+    $('#novamateria').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $("#cadMateria").show();
+        $("#edMateria").hide();
+        $("#cadPrograma").hide();
+        $("#edPrograma").hide();
+        $('.modalbutton').removeClass('materia btn btn-success').addClass('materia btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        $("#cadPrograma").hide();
+
+        //$('#modalcadprogmat').modal('show');
+    });
+    /* $('#editamateria').click(function (e) {
+     e.preventDefault();
+     e.stopPropagation();
+
+     });*/
+    $('#excluimateria').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $("#cadMateria").hide();
+        $("#edMateria").hide();
+
+        $("#cadPrograma").hide();
+        $("#edPrograma").hide();
+
+        $('.modalbutton').removeClass('materia btn btn-success').addClass('materia btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        var result = confirm("Você deseja deletar esta matéria?");
+        if (result == true) {
+            var token = $('#tokenfield-materia').val().split('-');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirmateria",
+                data: {
+                    id: token[0]
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
+
+                        alert(token[1] + " excluido com sucesso!!");
+                        $('.materia').click();
+                    }
+                }
+
+            });
+        }
+        return false;
+    });
+    $('#excluiprograma').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $("#cadMateria").hide();
+        $("#edMateria").hide();
+
+        $("#cadPrograma").hide();
+        $("#edPrograma").hide();
+
+        $('.modalbutton').removeClass('programa btn btn-success').addClass('programa btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        var result = confirm("Você deseja deletar este Programa?");
+        if (result == true) {
+            var token = $('#tokenfield-programa').val().split('-');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirprograma",
+                data: {
+                    id: token[0]
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
+
+                        alert(token[1] + " excluido com sucesso!!");
+                        $('.programa').click();
+                    }
+                }
+
+            });
+        }
+        return false;
+    });
+    /* $('#editaprograma').click(function (e) {
+     e.preventDefault();
+     e.stopPropagation();
+
+     });*/
+    $('#cadastrarmateria').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _nome = $("#inputmateria").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarmateria",
+            data: {
+                nome: _nome
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('.modalbutton').removeClass('materia btn btn-danger').addClass('materia btn btn-success');
+                    $('.modalbutton').html('Ok');
+                    alert(data.nome + " cadastrado com sucesso!!");
+                }
+            }
+
+        });
+
+    });
+    $('#editarmateria').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _nome = $("#inputedmateria").val();
+        var _id = $("#inputedmateriaid").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarmateria",
+            data: {
+                nome: _nome,
+                id: _id
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('.modalbutton').removeClass('materia btn btn-danger').addClass('materia btn btn-success');
+                    $('.modalbutton').html('Ok');
+                    alert(_nome + " editado com sucesso!!");
+                }
+            }
+
+        });
+
+    });
+    $(document).on('click', '#editamateria', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var token = $('#tokenfield-materia').val().split('-');
+        $("#inputedmateriaid").val(token[0]);
+        $("#inputedmateria").val(token[1]);
+
+        $("#cadMateria").hide();
+        $("#edMateria").show();
+
+        $("#cadPrograma").hide();
+        $("#edPrograma").hide();
+
+        $('.modalbutton').removeClass('materia btn btn-success').addClass('materia btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        //$('#modalcadprogmat').modal('show');
+    });
+    $(document).on('click', '#editaprograma', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var token = $('#tokenfield-programa').val().split('-');
+        $("#inputedprogramaid").val(token[0]);
+        $("#inputedprograma").val(token[1]);
+
+        $("#cadMateria").hide();
+        $("#edMateria").hide();
+
+        $("#cadPrograma").hide();
+        $("#edPrograma").show();
+
+        $('.modalbutton').removeClass('programa btn btn-success').addClass('programa btn btn-danger');
+        $('.modalbutton').html('Cancelar');
+        //$('#modalcadprogmat').modal('show');
+    });
+    $('#editarprograma').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _nome = $("#inputedprograma").val();
+        var _id = $("#inputedprogramaid").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarprograma",
+            data: {
+                nome: _nome,
+                id: _id
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('.modalbutton').removeClass('programa btn btn-danger').addClass('programa btn btn-success');
+                    $('.modalbutton').html('Ok');
+                    alert(_nome + " editado com sucesso!!");
+                }
+            }
+
+        });
+
+    });
+    $(document).on('click', '.materia', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('#tokenfield-materia').val('Carregando...');
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            data: {
+                materia: '*'
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('#tokenfield-materia').val('');
+                    $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
+                    $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                }
+            }
+
+        });
+
+    });
+    $('#cadastrarprograma').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var _nome = $("#inputprograma").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarprograma",
+            data: {
+                nome: _nome
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('.modalbutton').removeClass('programa btn btn-danger').addClass('programa btn btn-success');
+                    $('.modalbutton').html('Ok');
+                    alert(data.nome + " cadastrado com sucesso!!");
+                }
+            }
+
+        });
+
+    });
+    $(document).on('click', '.programa', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('#tokenfield-programa').val('Carregando...');
+        setTimeout(function () {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
+                data: {
+                    programa: '*'
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.sucesso) {
+
+                        $('#tokenfield-programa').val('');
+                        $('#tokenfield-programa').data('bs.tokenfield').$input.val('');
+                        $('#tokenfield-programa').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                    }
+                }
+
+            });
+        }, 1500);
+    });
+    $(document).on('focus', '#textdescricao', function (e) {
+        $('#tokenfield-programa').val('Carregando...');
+        $("#progmat").show('slide', {direction: 'down'}, 500);
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
+            data: {
+                programa: '*'
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('#tokenfield-programa').val('');
+                    $('#tokenfield-programa').data('bs.tokenfield').$input.val('');
+                    $('#tokenfield-programa').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                }
+            }
+
+        });
+    });
+
+    $(document).on('focus', '#textdescricao', function (e) {
+        $('#tokenfield-materia').val('Carregando...');
+
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            data: {
+                materia: '*'
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.sucesso) {
+                    $('#tokenfield-materia').val('');
+                    $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
+                    $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
+                }
+            }
+
+        });
+    });
+
+    $(document).on('click', '.buttoneditar1', function (e) {
+
         e.preventDefault();
         e.stopPropagation();
         var _textdescricao = $("#textdescricao").val();
-        var _tokenfield_programa = $("#tokenfield-programa").val();
-        console.log(_tokenfield_programa);
-        var _tokenfield_materia = $("#tokenfield-materia").val();
-        console.log(_tokenfield_materia);
-        var _op = $('input:radio[name=radios]:checked').val();
-        $("#tokenfield-escolas-nomes").tokenfield('disable');
+        var _tokenfield_programa = $("#tokenfield-programa").val().split('-')[1];
+
+        var _tokenfield_materia = $("#tokenfield-materia").val().split('-')[1];
+
+        var _op = $('#inputnumero').val();
+        var _tipo = $('#tipodeprova').find('option').filter(':selected').text();
+        var _serie = $("#tokenfield-anoserie").val()
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao/cadastraravaliacao",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/atualizaravaliacao",
             data: {
                 textdescricao: _textdescricao,
                 tokenfield_programa: _tokenfield_programa,
                 tokenfield_materia: _tokenfield_materia,
-                op: _op
+                op: _op,
+                serie: _serie,
+                tipo: _tipo
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -384,8 +744,8 @@ $(document).ready(function () {
                     $("#error1").val('');
                     $("#diverror1").hide();
 
-                    $("#wb_FormConf").hide();
-                    $("#wb_FormLista").show('slide', {direction: 'right'}, 500)
+                    console.log('teste 2');
+                    alert(data.values);
                 }
                 else {
                     console.log(data.values);
@@ -395,7 +755,7 @@ $(document).ready(function () {
             }
         });
     });
-    //zonas
+//zonas
     $('#tokenfield-zona').change(function (e) {
 
         e.preventDefault();
@@ -408,7 +768,7 @@ $(document).ready(function () {
         $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('Carregando...');
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao/selectzona",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectzona",
             data: {
                 zona: _zona
             },
@@ -434,7 +794,7 @@ $(document).ready(function () {
             }
         });
     });
-    //escolas por codigo
+//escolas por codigo
     $('#tokenfield-escolas').change(function (e) {
 
         e.preventDefault();
@@ -446,7 +806,7 @@ $(document).ready(function () {
         console.log(_escolas_cod);
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao/selecionaescolacod",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selecionaescolacod",
             data: {
                 escolas_cod: _escolas_cod,
                 escolas_nome: _nome_escola,
@@ -464,8 +824,7 @@ $(document).ready(function () {
                     $('#tokenfield-serie').data('bs.tokenfield').$input.autocomplete({source: data.ano});
                     $('#tokenfield-turma').data('bs.tokenfield').$input.autocomplete({source: data.turma});
                     turmas = data.turma;
-                    console.log(data.ano);
-                    console.log(data.turma);
+
                 } else {
                     $("#error2").val(data.values);
                     $("#diverror2").show();
@@ -473,7 +832,6 @@ $(document).ready(function () {
             }
         });
     });
-
     $('#tokenfield-serie').change(function (e) {
 
         e.preventDefault();
@@ -484,7 +842,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao/selecionaserie",
+            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selecionaserie",
             data: {
                 escolas_serie: _escolas_serie,
                 escolas_turma: _turmas
@@ -509,6 +867,13 @@ $(document).ready(function () {
         });
     });
 
+    $('#tokenfield-zona').tokenfield({
+        autocomplete: {
+            source: ['ZONA NORTE', 'ZONA SUL', 'ZONA LESTE', 'ZONA SUDESTE', 'ESCOLAS DIVERSAS', 'ESCOLAS DE EIXO'],
+            delay: 100
+        },
+        showAutocompleteOnFocus: true
+    });
     $('#tokenfield-zona').tokenfield({
         autocomplete: {
             source: ['ZONA NORTE', 'ZONA SUL', 'ZONA LESTE', 'ZONA SUDESTE', 'ESCOLAS DIVERSAS', 'ESCOLAS DE EIXO'],
@@ -542,11 +907,23 @@ $(document).ready(function () {
         },
         showAutocompleteOnFocus: true
     });
+    $('#tokenfield-anoserie').tokenfield({
+        limit: 1,
+        autocomplete: {
+            source: ['1 ANO', '2 ANO', '3 ANO', '4 ANO', '5 ANO','6 ANO', '7 ANO', '8 ANO', '9 ANO',
+                '1 SERIE', '2 SERIE', '3 SERIE', '4 SERIE', '5 SERIE','6 SERIE', '7 SERIE', '8 SERIE',
+                'ALFABETIZACAO', 'MULTISERIADA', 'SELIGA', 'ACELERA', 'MATERNAL','MATERNAL I', 'MATERNAL II',
+                'MATERNALZINHO', 'BERCARIO', '1 PERIODO', '2 PERIODO'],
+
+            delay: 100
+        },
+        showAutocompleteOnFocus: true
+    });
     $('#tokenfield-materia').tokenfield({
         limit: 1,
         autocomplete: {
-            source: ['ARTE', 'CIENCIAS', 'EDUCACAO FISICA', 'ENSINO RELIGIOSO', 'GEOGRAFIA',
-                'HISTORIA', 'INFORMATICA', 'INGLES', 'LINGUA PORTUGUESA', 'MATEMATICA'],
+            /* source: ['ARTE', 'CIENCIAS', 'EDUCACAO FISICA', 'ENSINO RELIGIOSO', 'GEOGRAFIA',
+             'HISTORIA', 'INFORMATICA', 'INGLES', 'LINGUA PORTUGUESA', 'MATEMATICA'],*/
             delay: 100
         },
         showAutocompleteOnFocus: true
@@ -554,7 +931,7 @@ $(document).ready(function () {
     $('#tokenfield-programa').tokenfield({
         limit: 1,
         autocomplete: {
-            source: ['PROVINHA BRASIL', 'SIMULADO', 'OLIMPIADA INTERNA','OLIMPIADA EXTERA', 'AVALIAÇÃO PADRÃO', 'OUTROS'],
+            //source: ['PROVINHA BRASIL', 'SIMULADO', 'OLIMPIADA INTERNA', 'OLIMPIADA EXTERA', 'AVALIAÇÃO PADRÃO', 'OUTROS'],
             delay: 100
         },
         showAutocompleteOnFocus: true
@@ -788,6 +1165,29 @@ $(document).ready(function () {
      style="position:absolute;overflow:auto;text-align:left;left:0px;top:634px;width:100%;min-width:994px;height:161px;z-index:20;"
      class="col-md-12 column" class="row">
 </div>-->
+<div class="modalprogmat modal fade" id="modalcadprogmat">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;</button>
+                <h4 class="modal-title">Cadastro de programa/matéria</h4>
+            </div>
+            <div class="modal-body">
+
+                <!--##############################################################################################-->
+            </div>
+            <div class="modal-footer">
+
+                <button data-dismiss='modal' aria-hidden='true' class='modalbutton btn btn-danger'>Cancelar
+                </button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <!-- Modal -->
 <!--################################## modal editar prova ################################################################-->
 <div class="modal fade" id="modaleditar">
@@ -811,9 +1211,9 @@ $(document).ready(function () {
                                     <!-- Form Name -->
                                     <!--<legend>Filtrar avaliação</legend>-->
                                     <div class="alert alert-danger alert-dismissable" id="diverror2">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                        <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                                 id="alerterror">&times;</button>
-
+-->
                                         <input type='text' id='error2' name="error" value='' style="width:80em"
                                                autocomplete='off'>
                                     </div>
@@ -884,6 +1284,97 @@ $(document).ready(function () {
                                             </button>
                                         </div>
                                     </div>
+                                    <!--################################# cadastrar progragra #####################################-->
+                                    <div id="cadPrograma" class="form-group">
+                                        <label class="col-md-4 control-label" for="inputprograma">Novo Programa</label>
+
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input id="inputprograma" type="text" class="form-control input-xxlarge"
+                                                       placeholder="Digite o programa da prova"/>
+
+                                                <div class="input-group-btn">
+                                                    <button id="cadastrarprograma" type="button"
+                                                            class="programa btn btn-success dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        Cadastrar
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--################################# editar progragra #####################################-->
+                                    <div id="edPrograma" class="form-group">
+                                        <label class="col-md-4 control-label" for="inputprograma">Editar Programa</label>
+
+                                        <div class="col-md-2">
+                                            <input id="inputedprogramaid" type="text" class="form-control input-md" disabled/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input id="inputedprograma" type="text" class="form-control input-xxlarge"
+                                                       placeholder="Digite o programa da prova"/>
+
+                                                <div class="input-group-btn">
+                                                    <button id="editarprograma" type="button"
+                                                            class="programa btn btn-warning dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        Editar
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--################################# cadastrar Materia #####################################-->
+                                    <div id="cadMateria" class="form-group">
+                                        <label class="col-md-4 control-label" for="inputmateria">Nova matéria</label>
+
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input id="inputmateria" type="text" class="form-control input-xxlarge"
+                                                       placeholder="Digite a matéria da prova"/>
+
+                                                <div class="input-group-btn">
+                                                    <button id="cadastrarmateria" data-dismiss='modal' aria-hidden='true' type="button"
+                                                            class="materia btn btn-success dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        Cadastrar
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--################################# editar Materia #####################################-->
+                                    <div id="edMateria" class="form-group">
+                                        <label class="col-md-4 control-label" for="inputmateria">Alterar matéria</label>
+
+
+                                        <div class="col-md-2">
+                                            <input id="inputedmateriaid" type="text" class="form-control input-md" disabled/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+
+                                                <input id="inputedmateria" type="text" class="form-control input-xxlarge"
+                                                       placeholder="Digite a matéria da prova"/>
+
+                                                <div class="input-group-btn">
+                                                    <button id="editarmateria" data-dismiss='modal' aria-hidden='true' type="button"
+                                                            class="materia btn btn-warning dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        Editar
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class='modalbutton btn btn-danger'>Cancelar
+                                    </button>
                                 </fieldset>
                             </form>
 
@@ -895,61 +1386,115 @@ $(document).ready(function () {
                                 <fieldset>
 
                                     <!-- Form Name -->
-                                    <!-- <legend>Cadastro de avaliação</legend>-->
+                                    <legend>Cadastro de avaliação</legend>
                                     <div class="alert alert-danger alert-dismissable" id="diverror1">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                                                id="alerterror">&times;</button>
+                                        <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                                id="alerterror">&times;</button>-->
 
-                                        <input type='text' id='error1' name="error" value='' style="width:80em"
-                                               autocomplete='off'>
+                                        <input type='text' id='error1' name="error" value='' style="width:80em" autocomplete='off'>
                                     </div>
                                     <!-- Textarea -->
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="textdescricao">Descrição da
-                                            avaliação</label>
+                                        <label class="col-md-4 control-label" for="textdescricao">Descrição da avaliação</label>
 
                                         <div class="col-md-6">
-                                            <textarea class="form-control" id="textdescricao"
-                                                      name="textdescricao"></textarea>
+                                            <textarea class="form-control" id="textdescricao" name="textdescricao"></textarea>
                                         </div>
                                     </div>
 
                                     <!-- Text input-->
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="inputnumero">Número da avaliação</label>
+
                                         <div class="col-md-2">
-                                            <input id="inputnumero" name="inputnumero" type="text" placeholder="" class="form-control input-md" required="">
+                                            <input id="inputnumero" name="inputnumero" type="text" placeholder=""
+                                                   class="form-control input-md" required="">
 
                                         </div>
                                     </div>
-
+                                    <!-- Select Basic -->
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
-
-                                        <div class="col-md-6">
-
-                                            <input type="text" class="form-control" id="tokenfield-programa"
-                                                   placeholder="Selecione o programa da prova"/>
-
-                                        </div>
-                                    </div>
-                                    <!-- Button Drop Down -->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
-
-                                        <div class="col-md-6">
-                                            <input class="form-control" id="tokenfield-materia"
-                                                   placeholder="Selecione a materia" type="text">
-                                        </div>
-                                    </div>
-                                    <!-- Button -->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="buttonsalvar"></label>
+                                        <label class="col-md-4 control-label" for="tipodeprova">Tipo de prova</label>
 
                                         <div class="col-md-4">
-                                            <button type="submit" id="buttonsalvar1" name="buttonsalvar"
-                                                    class="btn btn-primary">Próximo
-                                            </button>
+                                            <select id="tipodeprova" name="tipodeprova" class="form-control">
+                                                <option value="1"></option>
+                                                <option value="2">Interna</option>
+                                                <option value="3">Externa</option>
+                                            </select>
+                                            <span class="help-block">(Selecione se a prova é interna ou externa à rede de ensino)</span>
+                                        </div>
+                                    </div>
+
+                                    <div id="progmat">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="tokenfield-anoserie">Ano/Série</label>
+
+                                            <div class="col-md-6">
+
+                                                <input type="text" class="input-xxlarge" id="tokenfield-anoserie"
+                                                       placeholder="Selecione as séries desejadas"/>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="tokenfield-programa">Programa</label>
+
+                                            <div class="col-md-6">
+
+                                                <input type="text" class="input-xlarge" id="tokenfield-programa"
+                                                       placeholder="Selecione o programa da prova"/>
+
+                                            </div>
+                                            <div class="btn-group">
+                                                <button id="novoprograma" type="button" class="btn btn-success glyphicon glyphicon-plus">
+                                                </button>
+                                                <button id="editaprograma" type="button"
+                                                        class="btn btn-warning  glyphicon glyphicon-pencil">
+                                                </button>
+                                                <button id="excluiprograma" type="button"
+                                                        class="btn btn-danger  glyphicon glyphicon-remove-circle">
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                        <!-- Button Drop Down -->
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="tokenfield-materia">Matéria</label>
+
+                                            <div class="col-md-6">
+
+                                                <input class="input-xlarge" id="tokenfield-materia"
+                                                       placeholder="Selecione a materia" type="text">
+
+                                            </div>
+                                            <div class="btn-group">
+                                                <button id="novamateria" type="button" class="btn btn-success glyphicon glyphicon-plus">
+                                                </button>
+                                                <button id="editamateria" type="button"
+                                                        class="btn btn-warning glyphicon glyphicon-pencil">
+                                                </button>
+                                                <button id="excluimateria" type="button"
+                                                        class="btn btn-danger glyphicon glyphicon-remove-circle">
+
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label"></label>
+
+                                            <div class="col-md-8">
+                                                <button type="submit" name="singlebutton1"
+                                                        class="buttonsalvar1 btn btn-success glyphicon glyphicon-floppy-save">
+                                                    Salvar
+                                                </button>
+                                                <button id="editargabarito" name="editargabarito"
+                                                        class="btn btn-info glyphicon glyphicon-share-alt">Gabaritar?
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>
