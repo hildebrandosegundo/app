@@ -6,7 +6,7 @@
  * Date: 21/05/14
  * Time: 08:47
  */
-class Listaavaliacao_adm extends Controller
+class Listaavaliacao_cli extends Controller
 {
     public function index()
     {
@@ -17,7 +17,7 @@ class Listaavaliacao_adm extends Controller
             header('Location: ' . URL . '/index');
             exit;
         }
-        require 'application/views/home/listaavaliacao_adm.php';
+        require 'application/views/home/listaavaliacao_cli.php';
     }
 
     public function lista()
@@ -26,45 +26,21 @@ class Listaavaliacao_adm extends Controller
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
         $filtro = $filtro_model->selectavaliacao();
         //print_r($filtro);
-        foreach ($filtro as &$gab_prova) {
-            if ($gab_prova['gabarito_prova_comp'] == 0) {
-                $gab_prova['gabarito_prova_comp'] = "<div class='btn-group'>" .
-                    "<button id='info' class='btn btn-info glyphicon glyphicon-search'>" .
-                    "</button>" .
-                    "<button class='gabarito0 btn btn-primary glyphicon glyphicon-plus'>Gabarito" .
-                    "</button>" .
-                    "<button id='editar' onclick='EditTableRow(this)' class='btn btn-warning glyphicon glyphicon-pencil'>" .
-                    "</button>" .
-                    "<button onclick='RemoveTableRow(this)' id='deletar' class='btn btn-danger glyphicon glyphicon-remove-circle'>" .
-                    "</button>" .
-                    "</div>";
-            } else {
-                $gab_prova['gabarito_prova_comp'] = "<div class='btn-group'>" .
-                    "<button id='info' class='btn btn-info glyphicon glyphicon-search'>" .
-                    "</button>" .
-                    "<button  class='gabarito1 btn btn-success glyphicon glyphicon-ok'>Concluido" .
-                    "</button>" .
-                    "<button id='editar' onclick='EditTableRow(this)' class='btn btn-warning glyphicon glyphicon-pencil'>" .
-                    "</button>" .
-                    "<button onclick='RemoveTableRow(this)' id='deletar' class='btn btn-danger glyphicon glyphicon-remove-circle'>" .
-                    "</button>" .
-                    "</div>";
-            }
-        }
-        unset($gab_prova);
+
         foreach ($filtro as &$gab_aluno) {
             if ($gab_aluno['gabarito_aluno_comp'] == 0) {
                 $gab_aluno['gabarito_aluno_comp'] = "<div class='btn-group'>" .
-                    "<button id= 'gabaritoaluno' class='gabaritoaluno disabled btn btn-default glyphicon glyphicon-thumbs-down'>Gabaritar" .
+                    "<button id='info' class='btn btn-info glyphicon glyphicon-search'>" .
                     "</button>" .
-                    "</div>";
-            }if ($gab_aluno['gabarito_aluno_comp'] == 1) {
-                $gab_aluno['gabarito_aluno_comp'] = "<div class='btn-group'>" .
+                    "<div class='btn-group'>" .
                     "<button class='gabaritoaluno0 btn btn-primary glyphicon glyphicon-plus'>Gabaritar" .
                     "</button>" .
                     "</div>";
-            }if ($gab_aluno['gabarito_aluno_comp'] == 2) {
+            } else {
                 $gab_aluno['gabarito_aluno_comp'] = "<div class='btn-group'>" .
+                    "<button id='info' class='btn btn-info glyphicon glyphicon-search'>" .
+                    "</button>" .
+                    "<div class='btn-group'>" .
                     "<button class='gabaritoaluno1 btn btn-success glyphicon glyphicon-ok'>Concluido" .
                     "</button>" .
                     "</div>";
@@ -81,59 +57,7 @@ class Listaavaliacao_adm extends Controller
 
         echo json_encode($retorno);
     }
-    public function excluiavaliacao()
-    {
-        $retorno = array();
-        $filtro_model = $this->loadModel('Listaavaliacaomodel');
-        $filtro = $filtro_model->removeravaliacao($_POST['id']);
-        $retorno = array_merge($retorno, array(
-            'sucesso' => true,
-            'values' => 'Prova removida com sucesso!'
-        ));
-        echo json_encode($retorno);
-    }
-    public function gabaritoprova()
-    {
-        $retorno = array();
-        $dados = array();
 
-           for ($i = 1; $i<=20; $i++){
-               $num_questao = "<input id='questao' disabled class='num_questao form-control' type='text' name='questao' value='".$i."' size='20'/>";
-               $alternativa = "<input id='alternativa' class='alternativa form-control' type='text' name='alternativa' required='' size='20'/>";
-               $option = "<button id='deletagabarito' class='deletagabarito btn btn-danger glyphicon glyphicon-remove-sign'></button>";
-               $dados[] = array('num_questao' => $num_questao,'alternativa' => $alternativa,'option' => $option);
-           }
-
-       $retorno = array_merge($retorno, array(
-                'sucesso' => true,
-                'data' => $dados
-            )
-        );
-
-        echo json_encode($retorno);
-    }
-    public function alteragabaritoprova()
-    {
-        $retorno = array();
-        $filtro_model = $this->loadModel('Listaavaliacaomodel');
-        $filtro = $filtro_model->selectgabaritoprova($_POST['id']);
-        $dados = array();
-
-            foreach ($filtro as &$gab_prova){
-                $id_questao = "<input id='id_questao' disabled class='alt_id_questao form-control' type='text' name='id_questao' value='".$gab_prova['id_gabarito_prova']."' size='5'/>";
-                $num_questao = "<input id='questao' disabled class='alt_num_questao form-control' type='text' name='questao' value='".$gab_prova['num_questao']."' size='20'/>";
-                $alternativa = "<input id='alternativa' class='alt_alternativa form-control' type='text' name='alternativa' value='".$gab_prova['alternativa']."' size='20'/>";
-                //$option = "<button id='deletagabarito' class='deletagabarito btn btn-danger glyphicon glyphicon-remove-sign'></button>";
-                $dados[] = array('id'=> $id_questao,'num_questao' => $num_questao,'alternativa' => $alternativa);
-            }
-
-        $retorno = array_merge($retorno, array(
-                'sucesso' => true,
-                'data' => $dados
-            )
-        );
-        echo json_encode($retorno);
-    }
     public function info(){
         $retorno = array();
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
@@ -147,44 +71,14 @@ class Listaavaliacao_adm extends Controller
         );
         echo json_encode($retorno);
     }
-    public function salvaprova()
-    {
-        $retorno = array();
-        $filtro_model = $this->loadModel('Listaavaliacaomodel');
-        $filtro = $filtro_model->salvaprovamodel(mysql_real_escape_string($_POST['qtd_questoes']),
-                                                 $_POST['num_questoes'],
-                                                 $_POST['alternativas'],
-                                                 mysql_real_escape_string($_POST['id']));
-        $retorno = array_merge($retorno, array(
-            'sucesso' => true,
-            'values' => 'Prova cadastrada com sucesso!'
-         ));
-        echo json_encode($retorno);
-    }
-    public function editaprova()
-    {
-        $retorno = array();
-        $filtro_model = $this->loadModel('Listaavaliacaomodel');
-        $filtro = $filtro_model->editaprovamodel(mysql_real_escape_string($_POST['qtd_questoes']),
-            $_POST['num_questoes'],
-            $_POST['alternativas'],
-            $_POST['id_questoes'],
-            mysql_real_escape_string($_POST['id']));
-        $retorno = array_merge($retorno, array(
-            'sucesso' => true,
-            'values' => 'Prova alterada com sucesso!'
-        ));
-        echo json_encode($retorno);
-    }
+
     public function listaalunos()
     {
         $retorno = array();
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
         $qtdquestao = $filtro_model->quantidadequestoes(mysql_real_escape_string($_POST['id']));
         //array(array('matricula' => '4356', 'nome' => 'fulano de tal'), array('matricula' => '5678', 'nome' => 'lindolfo monteiro'), array('matricula' => '1234', 'nome' => 'fransisco fransisval'));
-        print_r($_POST['turma'],$_POST['escola']);
         $lista_aluno = $filtro_model->listaalunomodel($_POST['turma'],$_POST['escola']);
-        //var_dump($lista_aluno);
         $retorno = array_merge($retorno, array(
             'sucesso' => true,
             'values' => $lista_aluno,
@@ -267,7 +161,7 @@ class Listaavaliacao_adm extends Controller
     {
         $retorno = array();
         $array_nome = array();
-
+        $anoturmas = $this->selecionaturma();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -278,7 +172,7 @@ class Listaavaliacao_adm extends Controller
                     )
                 );
             } else {
-                $anoturmas = $this->selecionaturma();
+
                 //print_r($this->escolas_nome[1]);
                 $listaescolas = explode(',', $_POST['escolas_cod']);
                 // print_r($listaescolas);
@@ -356,7 +250,7 @@ class Listaavaliacao_adm extends Controller
         $series = array('11' => '1 ANO', '12' => '2 ANO', '13' => '3 ANO', '14' => '4 ANO', '15' => '5 ANO', '16' => '6 ANO', '17' => '7 ANO', '18' => '8 ANO', '19' => '9 ANO',
                         'E0' => 'ALFABETIZACAO', 'E1' => '1 SERIE', 'E2' => '2 SERIE', 'E3' => '3 SERIE', 'E4' => '4 SERIE', 'E5' => '5 SERIE', 'E6' => '6 SERIE', 'E7' => '7 SERIE', 'E8' => '8 SERIE',
                         '0B' => 'BERCARIO', 'MM' => 'MATERNALZINHO', 'M0' => 'MATERNAL', '0Z' => 'MATERNAL I', '0M' => 'MATERNAL II', 'OM' => 'MATERNAL II','01' => '1 PERIODO',
-                        '02' => '2 PERIODO', 'M1' => 'MULTISERIADA', 'A1' => 'SELIGA', 'A2'=>'ACELERA', 'AE' => 'AE');
+                        '02' => '2 PERIODO', 'M1' => 'MULTISERIADA', 'A1' => 'SELIGA', 'A2'=>'ACELERA');
         foreach ($filtro as $anoturma) {
             $str = substr($anoturma['TB0034_IND_TURMA'], 0, 2);
             //var_dump($str);

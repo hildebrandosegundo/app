@@ -20,10 +20,6 @@
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-<link href="<?php echo URL; ?>/public/css/dataTables.tableTools.css" type="text/css" rel="stylesheet">
-
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.autotab.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/dataTables.tableTools.js"></script>
 <style type="text/css">
     div#container {
         width: 994px;
@@ -215,63 +211,12 @@
         vertical-align: middle;
     }
 
-    /* Start by setting display:none to make this hidden.
-       Then we position it in relation to the viewport window
-       with position:fixed. Width, height, top and left speak
-       speak for themselves. Background we set to 80% white with
-       our animation centered, and no-repeating */
-    .modalloading {
-        display: none;
-        position: fixed;
-        z-index: 1500;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?php echo URL; ?>/public/img/gifteresina2.gif') 50% 50% no-repeat;
-    }
-
-    /* When the body has the loading class, we turn
-       the scrollbar off with overflow:hidden */
-    body.loading {
-        overflow: hidden;
-    }
-
-    /* Anytime the body has the loading class, our
-       modal element will be visible */
-    body.loading .modalloading {
-        display: block;
-    }
-
-    .modal-body {
-        position: relative;
-        overflow-y: auto;
-        max-height: 950px;
-        padding: 15px;
-    }
-
-    .autoModal.modal .modal-body {
-        max-height: 100%;
-    }
 </style>
 <script type="text/javascript">
-var table, listagabarito, alteralistagabarito, linha, linha2, id_table = null;
+var table, listagabarito, linha, id_table = null;
 RemoveTableRow = function (handler) {
-    id_table = table.row($(handler).parents('tr')).data();
     var result = confirm("Você deseja deletar esta prova?");
     if (result == true) {
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/listaavaliacao_adm/excluiavaliacao",
-            data: {
-                id: id_table['id_avaliacao']
-            },
-            //dataType: "json",
-            success: function (data) {
-                data = JSON.parse(data);
-                alert(data.values);
-            }
-        });
         var tr = $(handler).closest('tr');
         if ($('#tabela') != null) {
             var row = table.row(tr);
@@ -293,15 +238,6 @@ RemoveGabaritoRow = function (d) {
     });
     return false;
 }
-EditTableRow = function (d) {
-    //console.log(d);
-    id_table = table.row($(d).parents('tr')).data();
-    data = new Date();
-    $('#inputano').val(data.getFullYear());
-    $('#modaleditar').modal('show');
-    return false;
-
-};
 GabaritoAlunoRow = function (d) {
     //console.log(d);
     id_table = table.row($(d).parents('tr')).data();
@@ -319,12 +255,8 @@ function init() {
 
 }
 GabaritoTableRow = function (d) {
-    id_table = table.row($(d).parents('tr')).data();
-
     $('#modalgabarito').modal('show');
     linha = $(d);
-    linha2 = id_table['gabarito_aluno_comp'];// $(d).parents('tr #gabaritoaluno');
-    console.log(linha2);
     return false;
 };
 function format(d, json) {
@@ -349,26 +281,20 @@ $(document).ready(function () {
 
 //######################################## pagina com lista de provas #################################################
     table = $('#example').DataTable({
-        "dom": 'T<"clear">lfrtip',
-        "oTableTools": {
-            "sSwfPath": "<?php echo URL; ?>/public/swf/copy_csv_xls_pdf.swf"
-        },
-        "ajax": "<?php echo URL; ?>/listaavaliacao_adm/lista",
+        "ajax": "<?php echo URL; ?>/listaavaliacao_cli/lista",
 
         "columns": [
+
             { "data": "id_avaliacao" },
             { "data": "serie" },
             { "data": "num_avaliacao" },
             { "data": "programa" },
             { "data": "materia" },
-            { "data": "gabarito_prova_comp" },
             { "data": "gabarito_aluno_comp" }
         ],
         "order": [
             [0, 'des']
-        ],
-        "bDestroy": true
-
+        ]
     });
 
     // Add event listener for opening and closing details
@@ -387,11 +313,13 @@ $(document).ready(function () {
         else {
             $.ajax({
                 type: "POST",
-                url: "listaavaliacao_adm/info",
+                url: "listaavaliacao_cli/info",
                 data: {id: data['id_avaliacao']},
                 // dataType: "json",
                 success: function (json) {
                     json = JSON.parse(json);
+
+
                     // Open this row
                     row.child(format(row.data(), json)).show();
                     tr.addClass('shown');
@@ -406,7 +334,20 @@ $(document).ready(function () {
         e.stopPropagation();
         // console.log(data[0]);
         GabaritoAlunoRow($(this));
-
+        /*$.ajax({
+         type: "POST",
+         url: "listaavaliacao_adm/listaescolas",
+         data: {id: data['id_avaliacao']},
+         // dataType: "json",
+         success: function (json) {
+         json = JSON.parse(json);
+         var options = "";
+         $.each(json.values, function (key, data) {
+         options += '<option value="' + key + '">' + data + '</option>';
+         });
+         $("#selectescola").html(options);
+         }
+         });*/
 
     });
     $('#example tbody').on('mouseover', '.gabaritoaluno1', function (e) {
@@ -416,455 +357,6 @@ $(document).ready(function () {
     $('#example tbody').on('mouseleave', '.gabaritoaluno1', function (e) {
         $(this).removeClass('btn btn-warning glyphicon glyphicon-pencil').addClass('btn btn-success glyphicon glyphicon-ok');
         $(this).html('Concluido');
-    });
-    $('#example tbody').on('mouseover', '.gabarito1', function (e) {
-        $(this).removeClass('btn btn-success glyphicon glyphicon-ok').addClass('btn btn-warning glyphicon glyphicon-pencil');
-        $(this).html('Editar');
-    });
-    $('#example tbody').on('mouseleave', '.gabarito1', function (e) {
-        $(this).removeClass('btn btn-warning glyphicon glyphicon-pencil').addClass('btn btn-success glyphicon glyphicon-ok');
-        $(this).html('Concluido');
-    });
-    $('#example tbody').on('click', '.gabarito0', function (e) {
-
-        e.preventDefault();
-        e.stopPropagation();
-        // console.log(data[0]);
-        GabaritoTableRow(this);
-
-    });
-//############################### modal alterar prova ################################################################
-    $("#diverror2").hide();
-    $("#diverror1").hide();
-    $("#cadMateria").hide();
-    $("#cadPrograma").hide();
-    $("#wb_FormLista").hide();
-    $("#edMateria").hide();
-    $("#edPrograma").hide();
-    $("#progmat").hide();
-    $("#editargabarito").hide();
-
-    var cod_escolas;
-    var nome_escolas;
-    var turmas;
-    $(document).on('keyup', '#inputnumero', function (e) {
-        de09($(this).val());
-        return false;
-    });
-    $('#novoprograma').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $("#cadMateria").hide();
-        $("#edMateria").hide();
-        $("#cadPrograma").show();
-        $("#edPrograma").hide();
-    });
-    $('#novamateria').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $("#cadMateria").show();
-        $("#edMateria").hide();
-        $("#cadPrograma").hide();
-        $("#edPrograma").hide();
-
-        $("#cadPrograma").hide();
-
-    });
-    $('#excluimateria').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $("#cadMateria").hide();
-        $("#edMateria").hide();
-
-        $("#cadPrograma").hide();
-        $("#edPrograma").hide();
-
-
-        var result = confirm("Você deseja deletar esta matéria?");
-        if (result == true) {
-            var token = $('#tokenfield-materia').val().split('-');
-            $.ajax({
-                type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirmateria",
-                data: {
-                    id: token[0]
-                },
-                success: function (data) {
-                    data = JSON.parse(data);
-                    if (data.sucesso) {
-
-                        alert(token[1] + " excluido com sucesso!!");
-                        $('.materia').click();
-                    }
-                }
-
-            });
-        }
-        return false;
-    });
-    $('#excluiprograma').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $("#cadMateria").hide();
-        $("#edMateria").hide();
-
-        $("#cadPrograma").hide();
-        $("#edPrograma").hide();
-
-
-        var result = confirm("Você deseja deletar este Programa?");
-        if (result == true) {
-            var token = $('#tokenfield-programa').val().split('-');
-            $.ajax({
-                type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirprograma",
-                data: {
-                    id: token[0]
-                },
-                success: function (data) {
-                    data = JSON.parse(data);
-                    if (data.sucesso) {
-
-                        alert(token[1] + " excluido com sucesso!!");
-                        $('.programa').click();
-                    }
-                }
-
-            });
-        }
-        return false;
-    });
-    /* $('#editaprograma').click(function (e) {
-     e.preventDefault();
-     e.stopPropagation();
-
-     });*/
-    $('#cadastrarmateria').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var _nome = $("#inputmateria").val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarmateria",
-            data: {
-                nome: _nome
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $("#cadMateria").hide();
-                    alert(data.nome + " cadastrado com sucesso!!");
-                }
-            }
-
-        });
-
-    });
-    $('#editarmateria').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var _nome = $("#inputedmateria").val();
-        var _id = $("#inputedmateriaid").val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarmateria",
-            data: {
-                nome: _nome,
-                id: _id
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $("#edMateria").hide();
-                    alert(_nome + " editado com sucesso!!");
-                }
-            }
-
-        });
-
-    });
-    $(document).on('click', '#editamateria', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var token = $('#tokenfield-materia').val().split('-');
-        $("#inputedmateriaid").val(token[0]);
-        $("#inputedmateria").val(token[1]);
-
-        $("#cadMateria").hide();
-        $("#edMateria").show();
-
-        $("#cadPrograma").hide();
-        $("#edPrograma").hide();
-
-
-        //$('#modalcadprogmat').modal('show');
-    });
-    $(document).on('click', '#editaprograma', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var token = $('#tokenfield-programa').val().split('-');
-        $("#inputedprogramaid").val(token[0]);
-        $("#inputedprograma").val(token[1]);
-
-        $("#cadMateria").hide();
-        $("#edMateria").hide();
-
-        $("#cadPrograma").hide();
-        $("#edPrograma").show();
-
-
-        //$('#modalcadprogmat').modal('show');
-    });
-    $('#editarprograma').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var _nome = $("#inputedprograma").val();
-        var _id = $("#inputedprogramaid").val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarprograma",
-            data: {
-                nome: _nome,
-                id: _id
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $("#edPrograma").hide();
-                    alert(_nome + " editado com sucesso!!");
-                }
-            }
-
-        });
-
-    });
-    $(document).on('click', '.materia', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $('#tokenfield-materia').val('Carregando...');
-
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
-            data: {
-                materia: '*'
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $('#tokenfield-materia').val('');
-                    $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
-                }
-            }
-
-        });
-
-    });
-    $('#cadastrarprograma').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var _nome = $("#inputprograma").val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarprograma",
-            data: {
-                nome: _nome
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $("#cadPrograma").hide();
-                    alert(data.nome + " cadastrado com sucesso!!");
-                }
-            }
-
-        });
-
-    });
-    $(document).on('click', '.programa', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $('#tokenfield-programa').val('Carregando...');
-        setTimeout(function () {
-            $.ajax({
-                type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
-                data: {
-                    programa: '*'
-                },
-                success: function (data) {
-                    data = JSON.parse(data);
-                    if (data.sucesso) {
-
-                        $('#tokenfield-programa').val('');
-                        $('#tokenfield-programa').data('bs.tokenfield').$input.val('');
-                        $('#tokenfield-programa').data('bs.tokenfield').$input.autocomplete({source: data.nome});
-                    }
-                }
-
-            });
-        }, 1500);
-    });
-    $(document).on('focus', '#textdescricao', function (e) {
-        $('#tokenfield-programa').val('Carregando...');
-        $("#progmat").show('slide', {direction: 'down'}, 500);
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
-            data: {
-                programa: '*'
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $('#tokenfield-programa').val('');
-                    $('#tokenfield-programa').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-programa').data('bs.tokenfield').$input.autocomplete({source: data.nome});
-                }
-            }
-
-        });
-    });
-
-    $(document).on('focus', '#textdescricao', function (e) {
-        $('#tokenfield-materia').val('Carregando...');
-
-
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
-            data: {
-                materia: '*'
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $('#tokenfield-materia').val('');
-                    $('#tokenfield-materia').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-materia').data('bs.tokenfield').$input.autocomplete({source: data.nome});
-                }
-            }
-
-        });
-    });
-
-    $(document).on('click', '.buttoneditar1', function (e) {
-
-        e.preventDefault();
-        e.stopPropagation();
-        var _textdescricao = $("#textdescricao").val();
-        var _tokenfield_programa = $("#tokenfield-programa").val().split('-')[1];
-
-        var _tokenfield_materia = $("#tokenfield-materia").val().split('-')[1];
-
-        var _op = $('#inputnumero').val();
-        var _tipo = $('#tipodeprova').find('option').filter(':selected').text();
-        var _serie = $("#tokenfield-anoserie").val();
-        var _ano = $('#inputano').val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/listaavaliacao_adm/atualizaravaliacao",
-            data: {
-                textdescricao: _textdescricao,
-                tokenfield_programa: _tokenfield_programa,
-                tokenfield_materia: _tokenfield_materia,
-                op: _op,
-                serie: _serie,
-                tipo: _tipo,
-                ano: _ano,
-                id: id_table['id_avaliacao']
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.sucesso) {
-                    $("#error1").val('');
-                    $("#diverror1").hide();
-                    alert(data.values);
-                }
-                else {
-                    $("#error1").val(data.values);
-                    $("#diverror1").show();
-                }
-            }
-        });
-    });
-//zonas
-    $('#tokenfield-zona').change(function (e) {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-
-        var _zona = $('#tokenfield-zona').tokenfield('getTokensList', ',');
-        console.log(_zona);
-        $('#tokenfield-escolas').data('bs.tokenfield').$input.val('Carregando...');
-        $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('Carregando...');
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/listaavaliacao_adm/selectzona",
-            data: {
-                zona: _zona
-            },
-            //dataType: "json",
-            success: function (data) {
-
-                data = JSON.parse(data);
-                //console.log(data.values);
-                if (data.sucesso) {
-                    $("#error2").val('');
-                    $("#diverror2").hide();
-                    cod_escolas = data.codigo;
-                    nome_escolas = data.nome;
-                    $('#tokenfield-escolas').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.val('');
-                    $('#tokenfield-escolas').data('bs.tokenfield').$input.autocomplete({source: data.codigo});
-                    $('#tokenfield-escolas-nomes').data('bs.tokenfield').$input.autocomplete({source: data.nome});
-                }
-                else {
-                    $("#error2").val(data.values);
-                    $("#diverror2").show();
-                }
-            }
-        });
-    });
-//escolas por codigo
-    $('#tokenfield-escolas').change(function (e) {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        var _escolas_cod = $('#tokenfield-escolas').tokenfield('getTokensList', ',');
-        var _nome_escola = nome_escolas;
-        var _cod_escola = cod_escolas;
-        console.log(_escolas_cod);
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/listaavaliacao_adm/selecionaescolacod",
-            data: {
-                escolas_cod: _escolas_cod,
-                escolas_nome: _nome_escola,
-                escolas_cod2: _cod_escola
-            },
-            //dataType: "json",
-            success: function (data) {
-
-                data = JSON.parse(data);
-                //console.log(data.values);
-                if (data.sucesso) {
-                    $("#error2").val('');
-                    $("#diverror2").hide();
-                    $('#tokenfield-escolas-nomes').tokenfield('setTokens', data.values);
-                    $('#tokenfield-serie').data('bs.tokenfield').$input.autocomplete({source: data.ano});
-                    $('#tokenfield-turma').data('bs.tokenfield').$input.autocomplete({source: data.turma});
-                    turmas = data.turma;
-
-                } else {
-                    $("#error2").val(data.values);
-                    $("#diverror2").show();
-                }
-            }
-        });
     });
     $('#tokenfield-serie').change(function (e) {
 
@@ -949,313 +441,42 @@ $(document).ready(function () {
         },
         showAutocompleteOnFocus: true
     });
-    $('#tokenfield-materia').tokenfield({
-        limit: 1,
-        autocomplete: {
-            delay: 100
-        },
-        showAutocompleteOnFocus: true
-    });
-    $('#tokenfield-programa').tokenfield({
-        limit: 1,
-        autocomplete: {
-            delay: 100
-        },
-        showAutocompleteOnFocus: true
-    });
-//###################################### modal gabarito ###################################################
-    listagabarito = $('#listagabarito').dataTable({
-        "ajax": "<?php echo URL; ?>/listaavaliacao_adm/gabaritoprova",
-        "dom": 'T<"clear">lfrtip',
-        "pageLength": 50,
-        "columns": [
-            { "data": "num_questao" },
-            { "data": "alternativa" },
-            { "data": "option" }
-        ],
-        "columnDefs": [
-            {
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            }
-        ],
-        "order": [
-            [0, 'asc']
-        ],
-        "bDestroy": true
-    });
 
-
-    function de09(str) {
-
-        if (/[^0-9]/g.test(str) && str != '') {
-            alert('O campo está errado, somente números');
-            return false;
-        }
-        return true;
-    }
-
-    $(document).on('click', '.alternativa', function (e) {
-        if ($('#selectquestao').val() == '2') {
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^a-dA-D]', uppercase: true }, { maxlength: 1 });
-
-        }
-        if ($('#selectquestao').val() == '1') {
-
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^a-eA-E]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '4') {
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^0-9\.]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '3') {
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^fFVv]', uppercase: true }, { maxlength: 1 });
-        }
-        $('.alternativa').autotab({ maxlength: 1, uppercase: true });
-    });
-    $(document).on('click', '.alt_alternativa', function (e) {
-        if ($('#selectquestao').val() == '2') {
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^a-dA-D]', uppercase: true }, { maxlength: 1 });
-
-        }
-        if ($('#selectquestao').val() == '1') {
-
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^a-eA-E]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '4') {
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^0-9\.]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '3') {
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^fFVv]', uppercase: true }, { maxlength: 1 });
-        }
-        $('.alternativa').autotab({ maxlength: 1, uppercase: true });
-    });
-    $(document).on('keyup', '.alternativa', function (e) {
-//    $('.alternativa').keyup(function () {
-
-        if ($('#selectquestao').val() == '2') {
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^a-dA-D]', uppercase: true }, { maxlength: 1 });
-
-        }
-        if ($('#selectquestao').val() == '1') {
-
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^a-eA-E]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '4') {
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^0-9\.]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '3') {
-            $('.alternativa').autotab('filter', { format: 'custom', pattern: '[^fFVv]', uppercase: true }, { maxlength: 1 });
-        }
-
-        $('.alternativa').autotab({ maxlength: 1, uppercase: true});
-        return false;
-    });
-    $(document).on('keyup', '.alt_alternativa', function (e) {
-
-        if ($('#selectquestao').val() == '2') {
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^a-dA-D]', uppercase: true }, { maxlength: 1 });
-
-        }
-        if ($('#selectquestao').val() == '1') {
-
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^a-eA-E]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '4') {
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^0-9\.]', uppercase: true }, { maxlength: 1 });
-        }
-        if ($('#selectquestao').val() == '3') {
-            $('.alt_alternativa').autotab('filter', { format: 'custom', pattern: '[^fFVv]', uppercase: true }, { maxlength: 1 });
-        }
-
-        $('.alternativa').autotab({ maxlength: 1, uppercase: true});
-        return false;
-    });
-    $(document).on('keyup', '#inputano', function (e) {
-        de09($(this).val());
-        return false;
-    });
-    /*$("#enviar").click(function () {
-     $("#criargabarito").submit();
-     });*/
-    $(document).on('click', '#mais', function (e) {
-
-        e.preventDefault();
-        //e.stopPropagation();
-        var next = $("#listagabarito tbody").children("tr").length + 1;
-
-
-        $("#listagabarito tbody").append(
-            "<tr>" +
-                "<td class='sorting_1'><input id='questao' disabled class='form-control' type='text' name='questao' value='" + next + "' size='20'/>" +
-                "</td>" +
-                "<td><input id='alternativa' class='alternativa form-control' type='text' name='alternativa' size='20'/></td>" +
-                "<td><button  id='deletagabarito' class='deletagabarito btn btn-danger glyphicon glyphicon-remove-sign'></button></td>" +
-                "</tr>"
-        );
-    });
-    $(document).on('click', '.deletagabarito', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var tr = $(this).closest('tr');
-        tr.fadeOut(400, function () {
-            tr.remove();
-            var i = 1;
-            $('#listagabarito .sorting_1> input').each(function () {
-                $(this).val(i++);
-            });
-        });
-    });
-    $(document).on('click', '#salvaprova', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var _num_questoes = [];
-        var _alternativas = [];
-        var _qtd_questoes = null;
-        $('.num_questao').each(function () {
-            _num_questoes.push($(this).val());
-            _qtd_questoes = $(this).val();
-        });
-        $('.alternativa').each(function () {
-            _alternativas.push($(this).val());
-        });
-        /*console.log(_num_questoes);
-         console.log(_alternativas);
-         console.log(_qtd_questoes);
-         console.log(id_table['id_avaliacao']);*/
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/listaavaliacao_adm/salvaprova",
-            data: {
-                num_questoes: _num_questoes,
-                alternativas: _alternativas,
-                qtd_questoes: _qtd_questoes,
-                id: id_table['id_avaliacao']
-            },
-            //dataType: "json",
-            success: function (data) {
-                data = JSON.parse(data);
-                alert(data.values);
-
-            }
-        });
-
-        var button = linha.closest('.gabarito0');
-        button.removeClass('gabarito0 btn btn-primary glyphicon glyphicon-plus').addClass('gabarito1 btn btn-success glyphicon glyphicon-ok');
-        button.html('Concluido');
-
-        var buttonaluno = linha2.closest('#gabaritoaluno');
-        buttonaluno.removeClass('gabaritoaluno0 disabled btn btn-default glyphicon glyphicon-thumbs-down').addClass('gabaritoaluno0 btn btn-primary glyphicon glyphicon-plus');
-
-    });
-    $(document).on('click', '#editaprova', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var _num_questoes = [];
-        var _id_questoes = [];
-        var _alternativas = [];
-        var _qtd_questoes = null;
-        $('.alt_id_questao').each(function () {
-            _id_questoes.push($(this).val());
-
-        });
-        $('.alt_num_questao').each(function () {
-            _num_questoes.push($(this).val());
-            _qtd_questoes = $(this).val();
-        });
-        $('.alt_alternativa').each(function () {
-            _alternativas.push($(this).val());
-        });
-
-        $.ajax({
-            type: "POST",
-            url: "<?php echo URL; ?>/listaavaliacao_adm/editaprova",
-            data: {
-                num_questoes: _num_questoes,
-                alternativas: _alternativas,
-                qtd_questoes: _qtd_questoes,
-                id_questoes: _id_questoes,
-                id: id_table['id_avaliacao']
-            },
-            //dataType: "json",
-            success: function (data) {
-                data = JSON.parse(data);
-                alert(data.values);
-
-            }
-        });
-    });
 //########################################### modal gabaritar aluno ######################################################################
     $(document).on('click', '#enviarprovaaluno', function (e) {
         //e.preventDefault();
         //e.stopPropagation();
 
         var button = linha.closest('.gabaritoaluno0');
-        button.removeClass('gabaritoaluno0 btn btn-primary glyphicon glyphicon-plus').addClass('gabaritoaluno1 btn btn-success glyphicon glyphicon-ok');
+
+
+        button.removeClass('gabaritoaluno0 btn btn-primary').addClass('gabaritoaluno1 btn btn-success');
         button.html('Concluido');
+
+
     });
-    $(document).on('click', '.gabarito1', function (e) {
-
-        id_table = table.row($(this).parents('tr')).data();
-        alteralistagabarito = $('#alterarlistagabarito').dataTable({
-            "ajax": {
-                type: "POST",
-                url: "<?php echo URL; ?>/listaavaliacao_adm/alteragabaritoprova",
-                data: {
-                    id: id_table['id_avaliacao']
-                }
-            },
-            "dom": 'T<"clear">lfrtip',
-            "pageLength": 50,
-            "columns": [
-                { "data": "id"},
-                { "data": "num_questao" },
-                { "data": "alternativa" }
-            ],
-            "columnDefs": [
-                {
-                    "searchable": false,
-                    "orderable": false,
-                    "targets": 0
-                }
-            ],
-            "order": [
-                [0, 'asc']
-            ],
-            "bDestroy": true
-
-        });
-
-        $('#modalalteragabarito').modal('show');
-        return false;
-        // $('#modalalteragabarito div').empty();
-    });
-
     $('#gabaritarprova').dataTable({
         "dom": 'T<"clear">lfrtip',
         "pageLength": 50,
         "columnDefs": [
             {
-                "searchable": true,
-                "orderable": true,
+                "searchable": false,
+                "orderable": false,
                 "targets": 1
             }
         ],
-        "bDestroy": true
+        "order": [
+            [1, 'asc']
+        ]
     });
-
     $(document).on('click', '#buscar', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var _turma = $('#selectturma').find('option').filter(':selected').text();
-        console.log(_turma);
-
+        var _turma = $(this).find('option').filter(':selected').text();
         var _escola = $('#selectescola').val();
-        console.log(_escola);
-
         $.ajax({
             type: "POST",
-            url: "listaavaliacao_adm/listaalunos",
+            url: "listaavaliacao_cli/listaalunos",
             data: {turma: _turma,
                 escola: _escola,
                 id: id_table['id_avaliacao']},
@@ -1264,7 +485,7 @@ $(document).ready(function () {
                 json = JSON.parse(json);
                 var linhas, linhashead, altaluno = "";
                 for (var i = 1; i <= json.qtdquestao; i++) {
-                    linhashead += "<th aria-label='" + i + ": activate to sort column ascending' aria-controls='gabaritarprova'" +
+                    linhashead += "<th class='sorting' aria-label='" + i + ": activate to sort column ascending' aria-controls='gabaritarprova'" +
                         ">" + i + "</th>";
                 }
                 linhas = "<thead>" +
@@ -1277,21 +498,20 @@ $(document).ready(function () {
                 linhas += "</tr>" +
                     "<tr></tr></thead>";
                 for (var i = 1; i <= json.qtdquestao; i++) {
-                    altaluno += "<td><input type='text' class='alternativaaluno' name='alternativaaluno' size='1'/></td>";
+                    altaluno += "<td><input id='alternativa" + i + "' class='form-control' type='text' name='alternativaaluno'/></td>";
                 }
                 linhas += "<tbody>";
                 $.each(json.values, function (key, data) {
-                    linhas += "<tr><td>" + data.TB0026_COD_ALUNO + "</td><td class='sorting_1'>" + data.TB0137_NOME_PESSOA + "</td>" + altaluno +
+                    linhas += "<tr><td>" + data.matricula + "</td><td class='sorting_1'>" + data.nome + "</td>" + altaluno +
                         "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'></button></td></tr>";
 
                 });
                 linhas += "</tbody>";
                 $("#gabaritarprova").html(linhas);
-
             }
         })
     });
-    $(document).on('click', '#buttonfiltrar', function (e) {
+    $(document).on('click','#buttonfiltrar', function(e){
         e.preventDefault();
         e.stopPropagation();
         $('#wb_FormLista').hide();
@@ -1312,16 +532,8 @@ $(document).ready(function () {
         e.stopPropagation();
         var tr = $(this).closest('tr');
         tr.addClass('success');
-        var _questoes = [];
         $(this).removeClass('salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save').addClass('editagabaritoaluno btn btn-warning glyphicon glyphicon-refresh');
-       tr.on('focus',function(){
-           $(this).$(".alternativaaluno").each(function () {
-               _questoes.push($(this).val());
 
-           });
-       });
-
-        console.log(_questoes);
     });
     $(document).on('click', '.editagabaritoaluno', function (e) {
         e.preventDefault();
@@ -1330,17 +542,7 @@ $(document).ready(function () {
         tr.addClass('warning');
 
     });
-
 //######################################################################################################################################
-    $body = $("body");
-    $(document).on({
-        ajaxStart: function () {
-            $body.addClass("loading");
-        },
-        ajaxStop: function () {
-            $body.removeClass("loading");
-        }
-    });
 });
 
 </script>
@@ -1366,64 +568,6 @@ $(document).ready(function () {
      style="position:absolute;overflow:auto;text-align:left;left:0px;top:634px;width:100%;min-width:994px;height:161px;z-index:20;"
      class="col-md-12 column" class="row">
 </div>-->
-<div class="modal modalloading"><!-- Place at bottom of page --></div>
-<!--####################################### modal edita gabarito prova ##############################################################-->
-<div class="modal fade" id="modalalteragabarito">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;</button>
-                <h4 class="modal-title">Alterar gabarito</h4>
-            </div>
-            <div class="modal-body">
-                <!-- ######################### mesma forma que ocorre no cadastrar prova ###################################################### -->
-                <form id="criargabarito" method="post">
-                    <!-- Select Basic -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="selectquestao">Estilo de questão </label>
-
-                        <div class="col-md-4">
-                            <select id="selectquestao" name="selectquestao" class="form-control">
-                                <option value="1">de A a E</option>
-                                <option value="2">de A a D</option>
-                                <option value="3">V ou F</option>
-                                <option value="4">numérico</option>
-                            </select>
-                        </div>
-                    </div>
-                    <table id="alterarlistagabarito" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Questão</th>
-                            <th>Alternativa</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <!–Irá armazenar a quantidade de linhas–>
-                    <input id="total" type="hidden" value="1" name="Alternativa"/>
-                    <!--<a href="#" id="enviar">enviar</a>-->
-
-                </form>
-            </div>
-            <div class="modal-footer">
-
-                <button data-dismiss='modal' aria-hidden='true' class='btn btn-danger'>Cancelar
-                </button>
-                <button data-dismiss='modal' aria-hidden='true' id="editaprova" class='btn btn-warning'>Alterar
-                </button>
-
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 <!--################################## modal editar prova ################################################################-->
 <div class="modal fade" id="modaleditar">
 <div class="modal-dialog">
@@ -1643,7 +787,7 @@ $(document).ready(function () {
             <label class="col-md-4 control-label"></label>
 
             <div class="col-md-4">
-                <button type="submit" aria-hidden="true" name="singlebutton1"
+                <button type="submit" name="singlebutton1"
                         class="buttoneditar1 btn btn-warning glyphicon glyphicon-pencil">
                     Alterar
                 </button>
@@ -1664,7 +808,6 @@ $(document).ready(function () {
 </div>
 <div class="modal-footer">
     <button class='btn btn-danger' data-dismiss="modal" aria-hidden="true">Cancelar</button>
-
 </div>
 </div>
 <!-- /.modal-content -->
@@ -1692,8 +835,7 @@ $(document).ready(function () {
                             <select id="selectquestao" name="selectquestao" class="form-control">
                                 <option value="1">de A a E</option>
                                 <option value="2">de A a D</option>
-                                <option value="3">V ou F</option>
-                                <option value="4">numérico</option>
+                                <option value="3">numérico</option>
                             </select>
                         </div>
                     </div>
@@ -1713,15 +855,14 @@ $(document).ready(function () {
                     <!--<a href="#" id="enviar">enviar</a>-->
                     <button id="mais" class='btn btn-info glyphicon glyphicon-plus-sign'>Add questão
                     </button>
-                    <h3>Atenção: Defina com critério a quantidade de questões da avaliação, após salvar não será
-                        possível alterar a quantidade de questões!</h3>
+
                 </form>
             </div>
             <div class="modal-footer">
 
                 <button data-dismiss='modal' aria-hidden='true' class='btn btn-danger'>Cancelar
                 </button>
-                <button data-dismiss='modal' aria-hidden='true' id="salvaprova" class='btn btn-success'>Salvar
+                <button id="salvaprova" class='btn btn-success'>Salvar
                 </button>
 
             </div>
@@ -1782,9 +923,10 @@ $(document).ready(function () {
 
                                     <!-- Button Drop Down -->
                                     <div class="form-group">
+                                        <label class="col-md-4 control-label"
+                                               for="tokenfield-escolas-nomes"></label>
 
-
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <input type="text" class="form-control" id="tokenfield-escolas-nomes"
                                                    value=""
                                                    placeholder="Lista de escolas"/>
@@ -1860,8 +1002,7 @@ $(document).ready(function () {
                                 </fieldset>
                                 <legend>Preencha as alternativas dos alunos</legend>
                                 <!--#####################tabela de gabarito de aluno ##############################################################################-->
-                                <table cellpadding="0" cellspacing="0" border="0" id="gabaritarprova"
-                                       class="display table table-striped" width="100%">
+                                <table id="gabaritarprova" class="table table-striped">
                                     <!--<thead>
                                     ####cabeçalho criado em javascript #######
                                     </thead>
@@ -1893,7 +1034,7 @@ $(document).ready(function () {
 <!--######################################## pagina com lista de provas ##############################################-->
 <div id="container">
     <div class="container">
-        <div id="wb_FormFiltro" style="position:relative;top:190px;z-index:21;">
+        <div id="wb_FormFiltro" style="position:relative;top:170px;z-index:21;">
             <table id="example" class="display" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -1902,7 +1043,6 @@ $(document).ready(function () {
                     <th>Teste</th>
                     <th>Tipo</th>
                     <th>Disciplina</th>
-                    <th>Prova</th>
                     <th>Alunos/Turmas</th>
                 </tr>
                 </thead>
@@ -1914,14 +1054,14 @@ $(document).ready(function () {
             <div id="Layer1_Container"
                  style="width:972px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
                 <div id="wb_Logout1" style="position:absolute;left:855px;top:9px;width:45px;height:45px;z-index:15;">
-                    <form name="logoutform" method="post" action="<?php echo URL; ?>/listaavaliacao_adm/logout"
+                    <form name="logoutform" method="post" action="<?php echo URL; ?>/listaavaliacao_cli/logout"
                           id="logoutform">
                         <input type="hidden" name="form_name" value="logoutform">
                         <input type="image" name="logout" id="logout" src="<?php echo URL; ?>/public/img/logout.gif"/>
                     </form>
                 </div>
                 <div id="wb_Logout2" style="position:absolute;left:905px;top:19px;width:45px;height:23px;z-index:16;">
-                    <form name="logoutform" method="post" action="<?php echo URL; ?>/listaavaliacao_adm/logout"
+                    <form name="logoutform" method="post" action="<?php echo URL; ?>/listaavaliacao_cli/logout"
                           id="logoutform">
                         <input type="hidden" name="form_name" value="logoutform">
                         <input class="logoutform_button" type="submit" name="logout" value="Sair" id="logout"
@@ -1934,10 +1074,8 @@ $(document).ready(function () {
             <div id="wb_CssMenu1"
                  style="position:absolute;left:329px;top:3px;width:556px;height:76px;text-align:center;z-index:18;">
                 <ul>
-                    <li><a href="<?php echo URL; ?>/masterpage_adm" target="_self">Inicio&nbsp;</a></li>
-                    <li><a href="<?php echo URL; ?>/cadastroavaliacao_adm" target="_self">Cadastrar
-                            avaliação</a>
-                    </li>
+                    <li><a href="<?php echo URL; ?>/masterpage_cli" target="_self">Inicio&nbsp;</a></li>
+
                     <li class="firstmain"><a class="active" href="#" target="_self">Avaliações</a>
                     </li>
                 </ul>
