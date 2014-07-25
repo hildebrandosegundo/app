@@ -9,7 +9,7 @@ ob_start();
  * This is really weird behaviour, but documented here: http://php.net/manual/en/language.oop5.decon.php
  *
  */
-class Cadastro extends Controller
+class Consulta extends Controller
 {
     /**
      * PAGE: index
@@ -19,14 +19,14 @@ class Cadastro extends Controller
     public function index()
     {
 
-        require 'application/views/home/cadastro.php';
+        require 'application/views/home/consulta.php';
 
     }
 
     public function checkmatricula()
     {
         $retorno = array();
-        $cadastro_model = $this->loadModel('CadastroModel');
+        $cadastro_model = $this->loadModel('ConsultaModel');
         if (empty($_POST['matricula'])) {
             $retorno = array_merge(array(
                     'sucesso' => false,
@@ -35,7 +35,7 @@ class Cadastro extends Controller
             );
         } else {
 
-            $cadastro = $cadastro_model->verificaMatricula(mysql_real_escape_string($_POST['matricula']));
+           /* $cadastro = $cadastro_model->verificaMatricula(mysql_real_escape_string($_POST['matricula']));
             //$cadastro_model->close();
             if ($_POST['matricula'] === $cadastro['matricula']) {
                 $retorno = array_merge($retorno, array(
@@ -44,11 +44,11 @@ class Cadastro extends Controller
                     )
                 );
 
-            } else {
+            } else {*/
 
                 $cadastro = $cadastro_model->getMatricula($this->mssql_escape($_POST['matricula']));
                 //$cadastro_model->close();
-                if ($cadastro['Nome'] == '' && $cadastro['CPF'] == '') {
+                if (empty($cadastro)) {
 
                     $retorno = array_merge($retorno, array(
                             'sucesso' => false,
@@ -56,16 +56,19 @@ class Cadastro extends Controller
                         )
                     );
                 } else {
+
                     $retorno = array_merge($retorno, array(
                         'sucesso' => true,
                         'values' => array(
                             '#fullname' => $cadastro['Nome'],
-                            '#cpf' => $cadastro['CPF']
+                            '#atividade' => $cadastro['Atividade'],
+                            '#lotacao' => $cadastro['Escola'],
+                            '#situacao' => $cadastro['Situacao']
                         )
                     ));
                 }
             }
-        }
+      //  }
 
         echo json_encode($retorno);
     }
@@ -84,7 +87,7 @@ class Cadastro extends Controller
         }
         return str_replace("'", "''", $str);
     }
-    public function cadastrar()
+ /*   public function cadastrar()
     {
         $retorno = array();
         $error_message = '';
@@ -140,7 +143,7 @@ class Cadastro extends Controller
         );
         echo json_encode($retorno);
         // this->index();
-    }
+    }*/
 
 
 }

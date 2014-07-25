@@ -20,7 +20,10 @@
     <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
     <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-   <style type="text/css">
+    <!-- Start WOWSlider.com HEAD section -->
+    <link rel="stylesheet" type="text/css" href="<?php echo URL; ?>/public/engine1/style.css" />
+    <!-- End WOWSlider.com HEAD section -->
+    <style type="text/css">
    div#container
    {
       width: 994px;
@@ -165,11 +168,11 @@
    text-align: left;
    }
    </style>
-   <script type="text/javascript">
+   <!--<script type="text/javascript">
        $(document).ready(function () {
        $('#wb_FormMaster').load('semec_page #ja-slide-articles-115');
        });
-   </script>
+   </script>-->
 </head>
 <body>
    <div id="Layer2" style="position:absolute;text-align:left;left:0px;top:84px;width:100%;min-width:994px;height:82px;z-index:4;" title="">
@@ -188,7 +191,28 @@
    <div id="container">
        <div class="container">
            <div id="wb_FormMaster" style="position:relative;top:170px;z-index:21;">
-
+               <div id="wowslider-container1">
+                   <div class="ws_images"><ul>
+                           <li><img src="<?php echo URL; ?>/public/data1/images/cadastro1.jpg" alt="cadastro de avaliaçao" title="cadastro de avaliaçao" id="wows1_0"/>Possui botões que são usados para cadastrar, alterar e excluir programa e matéria.
+                           </li>
+                           <li><img src="<?php echo URL; ?>/public/data1/images/cadastro2.jpg" alt="cadastro de avaliaçao" title="cadastro de avaliaçao" id="wows1_1"/>Ao cadastrar será visualizado na página a opção de alterar ou atualizar e ser redirecionado para a página de cadastro de gabarito da avaliação.</li>
+                           <li><img src="<?php echo URL; ?>/public/data1/images/lista1.jpg" alt="Lista de avaliações" title="Lista de avaliações" id="wows1_2"/>É listado todas as avaliações cadastradas. Na coluna "Prova" é realizado operações a respeito da avaliação cadastrada. Na coluna "Aluno/Turmas" as operações a respeito de cada aluno por turma e unidade.</li>
+                           <li><img src="<?php echo URL; ?>/public/data1/images/criargabarito.jpg" alt="Criar gabarito" title="Criar gabarito" id="wows1_3"/>A prova é definida por meio destas operações, como: estilo de questão, alternativa, adição e remoção de questão.</li>
+                           <li><img src="<?php echo URL; ?>/public/data1/images/filtroaluno.jpg" alt="Filtrar turmas" title="Filtrar turmas" id="wows1_4"/>Para gabaritar provas de aluno é feito um filtro de turma. seguindo a ordem da imagem.</li>
+                           <li><img src="<?php echo URL; ?>/public/data1/images/gabaritoaluno.jpg" alt="Gabarito de alunos" title="Gabarito de alunos" id="wows1_5"/>É feito a pesquisa de aluno por meio do código da escola e o indicador de turma.</li>
+                       </ul></div>
+                   <div class="ws_bullets"><div>
+                           <a href="#" title="cadastro de avaliaçao"><img src="<?php echo URL; ?>/public/data1/tooltips/cadastro1.jpg" alt="cadastro de avaliaçao"/>1</a>
+                           <a href="#" title="cadastro de avaliaçao"><img src="<?php echo URL; ?>/public/data1/tooltips/cadastro2.jpg" alt="cadastro de avaliaçao"/>2</a>
+                           <a href="#" title="Lista de avaliações"><img src="<?php echo URL; ?>/public/data1/tooltips/lista1.jpg" alt="Lista de avaliações"/>3</a>
+                           <a href="#" title="Criar gabarito"><img src="<?php echo URL; ?>/public/data1/tooltips/criargabarito.jpg" alt="Criar gabarito"/>4</a>
+                           <a href="#" title="Filtrar turmas"><img src="<?php echo URL; ?>/public/data1/tooltips/filtroaluno.jpg" alt="Filtrar turmas"/>5</a>
+                           <a href="#" title="Gabarito de alunos"><img src="<?php echo URL; ?>/public/data1/tooltips/gabaritoaluno.jpg" alt="Gabarito de alunos"/>6</a>
+                       </div></div>
+                   <span class="wsl"><a href="http://wowslider.com">html slideshow</a> by WOWSlider.com v5.4</span>
+                   <div class="ws_shadow"></div>
+               </div>
+               <!-- End WOWSlider.com BODY section -->
            </div>
        </div>
        <div id="Layer1"
@@ -227,5 +251,8 @@
            </div>
        </div>
    </div>
+   <script type="text/javascript" src="<?php echo URL; ?>/public/engine1/wowslider.js"></script>
+   <script type="text/javascript" src="<?php echo URL; ?>/public/engine1/script.js"></script>
+
 </body>
 </html>

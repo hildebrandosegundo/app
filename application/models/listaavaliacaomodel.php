@@ -5,8 +5,9 @@
  * Date: 18/06/14
  * Time: 11:27
  */
-
+$nota = '';
 class Listaavaliacaomodel {
+
     function __construct()
     {
 
@@ -24,8 +25,22 @@ class Listaavaliacaomodel {
          echo "Erro de Conexão " . $e->getMessage() . "\n";
          exit('Database connection could not be established.');
      }
-
  }
+    public function porcentagem(){
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " SELECT id_avaliacao, serie, num_avaliacao, programa, materia, gabarito_prova_comp, gabarito_aluno_comp
+                FROM   avaliacao";
+            $query = $db->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+
+    }
     public function removeravaliacao($id)
     {
         try {
@@ -40,7 +55,7 @@ class Listaavaliacaomodel {
             $sql = "DELETE FROM gabarito_aluno WHERE cod_avaliacao = '".$id."'";
             $query = $db->prepare($sql);
             $query->execute();
-            $sql = "DELETE FROM questoes WHERE cod_avaliacao = '".$id."'";
+            $sql = "DELETE FROM questoes_aluno WHERE cod_avaliacao = '".$id."'";
             $query = $db->prepare($sql);
             $query->execute();
         } catch (PDOException $e) {
@@ -80,6 +95,89 @@ class Listaavaliacaomodel {
         }
 
     }
+    public function listagabaritoalunomodel($id)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " SELECT alternativa, cod_aluno
+                FROM questoes_aluno where cod_avaliacao = '".$id."'";
+            $query = $db->prepare($sql);
+            $query->execute();
+           return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function salvagabaritoalunomodel($id,$matricula,$cod_unidade,$ind_turma,$questoes)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = "SELECT alternativa FROM gabarito_prova where cod_avaliacao = ".$id."";
+            $query = $db->prepare($sql);
+            $query->execute();
+            $gab_prova = $query->fetchAll(PDO::FETCH_COLUMN);
+            $acertos = count(array_uintersect_uassoc($gab_prova, $questoes,"strcasecmp", "strcasecmp"));            $nota = $acertos*10/count($questoes);
+            $nota = number_format($acertos*10/count($questoes), 1, '.', '');
+            $GLOBALS['nota'] = $nota;
+            $sql = "INSERT INTO gabarito_aluno (cod_avaliacao, cod_unidade, cod_aluno,ind_turma, nota)
+                       VALUES ('".$id."',".$cod_unidade.", '".$matricula."','".$ind_turma."', '".$nota."')";
+            $query = $db->prepare($sql);
+            $query->execute();
+            $sql = "SELECT id_gabarito_aluno FROM gabarito_aluno ORDER BY id_gabarito_aluno DESC LIMIT 1";
+            $query = $db->prepare($sql);
+            $query->execute();
+            $res = $query->fetch(PDO::FETCH_ASSOC);
+            $cod_gabarito_aluno_ = $res['id_gabarito_aluno'];
+            for ($i = 0; $i< count($questoes); $i++){
+                $sql = "INSERT INTO questoes_aluno (cod_aluno, num_questao, alternativa,cod_avaliacao, cod_gabarito_aluno)
+                       VALUES ('".$matricula."',".($i+1).", ".$db->quote($questoes[$i]).",'".$id."','".$cod_gabarito_aluno_."')";
+                $query = $db->prepare($sql);
+                $query->execute();
+            }
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
+    public function notamodel()
+    {
+        return $GLOBALS['nota'];
+    }
+    public function alteragabaritoalunomodel($id,$matricula,$questoes)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " SELECT id_questao
+                FROM questoes_aluno where cod_aluno = '".$matricula."' and cod_avaliacao = '".$id."'";
+            $query = $db->prepare($sql);
+            $query->execute();
+            $id_questao = $query->fetchAll(PDO::FETCH_ASSOC);
+            //print_r($teste[0]['id_questao']);
+            $sql = "SELECT alternativa FROM gabarito_prova where cod_avaliacao = ".$id."";
+            $query = $db->prepare($sql);
+            $query->execute();
+            $gab_prova = $query->fetchAll(PDO::FETCH_COLUMN);
+            $acertos = count(array_uintersect_uassoc($gab_prova, $questoes,"strcasecmp", "strcasecmp"));
+            $nota = number_format($acertos*10/count($questoes), 1, '.', '');
+            $GLOBALS['nota'] = $nota;
+            $sql = "UPDATE gabarito_aluno SET nota = '".$nota."' WHERE cod_avaliacao = '".$id."' and cod_aluno = '".$matricula."'";
+            $query = $db->prepare($sql);
+            $query->execute();
+            for ($i = 0; $i< count($questoes); $i++){
+                $sql = "UPDATE questoes_aluno SET alternativa = ".$db->quote($questoes[$i])." WHERE cod_avaliacao = '".$id."' and
+                       id_questao = '".$id_questao[$i]['id_questao']."' and cod_aluno = '".$matricula."'";
+                $query = $db->prepare($sql);
+                $query->execute();
+            }
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
     public function listaescolasmodel($id){
         try {
             $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
@@ -95,11 +193,26 @@ class Listaavaliacaomodel {
         }
 
     }
-    public function listaalunomodel($turma,$escola){
+    public function listanotamodel($id){
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql.';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            $sql = " SELECT nota, cod_aluno
+                FROM gabarito_aluno where cod_avaliacao = '".$id."'";
+            $query = $db->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+
+    }
+    public function listaalunomodel($turma,$escola,$ano){
         try {
             $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
             $db_oci = new PDO(DB_TYPE_oracle . ':dbname=' . DB_HOST_oracle, DB_USER_oracle, DB_PASS_oracle, $options);
-            $data = date("Y");
+
             $sql = "SELECT
                        pf.TB0137_NOME_PESSOA,
                        mt.TB0026_COD_ALUNO
@@ -109,7 +222,7 @@ class Listaavaliacaomodel {
                        TB0026_ALUNO alu
                     where
                        mt.TB0034_IND_TURMA = ".$db_oci->quote($turma)."
-                       and mt.TB0017_ANO = '".$data."'
+                       and mt.TB0017_ANO = ".$db_oci->quote($ano)."
                        and mt.TB0008_NUM_UNIDADE = ".$db_oci->quote($escola)."
                        and mt.TB0026_COD_ALUNO = alu.TB0026_COD_ALUNO
                        and alu.TB0137_COD_PESSOA = pf.TB0137_COD_PESSOA

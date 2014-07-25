@@ -6,13 +6,13 @@ class IndexModel
      * @param object $db A PDO database connection
      */
     function __construct() {
-        try {
+        /*try {
             $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
             $this->db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql, DB_USER_mysql, DB_PASS_mysql, $options);
             //$this->db = $db;
         } catch (PDOException $e) {
             exit('Database connection could not be established.');
-        }
+        }*/
     }
 
     /**
@@ -21,14 +21,18 @@ class IndexModel
      */
     public function getLogin($matricula)
     {
-          
-        $sql = "SELECT password, fullname, tipo FROM login WHERE matricula = '".mysql_real_escape_string($matricula)."'";
-        $query = $this->db->prepare($sql);
-        $query->execute();
+        try {
+            $this->db_sqlsrv = new PDO(DB_TYPE_sqlsrv .':Server='. DB_HOST_sqlsrv . ';Database=' . DB_NAME_sqlsrv, DB_USER_sqlsrv, DB_PASS_sqlsrv);
 
-        // fetchAll() is the PDO method that gets all result rows
-
-        return $query->fetch(PDO::FETCH_ASSOC);
+            $sql = "SELECT ser.CPF as CPF, atu.Escola as lotacao, ser.Nome as nome, atu.Atividade as Atividade, ser.Situação as situacao, atu.Situação_Atuação as situacao_atua FROM RH.V_SERVIDORES_SEMEC as ser, RH.V_SERVIDORES_SEMEC_ATUA as atu WHERE ser.Matrícula = ".$this->db_sqlsrv->quote($matricula)." and ser.Matrícula = atu.Matrícula";
+            $query = $this->db_sqlsrv->prepare($sql);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC);
+           //
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
     }
     public function close()
     {

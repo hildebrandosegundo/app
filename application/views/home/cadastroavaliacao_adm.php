@@ -318,7 +318,7 @@ $(document).ready(function () {
                     if (data.sucesso) {
 
                         alert(token[1] + " excluido com sucesso!!");
-                        $('.programa').click();
+                        $('.close').click();
                     }
                 }
 
@@ -949,9 +949,9 @@ $(document).ready(function () {
                                     class="buttonsalvar1 btn btn-success glyphicon glyphicon-floppy-save">
                                 Salvar
                             </button>
-                            <button id="editargabarito" name="editargabarito"
+                            <a href="<?php echo URL; ?>/listaavaliacao_adm" id="editargabarito" name="editargabarito"
                                     class="btn btn-info glyphicon glyphicon-share-alt">Gabaritar?
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -961,94 +961,6 @@ $(document).ready(function () {
     </div>
 
 </div>
-<!--<div id="wb_FormLista" style="position:relative;top:170px;z-index:21;">
-
-    <div class="row">
-        <form class="form-horizontal" method="post"
-              enctype="text/plain" id="Form-horizontal">
-            <fieldset>
-
-                <!-- Form Name
-                <legend>Filtrar avaliação</legend>
-                <div class="alert alert-danger alert-dismissable" id="diverror2">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                            id="alerterror">&times;</button>
-
-                        <input type='text' id='error2' name="error" value='' style="width:80em" autocomplete='off'>
-                    </div>
-                    <!-- Button Drop Down
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tokenfield-zona">Zona</label>
-
-                        <div class="col-md-6">
-                            <input type="text" class="form-control input-xxlarge" id="tokenfield-zona"
-                                   value=""
-                                   placeholder="Selecione as zonas desejadas"/>
-
-                        </div>
-                    </div>
-
-                    <!-- Text input
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tokenfield-escolas">Escolas</label>
-
-                        <div class="col-md-6">
-                            <input type="text" class="input-xxlarge" id="tokenfield-escolas" value=""
-                                   placeholder="Selecione as escolas desejadas"/>
-                            <span class="help-block">(digite o código da escola)</span>
-                        </div>
-                    </div>
-
-                    <!-- Button Drop Down
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tokenfield-escolas-nomes"></label>
-
-                        <div class="col-md-6">
-                            <input type="text" class="input-xxlarge" id="tokenfield-escolas-nomes" value=""
-                                   placeholder="Lista de escolas"/>
-                        </div>
-                    </div>
-                    <!-- Button Drop Down
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="tokenfield-serie">Ano/Série</label>
-
-                        <div class="col-md-6">
-
-                            <input type="text" class="input-xxlarge" id="tokenfield-serie"
-                                   placeholder="Selecione as séries desejadas"/>
-
-                        </div>
-                    </div>
-                    <!-- Text input
-                    <div class="form-group">
-                        <label class="col-md-4 control-label " for="tokenfield-turma">Turmas</label>
-
-                        <div class="col-md-6">
-
-                            <input type="text" class="input-xxlarge" id="tokenfield-turma"
-                                   placeholder="Selecione as turmas desejadas"/>
-                            <span class="help-block">(digite o código da turma)</span>
-
-                        </div>
-                    </div>
-
-                    <!-- Button
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="singlebutton1"></label>
-
-                        <div class="col-md-4">
-                            <button type="submit" id="buttonsalvar2" name="singlebutton1"
-                                    class="btn btn-success glyphicon glyphicon-floppy-save">
-                                Salvar
-                            </button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-
-        </div>
-
-    </div>-->
 </div>
 <div id="Layer1"
      style="position:absolute;overflow:auto;text-align:center;left:0px;top:0px;width:972px;height:68px;z-index:22;"

@@ -18,12 +18,13 @@ class Application
         // create array with URL parts in $url
         $this->splitUrl();
 
+
         // check for controller: does such a controller exist ?
         if (file_exists('./application/controller/' . $this->url_controller . '.php')) {
 
             // if so, then load this file and create this controller
             // example: if controller would be "car", then this line would translate into: $this->car = new car();
-            require './application/controller/' . $this->url_controller . '.php';
+            require_once './application/controller/' . $this->url_controller . '.php';
              $this->url_controller = new $this->url_controller();
 
             // check for method: does such a method exist in the controller ?
@@ -33,8 +34,8 @@ class Application
             call_user_func_array(array($this->url_controller, $this->url_action), $this->params);
         } else {
             // invalid URL, so simply show home/index
-            require './application/controller/index.php';
-            $home = new Index();
+            require_once './application/controller/login.php';
+            $home = new Login();
             $home->index();
         }
     }
@@ -56,7 +57,7 @@ class Application
             // @see http://davidwalsh.name/php-shorthand-if-else-ternary-operators
             $this->url_controller = (isset($url[0]) ? $url[0] : null);
             $this->url_action = (isset($url[1]) ? $url[1] : null);
-            $this->params = array_slice($url, 2);
+            $this->params = (isset($url[2])) ? array_slice($url, 2) : array();
 
          }
     }
