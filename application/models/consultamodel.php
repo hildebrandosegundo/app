@@ -27,8 +27,6 @@ class ConsultaModel
     {
         try {
         $this->db_sqlsrv = new PDO(DB_TYPE_sqlsrv .':Server='. DB_HOST_sqlsrv . ';Database=' . DB_NAME_sqlsrv, DB_USER_sqlsrv, DB_PASS_sqlsrv);
-
-        //$sql = "SELECT cpf, fullname FROM login WHERE matricula = '" . $matricula . "'";
         $sql = "SELECT ser.Nome as Nome, atu.Atividade as Atividade, atu.Escola as Escola, atu.Situação_Atuação as Situacao FROM RH.V_SERVIDORES_SEMEC as ser, RH.V_SERVIDORES_SEMEC_ATUA as atu WHERE ser.Matrícula = " . $this->db_sqlsrv->quote($matricula) . " and ser.Matrícula = atu.Matrícula ";
         //$query = $this->db->prepare($sql);
         $query = $this->db_sqlsrv->prepare($sql);
