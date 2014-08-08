@@ -30,9 +30,8 @@
                 echo 'Não esta logado';
             }?>!
             <input type="hidden" id="lotacaoservidor" name="lotacaoservidor" value="<?php echo $_SESSION['lotacao'];?>" class="form-control"/>
-            <!--<input type="hidden" id="selectano" name="selectano" class="form-control"/>
-            <input type="hidden" id="selectano" name="selectano" class="form-control"/>-->
-        </span>
+         <input id="matriculausuario" name="matriculausuario" type="hidden" value="<?php echo $_SESSION['matricula'] ?>">
+       </span>
     </div>
 </div>
 

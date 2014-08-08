@@ -3,15 +3,19 @@
  */
 
 var table, listagabarito, alteralistagabarito, linha, linha2, id_table = null;
+
 RemoveTableRow = function (handler) {
     id_table = table.row($(handler).parents('tr')).data();
     var result = confirm("Você deseja deletar esta prova?");
+    var _matricula_usuario = $('#matriculausuario').val();
+
     if (result == true) {
         $.ajax({
             type: "POST",
             url: "listaavaliacao_adm/excluiavaliacao",
             data: {
-                id: id_table['id_avaliacao']
+                id: id_table['id_avaliacao'],
+                matricula_usuario: _matricula_usuario
             },
 //dataType: "json",
             success: function (data) {
@@ -501,6 +505,8 @@ $(document).ready(function () {
         var _tipo = $('#tipodeprova').find('option').filter(':selected').text();
         var _serie = $("#tokenfield-anoserie").val();
         var _ano = $('#inputano').val();
+        var _matricula_usuario = $('#matriculausuario').val();
+
         $.ajax({
             type: "POST",
             url: "listaavaliacao_adm/atualizaravaliacao",
@@ -512,6 +518,7 @@ $(document).ready(function () {
                 serie: _serie,
                 tipo: _tipo,
                 ano: _ano,
+                matricula_usuario: _matricula_usuario,
                 id: id_table['id_avaliacao']
             },
             success: function (data) {
@@ -863,7 +870,7 @@ $(document).ready(function () {
         $('.alternativa').each(function () {
             _alternativas.push($(this).val());
         });
-
+        var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
             url: "listaavaliacao_adm/salvaprova",
@@ -871,6 +878,7 @@ $(document).ready(function () {
                 num_questoes: _num_questoes,
                 alternativas: _alternativas,
                 qtd_questoes: _qtd_questoes,
+                matricula_usuario: _matricula_usuario,
                 id: id_table['id_avaliacao']
             },
 //dataType: "json",
@@ -907,7 +915,7 @@ $(document).ready(function () {
         $('.alt_alternativa').each(function () {
             _alternativas.push($(this).val());
         });
-
+        var _matricula = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
             url: "listaavaliacao_adm/editaprova",
@@ -916,6 +924,7 @@ $(document).ready(function () {
                 alternativas: _alternativas,
                 qtd_questoes: _qtd_questoes,
                 id_questoes: _id_questoes,
+                matricula_usuario: _matricula_usuario,
                 id: id_table['id_avaliacao']
             },
 //dataType: "json",
@@ -1035,6 +1044,7 @@ $(document).ready(function () {
             _questoes.push($(this).val());
         });
         var _matricula = tr.find('.matricula').html();
+        var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
             url: "listaavaliacao_adm/salvagabaritoaluno",
@@ -1043,13 +1053,12 @@ $(document).ready(function () {
                 matricula: _matricula,
                 cod_unidade: $('#selectescola').val(),
                 ind_turma: $('#selectturma').find('option').filter(':selected').text().trim(),
+                matricula_usuario: _matricula_usuario,
                 questoes: _questoes
             },
             success: function (json) {
                 json = JSON.parse(json);
                 span.html(json.nota);
-                console.log(span.html());
-                console.log(json.nota);
             }
         });
 
@@ -1062,6 +1071,7 @@ $(document).ready(function () {
         tr.addClass('warning');
         var _matricula = tr.find('.matricula').html();
         var _questoes = [];
+        var _matricula_usuario = $('#matriculausuario').val();
         tr.find('.alternativaaluno').each(function () {
             _questoes.push($(this).val());
         });
@@ -1071,13 +1081,12 @@ $(document).ready(function () {
             data: {
                 id: id_table['id_avaliacao'],
                 matricula: _matricula,
+                matricula_usuario: _matricula_usuario,
                 questoes: _questoes
             },
             success: function (json) {
                 json = JSON.parse(json);
                 span.html(json.nota);
-                console.log(span.html());
-                console.log(json.nota);
             }
         });
     });

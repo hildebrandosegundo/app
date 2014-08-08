@@ -27,7 +27,6 @@
         return false;
     }
     GabaritoAlunoRow = function (d) {
-        //console.log(d);
         id_table = table.row($(d).parents('tr')).data();
         $('#modalgabaritoaluno').modal('show');
         linha = $(d);
@@ -115,8 +114,7 @@
             var data = table.row($(this).parents('tr')).data();
             e.preventDefault();
             e.stopPropagation();
-            // console.log(data[0]);
-            var dataAno = new Date();
+             var dataAno = new Date();
             // var escola = $('#lotacaoservidor').val().split(' - ')[0];
             $('#selectano').val(dataAno.getFullYear());
 
@@ -168,7 +166,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "listaavaliacao_adm/selecionaserie",
+                url: "listaavaliacao_cli/selecionaserie",
                 data: {
                     escolas_serie: _escolas_serie,
                     escolas_turma: _turmas
@@ -178,7 +176,6 @@
                 success: function (data) {
 
                     data = JSON.parse(data);
-                    //console.log(data.values);
                     if (data.sucesso) {
                         $("#error2").val('');
                         $("#diverror2").hide();
@@ -237,7 +234,7 @@
             var _ano = $('#selectano').val();
             $.ajax({
                 type: "POST",
-                url: "listaavaliacao_adm/listaalunos",
+                url: "listaavaliacao_cli/listaalunos",
                 data: {turma: _turma,
                     escola: _escola,
                     ano: _ano,
@@ -262,12 +259,15 @@
                 _questoes.push($(this).val());
             });
             var _matricula = tr.find('.matricula').html();
+            var _matricula_usuario = $('#matriculausuario').val();
+
             $.ajax({
                 type: "POST",
-                url: "listaavaliacao_adm/salvagabaritoaluno",
+                url: "listaavaliacao_cli/salvagabaritoaluno",
                 data: {
                     id: id_table['id_avaliacao'],
                     matricula: _matricula,
+                    matricula_usuario: _matricula_usuario,
                     cod_unidade: $('#selectescola').val(),
                     ind_turma: $('#selectturma').find('option').filter(':selected').text().trim(),
                     questoes: _questoes
@@ -275,8 +275,7 @@
                 success: function (json) {
                     json = JSON.parse(json);
                     span.html(json.nota);
-                    console.log(span.html());
-                    console.log(json.nota);
+
                 }
             });
 
@@ -288,23 +287,24 @@
             var span = $(this).contents().filter("span");
             tr.addClass('warning');
             var _matricula = tr.find('.matricula').html();
+            var _matricula_usuario = $('#matriculausuario').val();
+
             var _questoes = [];
             tr.find('.alternativaaluno').each(function () {
                 _questoes.push($(this).val());
             });
             $.ajax({
                 type: "POST",
-                url: "listaavaliacao_adm/alteragabaritoaluno",
+                url: "listaavaliacao_cli/alteragabaritoaluno",
                 data: {
                     id: id_table['id_avaliacao'],
                     matricula: _matricula,
+                    matricula_usuario: _matricula_usuario,
                     questoes: _questoes
                 },
                 success: function (json) {
                     json = JSON.parse(json);
                     span.html(json.nota);
-                    console.log(span.html());
-                    console.log(json.nota);
                 }
             });
         });

@@ -40,12 +40,10 @@ class ConsultaModel
 
     public function verificaMatricula($matricula)
     {
-
         $sql = "SELECT matricula FROM login WHERE matricula = '" . $matricula . "'";
         $query = $this->db->prepare($sql);
         $query->execute();
         return $query->fetch(PDO::FETCH_ASSOC);
-
     }
 
     /*public function cadastrar($crypt_pass, $newmatricula, $newcpf, $newfullname, $newop, $code)

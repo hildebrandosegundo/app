@@ -8,19 +8,9 @@
    <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
     <link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
-    <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
-    <script type="text/javascript"
-            src="<?php echo URL; ?>/public/js/dataTables.bootstrap.js"></script>
     <link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
-    <link href="<?php echo URL; ?>/public/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
-    <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
-    <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-    <!-- Start WOWSlider.com HEAD section -->
+     <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
+      <!-- Start WOWSlider.com HEAD section -->
     <link rel="stylesheet" type="text/css" href="<?php echo URL; ?>/public/engine1/style.css" />
     <!-- End WOWSlider.com HEAD section -->
     <style type="text/css">
@@ -251,6 +241,9 @@
            </div>
        </div>
    </div>
+   <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-2.1.1.min.js"></script>
+   <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery-ui.js"></script>
+   <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap.min.js"></script>
    <script type="text/javascript" src="<?php echo URL; ?>/public/engine1/wowslider.js"></script>
    <script type="text/javascript" src="<?php echo URL; ?>/public/engine1/script.js"></script>
 

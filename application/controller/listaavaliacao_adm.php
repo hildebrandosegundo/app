@@ -89,6 +89,7 @@ class Listaavaliacao_adm extends Controller
         $retorno = array();
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
         $filtro = $filtro_model->removeravaliacao($_POST['id']);
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Excluiu avaliação');
         $retorno = array_merge($retorno, array(
             'sucesso' => true,
             'values' => 'Prova removida com sucesso!'
@@ -163,6 +164,7 @@ class Listaavaliacao_adm extends Controller
             $_POST['num_questoes'],
             $_POST['alternativas'],
             mysql_real_escape_string($_POST['id']));
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Criou gabarito de prova');
         $retorno = array_merge($retorno, array(
             'sucesso' => true,
             'values' => 'Prova cadastrada com sucesso!'
@@ -179,6 +181,7 @@ class Listaavaliacao_adm extends Controller
             $_POST['alternativas'],
             $_POST['id_questoes'],
             mysql_real_escape_string($_POST['id']));
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Alterou gabarito de prova');
         $retorno = array_merge($retorno, array(
             'sucesso' => true,
             'values' => 'Prova alterada com sucesso!'
@@ -277,6 +280,7 @@ class Listaavaliacao_adm extends Controller
             mysql_real_escape_string($_POST['cod_unidade']),
             mysql_real_escape_string($_POST['ind_turma']),
             $_POST['questoes']);
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Criou gabarito de aluno');
         $retorno = array_merge($retorno, array(
             'nota' => $filtro_model->notamodel()
         ));
@@ -290,6 +294,7 @@ class Listaavaliacao_adm extends Controller
         $qtdquestao = $filtro_model->alteragabaritoalunomodel(mysql_real_escape_string($_POST['id']),
             mysql_real_escape_string($_POST['matricula']),
             $_POST['questoes']);
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Alterou gabarito de aluno');
         $retorno = array_merge($retorno, array(
             'nota' => $filtro_model->notamodel()
         ));
@@ -577,6 +582,7 @@ class Listaavaliacao_adm extends Controller
                     mysql_real_escape_string($_POST['tokenfield_materia']),
                     mysql_real_escape_string($_POST['id']),
                     mysql_real_escape_string($_POST['ano']));
+                $log =  $filtro_model->log($_POST['matricula_usuario'],'Alterou dados da avaliação');
                 $retorno = array_merge(array(
                         'sucesso' => true,
                         'values' => 'Avaliação atualizada com sucesso!'

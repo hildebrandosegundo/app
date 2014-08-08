@@ -1,20 +1,20 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
-<meta http-equiv="Content-Language" content="pt-br">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>SEMEC Avaliação</title>
-<meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
-<link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
-<link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
-<link href="<?php echo URL; ?>/public/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
-<link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
-<link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.min.css" type="text/css" rel="stylesheet">
-<link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.min.css" type="text/css" rel="stylesheet">
-<link href="<?php echo URL; ?>/public/css/dataTables.tableTools.min.css" type="text/css" rel="stylesheet">
-<link href="<?php echo URL; ?>/public/css/listaavaliacao_adm.css" type="text/css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+    <meta http-equiv="Content-Language" content="pt-br">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>SEMEC Avaliação</title>
+    <meta name="generator" content="WYSIWYG Web Builder 9 - http://www.wysiwygwebbuilder.com">
+    <link href="<?php echo URL; ?>/public/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo URL; ?>/public/css/jquery-ui.css"/>
+    <link rel="stylesheet" href="<?php echo URL; ?>/public/css/bootstrap-theme.min.css">
+    <link href="<?php echo URL; ?>/public/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
+    <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/dataTables.tableTools.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/listaavaliacao_adm.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,6 +30,7 @@
                 echo 'Não esta logado';
             }?>!
         </span>
+        <input id="matriculausuario" name="matriculausuario" type="hidden" value="<?php echo $_SESSION['matricula'] ?>">
     </div>
 </div>
 
@@ -543,12 +544,6 @@
                                 <!--#####################tabela de gabarito de aluno ##############################################################################-->
                                 <table cellpadding="0" cellspacing="0" border="0" id="gabaritarprova"
                                        class="display table table-striped" width="100%">
-                                    <!--<thead>
-                                    ####cabeçalho criado em javascript #######
-                                    </thead>
-                                    <tbody>
-                                    ####corpo criado em javascript ########
-                                    </tbody>-->
                                 </table>
 
                             </form>

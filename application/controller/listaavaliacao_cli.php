@@ -91,8 +91,9 @@ class Listaavaliacao_cli extends Controller
         //$lista_aluno = array(array('matricula' => '4356', 'nome' => 'fulano de tal'), array('matricula' => '5678', 'nome' => 'lindolfo monteiro'), array('matricula' => '1234', 'nome' => 'fransisco fransisval'));
         $listaalternativa = $filtro_model->listagabaritoalunomodel(mysql_real_escape_string($_POST['id']));
         // print_r($_POST['turma'],$_POST['escola']);
-        $lista_aluno = $filtro_model->listaalunomodel($_POST['turma'],$_POST['escola'],$_POST['ano']);
+        $lista_aluno = $filtro_model->listaalunomodel($_POST['turma'], $_POST['escola'], $_POST['ano']);
         //var_dump($lista_aluno);
+        $lista_nota = $filtro_model->listanotamodel(mysql_real_escape_string($_POST['id']));
         for ($i = 1; $i <= $qtdquestao; $i++) {
             $linhashead .= "<th aria-label='" . $i . ": activate to sort column ascending' aria-controls='gabaritarprova'>" . $i . "</th>";
         }
@@ -112,21 +113,27 @@ class Listaavaliacao_cli extends Controller
             foreach ($lista_aluno as $alunos) {
                 $altaluno = '';
                 $chave = false;
+
                 foreach ($listaalternativa as $alternativas) {
 
                     if ($alunos['TB0026_COD_ALUNO'] == $alternativas['cod_aluno']) {
                         $chave = true;
                         $altaluno .= "<td><input type='text' class='alternativaaluno' value='" . $alternativas['alternativa'] . "' name='alternativaaluno' size='1'/></td>";
-                        $button = "<td><button class='editagabaritoaluno btn btn-warning glyphicon glyphicon-refresh'>
-                        <span class='nota badge pull-right'>2</span></button></td></tr>";
                     }
                 }
-                if ($chave == false){
+                if ($chave == true) {
+                    foreach ($lista_nota as $nota) {
+                        if ($alunos['TB0026_COD_ALUNO'] == $nota['cod_aluno'])
+                            $button = "<td><button class='editagabaritoaluno btn btn-warning glyphicon glyphicon-refresh'>
+                        <span class='nota badge pull-right'>" . $nota['nota'] . "</span></button></td></tr>";
+                    }
+                }
+                if ($chave == false) {
 
                     for ($i = 0; $i < $qtdquestao; $i++) {
                         $altaluno .= "<td><input type='text' class='alternativaaluno'  name='alternativaaluno' size='1'/></td>";
                         $button = "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'>
-                        <span class='nota badge pull-right'>1</span></button></td></tr>";
+                        <span class='nota badge pull-right'>0.0</span></button></td></tr>";
                     }
 
                 }
@@ -142,8 +149,8 @@ class Listaavaliacao_cli extends Controller
             }
             foreach ($lista_aluno as $alunos) {
                 $linhas .= "<tr><td class='matricula'>" . $alunos['TB0026_COD_ALUNO'] . "</td><td class='sorting_1'>" . $alunos['TB0137_NOME_PESSOA'] . "</td>" . $altaluno .
-                    "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'></button></td></tr>";
-//data.TB0026_COD_ALUNO data.TB0137_NOME_PESSOA
+                    "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'>
+                    <span class='nota badge pull-right'>0.0</span></button></td></tr>";
             }
         }
         $linhas .= "</tbody>";
@@ -153,6 +160,7 @@ class Listaavaliacao_cli extends Controller
         ));
         echo json_encode($retorno);
     }
+
     public function salvagabaritoaluno()
     {
         $retorno = array();
@@ -162,6 +170,7 @@ class Listaavaliacao_cli extends Controller
             mysql_real_escape_string($_POST['cod_unidade']),
             mysql_real_escape_string($_POST['ind_turma']),
             $_POST['questoes']);
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Salvou gabarito de aluno');
         $retorno = array_merge($retorno, array(
             'nota' => $filtro_model->notamodel()
         ));
@@ -175,6 +184,7 @@ class Listaavaliacao_cli extends Controller
         $qtdquestao = $filtro_model->alteragabaritoalunomodel(mysql_real_escape_string($_POST['id']),
             mysql_real_escape_string($_POST['matricula']),
             $_POST['questoes']);
+        $log =  $filtro_model->log($_POST['matricula_usuario'],'Alterou gabarito de aluno');
         $retorno = array_merge($retorno, array(
             'nota' => $filtro_model->notamodel()
         ));
