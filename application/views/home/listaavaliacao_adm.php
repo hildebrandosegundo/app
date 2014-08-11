@@ -14,7 +14,7 @@
     <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.min.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.min.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/css/dataTables.tableTools.min.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo URL; ?>/public/css/listaavaliacao_adm.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/listaavaliacao_adm.min.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -631,7 +631,7 @@
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.min.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.autotab.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/dataTables.tableTools.min.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/listaavaliacao_adm.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/listaavaliacao_adm.min.js"></script>
 
 </body>
 

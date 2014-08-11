@@ -135,14 +135,10 @@ class Listaavaliacao_cli extends Controller
                         $button = "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'>
                         <span class='nota badge pull-right'>0.0</span></button></td></tr>";
                     }
-
                 }
 
                 $linhas .= "<tr><td class='matricula'>" . $alunos['TB0026_COD_ALUNO'] . "</td><td class='sorting_1'>" . $alunos['TB0137_NOME_PESSOA'] . "</td>" . $altaluno . $button;
             }
-
-//data.TB0026_COD_ALUNO data.TB0137_NOME_PESSOA
-
         } else {
             for ($i = 0; $i < $qtdquestao; $i++) {
                 $altaluno .= "<td><input type='text' class='alternativaaluno' name='alternativaaluno' size='1'/></td>";

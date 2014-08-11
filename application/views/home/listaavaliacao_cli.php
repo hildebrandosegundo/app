@@ -13,7 +13,7 @@
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo URL; ?>/public/css/listaavaliacao_cli.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/listaavaliacao_cli.min.css" type="text/css" rel="stylesheet">
 
 </head>
 
@@ -185,7 +185,7 @@
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/dataTables.bootstrap.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/jquery.autotab.js"></script>
 <script type="text/javascript" src="<?php echo URL; ?>/public/js/bootstrap-tokenfield.js"></script>
-<script type="text/javascript" src="<?php echo URL; ?>/public/js/listaavaliacao_cli.js"></script>
+<script type="text/javascript" src="<?php echo URL; ?>/public/js/listaavaliacao_cli.min.js"></script>
 
 </body>
 </html>

@@ -24,7 +24,22 @@ class CadastroavaliacaoModel
      * how to use more than one model in a controller (see application/controller/songs.php for more)
      */
 
-
+    public function log($mat,$at)
+    {
+        try {
+            $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8', PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+            $db = new PDO(DB_TYPE_mysql . ':host=' . DB_HOST_mysql . ';dbname=' . DB_NAME_mysql . ';charset=utf8', DB_USER_mysql, DB_PASS_mysql, $options);
+            date_default_timezone_set('America/Fortaleza');
+            $data = date('Y-m-d');
+            $hora = date('H:i:s');
+            $sql = "INSERT INTO log_usuario (matricula, data, hora, atividade) VALUES ('" . $mat . "','" . $data . "', '" . $hora . "', '".$at."')";
+            $query = $db->prepare($sql);
+            $query->execute();
+        } catch (PDOException $e) {
+            echo "Erro de Conexão " . $e->getMessage() . "\n";
+            exit('Database connection could not be established.');
+        }
+    }
     public function cadastraavaliacaomodel($textdescricao, $num, $programa, $tipo, $serie, $materia)
     {
         try {
