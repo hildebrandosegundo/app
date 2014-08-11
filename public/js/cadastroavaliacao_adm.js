@@ -71,7 +71,7 @@ $(document).ready(function () {
             var token = $('#tokenfield-materia').val().split('-');
             $.ajax({
                 type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirmateria",
+                url: "cadastroavaliacao_adm/excluirmateria",
                 data: {
                     id: token[0],
                     matricula_usuario: _matricula_usuario
@@ -106,7 +106,7 @@ $(document).ready(function () {
             var token = $('#tokenfield-programa').val().split('-');
             $.ajax({
                 type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/excluirprograma",
+                url: "cadastroavaliacao_adm/excluirprograma",
                 data: {
                     id: token[0],
                     matricula_usuario: _matricula_usuario
@@ -136,7 +136,7 @@ $(document).ready(function () {
         var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarmateria",
+            url: "cadastroavaliacao_adm/cadastrarmateria",
             data: {
                 nome: _nome,
                 matricula_usuario: _matricula_usuario
@@ -161,7 +161,7 @@ $(document).ready(function () {
         var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarmateria",
+            url: "cadastroavaliacao_adm/editarmateria",
             data: {
                 nome: _nome,
                 id: _id,
@@ -221,7 +221,7 @@ $(document).ready(function () {
         var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/editarprograma",
+            url: "cadastroavaliacao_adm/editarprograma",
             data: {
                 nome: _nome,
                 id: _id,
@@ -246,7 +246,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            url: "cadastroavaliacao_adm/selectmateria",
             data: {
                 materia: '*'
             },
@@ -269,7 +269,7 @@ $(document).ready(function () {
         var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastrarprograma",
+            url: "cadastroavaliacao_adm/cadastrarprograma",
             data: {
                 nome: _nome,
                 matricula_usuario: _matricula_usuario
@@ -293,7 +293,7 @@ $(document).ready(function () {
         setTimeout(function () {
             $.ajax({
                 type: "POST",
-                url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
+                url: "cadastroavaliacao_adm/selectprograma",
                 data: {
                     programa: '*'
                 },
@@ -316,7 +316,7 @@ $(document).ready(function () {
         $("#progmat").show('slide', {direction: 'down'}, 500);
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectprograma",
+            url: "cadastroavaliacao_adm/selectprograma",
             data: {
                 programa: '*'
             },
@@ -338,7 +338,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/selectmateria",
+            url: "cadastroavaliacao_adm/selectmateria",
             data: {
                 materia: '*'
             },
@@ -367,7 +367,7 @@ $(document).ready(function () {
         var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/cadastraravaliacao",
+            url: "cadastroavaliacao_adm/cadastraravaliacao",
             data: {
                 textdescricao: _textdescricao,
                 tokenfield_programa: _tokenfield_programa,
@@ -383,7 +383,6 @@ $(document).ready(function () {
                     $("#error1").val('');
                     $("#diverror1").hide();
 
-                    //$("#wb_FormConf").hide();
                     $("#editargabarito").show('slide', {direction: 'down'}, 500);
                     $('.buttonsalvar1').removeClass('buttonsalvar1 btn btn-primary glyphicon glyphicon-arrow-down').addClass(
                         'buttoneditar1 btn btn-warning glyphicon glyphicon-refresh');
@@ -412,7 +411,7 @@ $(document).ready(function () {
         var _matricula_usuario = $('#matriculausuario').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo URL; ?>/cadastroavaliacao_adm/atualizaravaliacao",
+            url: "cadastroavaliacao_adm/atualizaravaliacao",
             data: {
                 textdescricao: _textdescricao,
                 tokenfield_programa: _tokenfield_programa,

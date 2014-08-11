@@ -23,9 +23,6 @@ class Cadastroavaliacao_adm extends Controller
         require 'application/views/home/cadastroavaliacao_adm.php';
 
     }
-
-
-
     public function  cadastrarmateria()
     {
         $retorno = array();
@@ -57,7 +54,6 @@ class Cadastroavaliacao_adm extends Controller
         ));
         echo json_encode($retorno);
     }
-
     public function  selectmateria()
     {
         $retorno = array();
@@ -93,9 +89,6 @@ class Cadastroavaliacao_adm extends Controller
         ));
         echo json_encode($retorno);
     }
-
-
-
     public function cadastraravaliacao()
     {
         $retorno = array();
@@ -138,8 +131,7 @@ class Cadastroavaliacao_adm extends Controller
                         'values' => 'O campo Matéria está vazia!'
                     )
                 );
-
-            } else {
+           } else {
                  $filtro_model = $this->loadModel('CadastroavaliacaoModel');
                  $filtro = $filtro_model->cadastraavaliacaomodel(mysql_real_escape_string($_POST['textdescricao']),
                                                                  mysql_real_escape_string($_POST['op']),
@@ -154,11 +146,9 @@ class Cadastroavaliacao_adm extends Controller
                         'values' => 'Cadastro efetuado com sucesso!'
                     )
                 );
-
             }
         }
         echo json_encode($retorno);
-
     }
     public function atualizaravaliacao()
     {
@@ -230,7 +220,6 @@ class Cadastroavaliacao_adm extends Controller
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
         $filtro = $filtro_model->excluirprogramamodel($_POST['id']);
         $log =  $filtro_model->log($_POST['matricula_usuario'],'Excluiu programa');
-
         $retorno = array_merge($retorno, array(
                 'sucesso' => true
             )
@@ -244,7 +233,6 @@ class Cadastroavaliacao_adm extends Controller
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
         $filtro = $filtro_model->excluirmateriamodel($_POST['id']);
         $log =  $filtro_model->log($_POST['matricula_usuario'],'Excluiu materia');
-
         $retorno = array_merge($retorno, array(
                 'sucesso' => true
             )
@@ -271,7 +259,6 @@ class Cadastroavaliacao_adm extends Controller
         $filtro_model = $this->loadModel('CadastroavaliacaoModel');
         $filtro = $filtro_model->editarmateriamodel($_POST['nome'], $_POST['id']);
         $log =  $filtro_model->log($_POST['matricula_usuario'],'Alterou materia');
-
         $retorno = array_merge($retorno, array(
                 'sucesso' => true
             )
