@@ -212,13 +212,27 @@ body.loading .modalloading {
     display: block;
 }
 
+.modal-content {
+    position: relative;
+    overflow-y: auto;
+    max-height: 950px;
+    padding: 15px;
+    width: 950px;
+    margin-left:-40%; /* width/2) */
+}
 .modal-body {
     position: relative;
     overflow-y: auto;
     max-height: 950px;
     padding: 15px;
+    width: 950px;
+    /*margin-left:-40%;*/ /* width/2) */
 }
 
 .autoModal.modal .modal-body {
     max-height: 100%;
+    width: 800px;
+}
+.modal.large {
+    width: 800px;
 }

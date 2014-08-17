@@ -13,7 +13,7 @@
 <link href="<?php echo URL; ?>/public/img/teresina.jpeg" rel="shortcut icon">
 <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
 <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo URL; ?>/public/css/listaavaliacao_cli.min.css" type="text/css" rel="stylesheet">
+<link href="<?php echo URL; ?>/public/css/listaavaliacao_cli.css" type="text/css" rel="stylesheet">
 
 </head>
 

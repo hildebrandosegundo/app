@@ -14,7 +14,7 @@
     <link href="<?php echo URL; ?>/public/css/tokenfield-typeahead.min.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/css/bootstrap-tokenfield.min.css" type="text/css" rel="stylesheet">
     <link href="<?php echo URL; ?>/public/css/dataTables.tableTools.min.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo URL; ?>/public/css/listaavaliacao_adm.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo URL; ?>/public/css/listaavaliacao_adm.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>

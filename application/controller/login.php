@@ -92,14 +92,14 @@ class Login extends Controller
         }
         //$index_model->close();
         else {
-            if ($login['Atividade'] == 'DIGITADOR') {
+            if ($login['Atividade'] == 'DIGITADOR'||(($login['Atividade'] == 'AUX. ADMINISTRATIVO'||$login['Atividade'] == 'GERENTE')&& $fulllotacao =='44002')) {
                 $retorno = array_merge($retorno, array(
                         'sucesso' => true,
                         'values' => $success_page_adm
                     )
                 );
                 $logar = true;
-            } else if ($login['Atividade'] == 'PROFESSOR(A)' || $login['Atividade'] == 'DIRETOR' || $login['Atividade'] == 'AUX. DE SECRETARIA' || $login['Atividade'] == 'DIRETOR PEDAGÓGICO' || $login['Atividade'] == 'SECRETÁRIA(O)'
+            } else if ($login['Atividade'] == 'PROFESSOR(A)' || $login['Atividade'] == 'DIRETOR' || $login['Atividade'] == 'AUX. DE SECRETARIA' || $login['Atividade'] == 'DIRETOR PEDAGÓGICO' || $login['Atividade'] == 'SECRETARIA(O)'
                 || $login['Atividade'] == 'DIRETOR(A) ADJUNTO' || $login['Atividade'] == 'PEDAGOGO(A)') {
                 $retorno = array_merge($retorno, array(
                         'sucesso' => true,
