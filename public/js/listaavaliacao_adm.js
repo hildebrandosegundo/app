@@ -98,6 +98,7 @@ $(document).ready(function () {
 //######################################## pagina com lista de provas #################################################
     table = $('#example').DataTable({
         "dom": 'T<"clear">lfrtip',
+        "sDom": 'Tlfrtip',
         "oTableTools": {
             "sSwfPath": "../../swf/copy_csv_xls_pdf.swf"
         },
@@ -710,11 +711,13 @@ $(document).ready(function () {
     });
 //###################################### modal gabarito ###################################################
     listagabarito = $('#listagabarito').dataTable({
-        "ajax": "listaavaliacao_adm/gabaritoprova",
         "dom": 'T<"clear">lfrtip',
+        "sDom": 'Tlfrtip',
         "oTableTools": {
             "sSwfPath": "../../swf/copy_csv_xls_pdf.swf"
         },
+        "ajax": "listaavaliacao_adm/gabaritoprova",
+
         "pageLength": 50,
         "columns": [
             { "data": "num_questao" },
@@ -948,16 +951,17 @@ $(document).ready(function () {
 
         id_table = table.row($(this).parents('tr')).data();
         alteralistagabarito = $('#alterarlistagabarito').dataTable({
+            "dom": 'T<"clear">lfrtip',
+            "sDom": 'Tlfrtip',
+            "oTableTools": {
+                "sSwfPath": "../../swf/copy_csv_xls_pdf.swf"
+            },
             "ajax": {
                 type: "POST",
                 url: "listaavaliacao_adm/alteragabaritoprova",
                 data: {
                     id: id_table['id_avaliacao']
                 }
-            },
-            "dom": 'T<"clear">lfrtip',
-            "oTableTools": {
-                "sSwfPath": "../../swf/copy_csv_xls_pdf.swf"
             },
             "pageLength": 50,
             "columns": [
@@ -986,6 +990,10 @@ $(document).ready(function () {
 
     var gabaritoaluno = $('#gabaritarprova').dataTable({
         "dom": 'T<"clear">lfrtip',
+        "sDom": 'Tlfrtip',
+        "oTableTools": {
+            "sSwfPath": "../../swf/copy_csv_xls_pdf.swf"
+        },
         "pageLength": 50,
         "columnDefs": [
             {

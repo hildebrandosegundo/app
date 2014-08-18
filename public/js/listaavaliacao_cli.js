@@ -214,6 +214,10 @@
         });
         $('#gabaritarprova').dataTable({
             "dom": 'T<"clear">lfrtip',
+            sDom: 'Tlfrtip',
+            "oTableTools": {
+                "sSwfPath": "../../swf/copy_csv_xls_pdf.swf"
+            },
             "pageLength": 50,
             "columnDefs": [
                 {

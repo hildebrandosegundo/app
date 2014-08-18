@@ -118,7 +118,7 @@ class Listaavaliacao_cli extends Controller
 
                     if ($alunos['TB0026_COD_ALUNO'] == $alternativas['cod_aluno']) {
                         $chave = true;
-                        $altaluno .= "<td><input type='text' class='alternativaaluno' value='" . $alternativas['alternativa'] . "' name='alternativaaluno' size='1'/></td>";
+                        $altaluno .= "<td><input type='text' class='alternativaaluno' value='" . $alternativas['alternativa'] . "' name='alternativaaluno' size='1' style='width:15px;'/></td>";
                     }
                 }
                 if ($chave == true) {
@@ -131,20 +131,20 @@ class Listaavaliacao_cli extends Controller
                 if ($chave == false) {
 
                     for ($i = 0; $i < $qtdquestao; $i++) {
-                        $altaluno .= "<td><input type='text' class='alternativaaluno'  name='alternativaaluno' size='1'/></td>";
+                        $altaluno .= "<td><input type='text' class='alternativaaluno'  name='alternativaaluno' size='1' style='width:15px;'/></td>";
                         $button = "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'>
                         <span class='nota badge pull-right'>0.0</span></button></td></tr>";
                     }
                 }
 
-                $linhas .= "<tr><td class='matricula'>" . $alunos['TB0026_COD_ALUNO'] . "</td><td class='sorting_1'>" . $alunos['TB0137_NOME_PESSOA'] . "</td>" . $altaluno . $button;
+                $linhas .= "<tr><td class='matricula'>" . $alunos['TB0026_COD_ALUNO'] . "</td><td class='sorting_1'><font size=1>" . $alunos['TB0137_NOME_PESSOA'] . "</font></td>" . $altaluno . $button;
             }
         } else {
             for ($i = 0; $i < $qtdquestao; $i++) {
-                $altaluno .= "<td><input type='text' class='alternativaaluno' name='alternativaaluno' size='1'/></td>";
+                $altaluno .= "<td><input type='text' class='alternativaaluno' name='alternativaaluno' size='1' style='width:15px;'/></td>";
             }
             foreach ($lista_aluno as $alunos) {
-                $linhas .= "<tr><td class='matricula'>" . $alunos['TB0026_COD_ALUNO'] . "</td><td class='sorting_1'>" . $alunos['TB0137_NOME_PESSOA'] . "</td>" . $altaluno .
+                $linhas .= "<tr><td class='matricula'>" . $alunos['TB0026_COD_ALUNO'] . "</td><td class='sorting_1'><font size=1>" . $alunos['TB0137_NOME_PESSOA'] . "</font></td>" . $altaluno .
                     "<td><button class='salvagabaritoaluno btn btn-success glyphicon glyphicon-floppy-save'>
                     <span class='nota badge pull-right'>0.0</span></button></td></tr>";
             }
