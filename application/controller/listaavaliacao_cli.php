@@ -24,6 +24,7 @@ class Listaavaliacao_cli extends Controller
     {
         $retorno = array();
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
+        $sLimit = "";
         if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
         {
             $sLimit = "LIMIT ".intval( $_GET['iDisplayStart'] ).", ".
