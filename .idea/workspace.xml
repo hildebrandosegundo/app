@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="47a2641a-1809-427a-b15b-ca7e60e7e4a7" name="Default" comment="" />
+    <ignored path="app.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/app$controller.coverage" NAME="controller Coverage Results" MODIFIED="1399466830580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myAutoScrollToSource" value="true" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="app" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="config.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/config/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="35" selection-start="950" selection-end="950" vertical-scroll-proportion="-0.0" vertical-offset="527" max-vertical-offset="901">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_cli.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_cli.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="216" column="28" selection-start="0" selection-end="11961" vertical-scroll-proportion="0.0" vertical-offset="3077" max-vertical-offset="5644">
+              <folding>
+                <marker date="1408382282565" expanded="false" signature="1554:1572" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_cli.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_cli.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="5752" selection-start="5752" selection-end="5752" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_adm.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controller/listaavaliacao_adm.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="9" selection-start="604" selection-end="818" vertical-scroll-proportion="-14.038462" vertical-offset="162" max-vertical-offset="11033">
+              <folding>
+                <marker date="1408556311013" expanded="false" signature="11076:11087" placeholder="..." />
+                <marker date="1408556311013" expanded="true" signature="11136:11304" placeholder="..." />
+                <marker date="1408556311013" expanded="true" signature="11219:11299" placeholder="..." />
+                <marker date="1408556311013" expanded="false" signature="11808:11819" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacaomodel.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models/listaavaliacaomodel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="0" selection-start="1973" selection-end="1973" vertical-scroll-proportion="-30.73077" vertical-offset="17" max-vertical-offset="7276">
+              <folding>
+                <marker date="1408556310985" expanded="true" signature="1518:1653" placeholder="SELECT id_av..avaliacao..." />
+                <marker date="1408556310985" expanded="true" signature="2378:2513" placeholder="SELECT id_av..avaliacao..." />
+                <marker date="1408556310985" expanded="true" signature="8018:8102" placeholder="SELECT id_ga..gabarito_aluno..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_adm.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_adm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="992" column="26" selection-start="0" selection-end="37682" vertical-scroll-proportion="0.0" vertical-offset="18140" max-vertical-offset="19040">
+              <folding>
+                <marker date="1408382186437" expanded="true" signature="2328:2346" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_adm.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_adm.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="21920" selection-start="21920" selection-end="21920" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_cli.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/controller/listaavaliacao_cli.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="56" selection-start="853" selection-end="853" vertical-scroll-proportion="0.3587339" vertical-offset="221" max-vertical-offset="6018">
+              <folding>
+                <marker date="1408557744684" expanded="false" signature="5997:6008" placeholder="..." />
+                <marker date="1408557744684" expanded="true" signature="6057:6225" placeholder="..." />
+                <marker date="1408557744684" expanded="true" signature="6140:6220" placeholder="..." />
+                <marker date="1408557744684" expanded="false" signature="6678:6689" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="masterpage_adm.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controller/masterpage_adm.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1088">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listaavaliacao_cli.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/views/home/listaavaliacao_cli.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="115" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="3332">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/application/views/home/listaavaliacao.php" />
+        <option value="$PROJECT_DIR$/public/js/jquery.browser.min.js" />
+        <option value="$PROJECT_DIR$/application/controller/listaavaliacao.php" />
+        <option value="$PROJECT_DIR$/application/controller/masterpage.php" />
+        <option value="$PROJECT_DIR$/application/controller/masterpage_adm.php" />
+        <option value="$PROJECT_DIR$/application/views/home/listaavalicao" />
+        <option value="$PROJECT_DIR$/application/views/home/cadastroavaliacao.php" />
+        <option value="$PROJECT_DIR$/application/controller/cadastroavaliacao.php" />
+        <option value="$PROJECT_DIR$/application/controller/semec_page.php" />
+        <option value="$PROJECT_DIR$/application/config/config.php" />
+        <option value="$PROJECT_DIR$/application/views/home/listaavaliacao_esc.php" />
+        <option value="$PROJECT_DIR$/application/controller/masterpage_cli.php" />
+        <option value="$PROJECT_DIR$/application/views/home/cadastro.php" />
+        <option value="$PROJECT_DIR$/application/controller/cadastro.php" />
+        <option value="$PROJECT_DIR$/application/models/cadastromodel.php" />
+        <option value="$PROJECT_DIR$/public/css/consulta.css" />
+        <option value="$PROJECT_DIR$/application/views/home/index.php" />
+        <option value="$PROJECT_DIR$/application/libs/application.php" />
+        <option value="$PROJECT_DIR$/application/controller/index.php" />
+        <option value="$PROJECT_DIR$/application/views/home/login.php" />
+        <option value="$PROJECT_DIR$/public/css/index.css" />
+        <option value="$PROJECT_DIR$/application/views/home/consulta.php" />
+        <option value="$PROJECT_DIR$/public/js/index.js" />
+        <option value="$PROJECT_DIR$/application/libs/controller.php" />
+        <option value="$PROJECT_DIR$/application/controller/consulta.php" />
+        <option value="$PROJECT_DIR$/public/js/consulta.js" />
+        <option value="$PROJECT_DIR$/application/models/indexmodel.php" />
+        <option value="$PROJECT_DIR$/application/models/consultamodel.php" />
+        <option value="$PROJECT_DIR$/application/views/home/masterpage_cli.php" />
+        <option value="$PROJECT_DIR$/application/views/home/masterpage_adm.php" />
+        <option value="$PROJECT_DIR$/application/models/cadastroavaliacaomodel.php" />
+        <option value="$PROJECT_DIR$/public/css/cadastroavaliacao_adm.css" />
+        <option value="$PROJECT_DIR$/public/css/cadastroavaliacao_adm.min.css" />
+        <option value="$PROJECT_DIR$/application/controller/cadastroavaliacao_adm.php" />
+        <option value="$PROJECT_DIR$/public/js/cadastroavaliacao_adm.js" />
+        <option value="$PROJECT_DIR$/public/js/cadastroavaliacao_adm.min.js" />
+        <option value="$PROJECT_DIR$/application/views/home/cadastroavaliacao_adm.php" />
+        <option value="$PROJECT_DIR$/application/controller/login.php" />
+        <option value="$PROJECT_DIR$/public/css/listaavaliacao_cli.css" />
+        <option value="$PROJECT_DIR$/public/css/listaavaliacao_adm.css" />
+        <option value="$PROJECT_DIR$/public/css/listaavaliacao_adm.min.css" />
+        <option value="$PROJECT_DIR$/public/css/listaavaliacao_cli.min.css" />
+        <option value="$PROJECT_DIR$/application/views/home/listaavaliacao_adm.php" />
+        <option value="$PROJECT_DIR$/application/views/home/listaavaliacao_cli.php" />
+        <option value="$PROJECT_DIR$/public/js/listaavaliacao_adm.js" />
+        <option value="$PROJECT_DIR$/public/js/listaavaliacao_adm.min.js" />
+        <option value="$PROJECT_DIR$/public/js/listaavaliacao_cli.js" />
+        <option value="$PROJECT_DIR$/public/js/listaavaliacao_cli.min.js" />
+        <option value="$PROJECT_DIR$/application/controller/listaavaliacao_adm.php" />
+        <option value="$PROJECT_DIR$/application/models/listaavaliacaomodel.php" />
+        <option value="$PROJECT_DIR$/application/controller/listaavaliacao_cli.php" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="php5.4" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="home" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_tutorial" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Default" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="LayoutCode.rearrangeEntriesPHP" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../acompanhamento" />
+    <property name="recentsLimit" value="5" />
+    <property name="LayoutCode.rearrangeEntriesHTML" value="false" />
+    <property name="options.lastSelected" value="vcs.Git" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="FullScreen" value="false" />
+    <property name="LayoutCode.rearrangeEntriesJavaScript" value="false" />
+    <property name="SearchEverywhereHistory" value="" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp2\htdocs\app\public\css" />
+      <recent name="C:\xampp2\htdocs\app\public\js" />
+      <recent name="C:\xampp2\htdocs\app\application\controller" />
+      <recent name="C:\xampp2\htdocs\app\application\views\home" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp2\htdocs\app\public\css" />
+    </key>
+  </component>
+  <component name="RunManager" selected="PHPUnit.controller">
+    <configuration default="false" name="controller" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner directory="$PROJECT_DIR$/application/controller" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <RunnerSettings RunnerId="PhpUnitCoverageRunner" />
+      <RunnerSettings RunnerId="PhpUnitDebugRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpUnitCoverageRunner" />
+      <ConfigurationWrapper RunnerId="PhpUnitDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="home" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner directory="$PROJECT_DIR$/application/views/home" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="PHPUnit.controller" />
+      <item index="1" class="java.lang.String" itemvalue="PHPUnit.home" />
+    </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="PHPUnit.controller" />
+        <item index="1" class="java.lang.String" itemvalue="PHPUnit.home" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="47a2641a-1809-427a-b15b-ca7e60e7e4a7" name="Default" comment="" />
+      <created>1398799633655</created>
+      <updated>1398799633655</updated>
+    </task>
+    <task id="LOCAL-00001" summary="implantação da opção de pesquisar turma">
+      <created>1398974061815</created>
+      <updated>1398974061815</updated>
+    </task>
+    <task id="LOCAL-00002" summary="implantação da opção de pesquisar turma&#10;">
+      <created>1399429916872</created>
+      <updated>1399429916872</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implantação da opção de pesquisar turma&#10;">
+      <created>1399430131043</created>
+      <updated>1399430131043</updated>
+    </task>
+    <task id="LOCAL-00004" summary="implantação da opção de pesquisar turma&#10;">
+      <created>1399551985572</created>
+      <updated>1399551985572</updated>
+    </task>
+    <task id="LOCAL-00005" summary="FILTRO E CADASTRO COMPLETO, CADASTRO INCOMPLETO&#10;">
+      <created>1400599259143</created>
+      <updated>1400599259143</updated>
+    </task>
+    <task id="LOCAL-00006" summary="FILTRO E CADASTRO COMPLETO, CADASTRO INCOMPLETO&#10;">
+      <created>1400599330243</created>
+      <updated>1400599330243</updated>
+    </task>
+    <task id="LOCAL-00007" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO INCOMPLETO&#10;">
+      <created>1400850415130</created>
+      <updated>1400850415130</updated>
+    </task>
+    <task id="LOCAL-00008" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO INCOMPLETO&#10;">
+      <created>1400908496939</created>
+      <updated>1400908496939</updated>
+    </task>
+    <task id="LOCAL-00009" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO INCOMPLETO&#10;">
+      <created>1401448067778</created>
+      <updated>1401448067778</updated>
+    </task>
+    <task id="LOCAL-00010" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO INCOMPLETO&#10;">
+      <created>1401565338432</created>
+      <updated>1401565338432</updated>
+    </task>
+    <task id="LOCAL-00011" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;">
+      <created>1402063435101</created>
+      <updated>1402063435101</updated>
+    </task>
+    <task id="LOCAL-00012" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;">
+      <created>1402586644599</created>
+      <updated>1402586644599</updated>
+    </task>
+    <task id="LOCAL-00013" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;MODIFICAR A FORMA DE BUSCA DE TURMAS">
+      <created>1403018667185</created>
+      <updated>1403018667185</updated>
+    </task>
+    <task id="LOCAL-00014" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;MODIFICAR A FORMA DE BUSCA DE TURMAS &#10;">
+      <created>1403533780866</created>
+      <updated>1403533780866</updated>
+    </task>
+    <task id="LOCAL-00015" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO, FORMA DE BUSCA DE TURMAS COMPLETO, CADASTRO E ALTERACAO DE NOTA DE ALUNO INCOMPLETO&#10;">
+      <created>1404832747650</created>
+      <updated>1404832747650</updated>
+    </task>
+    <task id="LOCAL-00016" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO, FORMA DE BUSCA DE TURMAS COMPLETO, CADASTRO E ALTERACAO DE NOTA DE ALUNO INCOMPLETO&#10;">
+      <created>1404832793581</created>
+      <updated>1404832793581</updated>
+    </task>
+    <task id="LOCAL-00017" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO, FORMA DE BUSCA DE TURMAS COMPLETO, CADASTRO E ALTERACAO DE NOTA DE ALUNO INCOMPLETO&#10;">
+      <created>1404832840600</created>
+      <updated>1404832840600</updated>
+    </task>
+    <task id="LOCAL-00018" summary="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO, FORMA DE BUSCA DE TURMAS COMPLETO, CADASTRO E ALTERACAO DE NOTA DE ALUNO COMPLETO, LOGIN COMPLETO&#10;">
+      <created>1406303227704</created>
+      <updated>1406303227704</updated>
+    </task>
+    <task id="LOCAL-00019" summary="IMAGENS COMMITADAS">
+      <created>1406656177804</created>
+      <updated>1406656177805</updated>
+    </task>
+    <task id="LOCAL-00020" summary="IMAGENS COMMITADAS&#10;">
+      <created>1406656338085</created>
+      <updated>1406656338085</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Log de usuario completo&#10;">
+      <created>1407521299458</created>
+      <updated>1407521299458</updated>
+    </task>
+    <task id="LOCAL-00022" summary="minimação de codigo css e js &#10;">
+      <created>1407773177960</created>
+      <updated>1407773177960</updated>
+    </task>
+    <task id="LOCAL-00023" summary="minimação de codigo css e js&#10;">
+      <created>1407793196313</created>
+      <updated>1407793196313</updated>
+    </task>
+    <task id="LOCAL-00024" summary="minimação de codigo css e js&#10;">
+      <created>1408261120135</created>
+      <updated>1408261120135</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Ajustes de listagem de alunos">
+      <created>1408383357798</created>
+      <updated>1408383357798</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Ajustes de listagem de avaliação&#10;">
+      <created>1408558115653</created>
+      <updated>1408558115653</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32829374" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11767838" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39956802" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32747254" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="PHP-CGI Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39848813" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <MESSAGE value="implantação da opção de pesquisar turma" />
+    <MESSAGE value="implantação da opção de pesquisar turma&#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO INCOMPLETO&#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO INCOMPLETO&#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO INCOMPLETO&#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;MODIFICAR A FORMA DE BUSCA DE TURMAS" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO&#10;MODIFICAR A FORMA DE BUSCA DE TURMAS &#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO, FORMA DE BUSCA DE TURMAS COMPLETO, CADASTRO E ALTERACAO DE NOTA DE ALUNO INCOMPLETO&#10;" />
+    <MESSAGE value="FILTRO E CADASTRO COMPLETO, CADASTRO COMPLETO, SELESÃO DE AVALIAÇÃO COMPLETO, EDITAR AVALIACAO COMPLETO, CADASTRAR ALTERNATIVAS DA PROVA COMPLETO, CADASTRO DE ALTERNATIVAS DE ALUNOS INCOMPLETO, FORMA DE BUSCA DE TURMAS COMPLETO, CADASTRO E ALTERACAO DE NOTA DE ALUNO COMPLETO, LOGIN COMPLETO&#10;" />
+    <MESSAGE value="IMAGENS COMMITADAS" />
+    <MESSAGE value="IMAGENS COMMITADAS&#10;" />
+    <MESSAGE value="Log de usuario completo&#10;" />
+    <MESSAGE value="minimação de codigo css e js &#10;" />
+    <MESSAGE value="minimação de codigo css e js&#10;" />
+    <MESSAGE value="Ajustes de listagem de alunos" />
+    <MESSAGE value="Ajustes de listagem de avaliação&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajustes de listagem de avaliação&#10;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/application/controller/listaavaliacao_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="460" column="59" selection-start="19514" selection-end="19514" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10523" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/listaavaliacao_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="95" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="14773" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_adm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="651" column="0" selection-start="21253" selection-end="21253" vertical-scroll-proportion="0.0" vertical-offset="10540" max-vertical-offset="18785" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/listaavaliacaomodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="46" selection-start="1857" selection-end="1857" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="5678" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/dataTables.bootstrap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4352" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jquery-ui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.671541" vertical-offset="3264" max-vertical-offset="255136" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/jquery-ui.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="1" selection-start="1906" selection-end="1906" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="20111" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/consulta.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="27" selection-start="589" selection-end="589" vertical-scroll-proportion="0.32" vertical-offset="256" max-vertical-offset="1156" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/songs/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.67017543" vertical-offset="382" max-vertical-offset="952" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/_templates/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="901" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="604" selection-end="604" vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="408" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="0" selection-start="1336" selection-end="1336" vertical-scroll-proportion="0.0" vertical-offset="650" max-vertical-offset="1513" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="25" selection-start="898" selection-end="898" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="3870" selection-end="3870" vertical-scroll-proportion="-0.65384614" vertical-offset="1241" max-vertical-offset="2380" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/songs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="12.423077" vertical-offset="323" max-vertical-offset="1581" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/songsmodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.4235437" vertical-offset="349" max-vertical-offset="1173" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libs/application.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="1487" selection-end="1487" vertical-scroll-proportion="-24.192308" vertical-offset="68" max-vertical-offset="1190" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/gabaritoprova.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-12.236612" vertical-offset="9826" max-vertical-offset="13940" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/utils.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="850" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/consulta.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="0" selection-start="1582" selection-end="1582" vertical-scroll-proportion="0.0" vertical-offset="605" max-vertical-offset="2652" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/consultamodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="0" selection-start="1944" selection-end="1944" vertical-scroll-proportion="0.88916564" vertical-offset="0" max-vertical-offset="1292" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/masterpage_cli.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="246" column="0" selection-start="10894" selection-end="11085" vertical-scroll-proportion="0.0" vertical-offset="3426" max-vertical-offset="4301" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/masterpage_cli.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1088" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/masterpage_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="21" selection-start="10005" selection-end="10005" vertical-scroll-proportion="0.41220424" vertical-offset="3477" max-vertical-offset="4352" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/consulta.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2329" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libs/controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="0" selection-start="2165" selection-end="2165" vertical-scroll-proportion="0.94781554" vertical-offset="120" max-vertical-offset="1020" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/consulta.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="0" selection-start="2996" selection-end="2996" vertical-scroll-proportion="0.0" vertical-offset="604" max-vertical-offset="2873" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/indexmodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="2" selection-start="1760" selection-end="1760" vertical-scroll-proportion="0.82485205" vertical-offset="0" max-vertical-offset="845" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/cadastroavaliacao_adm.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="179" column="0" selection-start="3832" selection-end="3832" vertical-scroll-proportion="0.0" vertical-offset="2314" max-vertical-offset="3145" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/cadastroavaliacao_adm.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="2956" selection-start="2956" selection-end="2956" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/cadastroavaliacaomodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="131" column="7" selection-start="6728" selection-end="6728" vertical-scroll-proportion="0.5" vertical-offset="1836" max-vertical-offset="3587" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/cadastroavaliacao_adm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="28" selection-start="2947" selection-end="2947" vertical-scroll-proportion="0.0" vertical-offset="5028" max-vertical-offset="8653" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/cadastroavaliacao_adm.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="10093" selection-start="10093" selection-end="10093" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="787" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/cadastroavaliacao_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="321" column="0" selection-start="15526" selection-end="15526" vertical-scroll-proportion="-27.192308" vertical-offset="4750" max-vertical-offset="5576" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/cadastroavaliacao_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="1309" max-vertical-offset="5355" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="225" selection-start="4046" selection-end="4046" vertical-scroll-proportion="0.0" vertical-offset="1717" max-vertical-offset="2465" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="35" selection-start="950" selection-end="950" vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="901">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/masterpage_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1088">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/listaavaliacao_adm.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="221" column="1" selection-start="4872" selection-end="4872" vertical-scroll-proportion="0.5745165" vertical-offset="3252" max-vertical-offset="4131" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/listaavaliacao_adm.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="3552" selection-start="3552" selection-end="3552" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/listaavaliacao_cli.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="3552" selection-start="3552" selection-end="3552" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/listaavaliacao_cli.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="222" column="20" selection-start="0" selection-end="5144" vertical-scroll-proportion="0.60333335" vertical-offset="3231" max-vertical-offset="4131" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/listaavaliacao_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="10931">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/home/listaavaliacao_cli.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="115" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="3332">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_adm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="992" column="26" selection-start="0" selection-end="37682" vertical-scroll-proportion="0.0" vertical-offset="18140" max-vertical-offset="19040">
+          <folding>
+            <marker date="1408382186437" expanded="true" signature="2328:2346" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_adm.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="21920" selection-start="21920" selection-end="21920" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_cli.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="28" selection-start="0" selection-end="11961" vertical-scroll-proportion="0.0" vertical-offset="3077" max-vertical-offset="5644">
+          <folding>
+            <marker date="1408382282565" expanded="false" signature="1554:1572" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/listaavaliacao_cli.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="5752" selection-start="5752" selection-end="5752" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/listaavaliacaomodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="0" selection-start="1973" selection-end="1973" vertical-scroll-proportion="-30.73077" vertical-offset="17" max-vertical-offset="7276">
+          <folding>
+            <marker date="1408556310985" expanded="true" signature="1518:1653" placeholder="SELECT id_av..avaliacao..." />
+            <marker date="1408556310985" expanded="true" signature="2378:2513" placeholder="SELECT id_av..avaliacao..." />
+            <marker date="1408556310985" expanded="true" signature="8018:8102" placeholder="SELECT id_ga..gabarito_aluno..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/listaavaliacao_adm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="9" selection-start="604" selection-end="818" vertical-scroll-proportion="-14.038462" vertical-offset="162" max-vertical-offset="11033">
+          <folding>
+            <marker date="1408556311013" expanded="false" signature="11076:11087" placeholder="..." />
+            <marker date="1408556311013" expanded="true" signature="11136:11304" placeholder="..." />
+            <marker date="1408556311013" expanded="true" signature="11219:11299" placeholder="..." />
+            <marker date="1408556311013" expanded="false" signature="11808:11819" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controller/listaavaliacao_cli.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="56" selection-start="853" selection-end="853" vertical-scroll-proportion="0.3587339" vertical-offset="221" max-vertical-offset="6018">
+          <folding>
+            <marker date="1408557744684" expanded="false" signature="5997:6008" placeholder="..." />
+            <marker date="1408557744684" expanded="true" signature="6057:6225" placeholder="..." />
+            <marker date="1408557744684" expanded="true" signature="6140:6220" placeholder="..." />
+            <marker date="1408557744684" expanded="false" signature="6678:6689" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+
