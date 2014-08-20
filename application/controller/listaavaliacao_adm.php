@@ -24,7 +24,13 @@ class Listaavaliacao_adm extends Controller
     {
         $retorno = array();
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
-        $filtro = $filtro_model->selectavaliacao();
+        $sLimit = "";
+        if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+        {
+            $sLimit = "LIMIT ".intval( $_GET['iDisplayStart'] ).", ".
+                intval( $_GET['iDisplayLength'] );
+        }
+        $filtro = $filtro_model->selectavaliacao($sLimit);
         //print_r($filtro);
         foreach ($filtro as &$gab_prova) {
             if ($gab_prova['gabarito_prova_comp'] == 0) {

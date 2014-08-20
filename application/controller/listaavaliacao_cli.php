@@ -24,7 +24,12 @@ class Listaavaliacao_cli extends Controller
     {
         $retorno = array();
         $filtro_model = $this->loadModel('Listaavaliacaomodel');
-        $filtro = $filtro_model->selectavaliacao();
+        if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+        {
+            $sLimit = "LIMIT ".intval( $_GET['iDisplayStart'] ).", ".
+                intval( $_GET['iDisplayLength'] );
+        }
+        $filtro = $filtro_model->selectavaliacao($sLimit);
         //print_r($filtro);
 
         foreach ($filtro as &$gab_aluno) {
