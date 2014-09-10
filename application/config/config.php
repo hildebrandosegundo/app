@@ -32,16 +32,16 @@ define('DB_TYPE_mysql', 'mysql');
 define('DB_HOST_mysql', '127.0.0.1');
 define('DB_NAME_mysql', 'avaliacao');
 define('DB_USER_mysql', 'root');
-define('DB_PASS_mysql', 'sasuke5051');
+define('DB_PASS_mysql', '');
 //ged
 define('DB_TYPE_oracle', 'oci');
-define('DB_HOST_oracle', '//100.100.10.162/GEDTHE');
+define('DB_HOST_oracle', '//127.0.0.1/GEDTHE');
 define('DB_NAME_oracle', 'THEGED');
-define('DB_USER_oracle', 'selged');
-define('DB_PASS_oracle', 'selged');
+define('DB_USER_oracle', 'root');
+define('DB_PASS_oracle', '');
 //ghuru
 define('DB_TYPE_sqlsrv', 'sqlsrv');
-define('DB_HOST_sqlsrv', '100.100.10.160,1433');
+define('DB_HOST_sqlsrv', '127.0.0.1,1433');
 define('DB_NAME_sqlsrv', 'rh_prd');
-define('DB_USER_sqlsrv', 'semec');
-define('DB_PASS_sqlsrv', 'semecsemec');
+define('DB_USER_sqlsrv', 'root');
+define('DB_PASS_sqlsrv', '');
