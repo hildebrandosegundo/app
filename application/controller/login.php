@@ -43,7 +43,8 @@ class Login extends Controller
         $session_timeout = 600;
         $index_model = $this->loadModel('IndexModel');
         $login = $index_model->getLogin($_POST['matricula']);
-        $fulllotacao = explode(' - ', $login['lotacao'])[0];
+        $lotacao = explode(' - ', $login['lotacao']);
+        $fulllotacao = $lotacao[0];
 /*        var_dump($login['CPF'], $_POST['cpf']);
         var_dump($login['situacao'], $login['situacao_atua']);*/
         if ($_POST['cpf']==$login['CPF'] && $lotacao == $fulllotacao && $login['situacao']=='ATIVO' && $login['situacao_atua']=='ATIVA') {
